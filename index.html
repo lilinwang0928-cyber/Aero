@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="icons/icon-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Aero 背單字">
 <meta name="format-detection" content="telephone=no">
 <title>互動背單字學習平台 ‧ Aero 語音 × 認知教練</title>
@@ -34,7 +34,7 @@
   .en{font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}
 
   header{background:linear-gradient(120deg,#16304f 0,#1e3a5f 48%,#2a5580 100%);color:#eaf2fb;
-    padding-top:calc(14px + env(safe-area-inset-top));padding:16px 18px 14px;position:sticky;top:0;z-index:30;box-shadow:var(--shadow-sm)}
+    padding:calc(12px + env(safe-area-inset-top)) 16px 12px;position:sticky;top:0;z-index:30;box-shadow:var(--shadow-sm)}
   .head-row{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:13px}
   .brand-aero{flex:0 0 auto;width:44px;height:44px;border-radius:50%;border:2px solid rgba(143,224,248,.55);
     background:linear-gradient(150deg,#fff,#cfeaf9);display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;
@@ -606,6 +606,65 @@
   .wk-p{font-size:.64rem;color:var(--muted);background:var(--mist);border-radius:99px;padding:2px 8px}
   .empty-aero{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 0;color:var(--muted);font-size:.82rem;font-weight:700}
   .qi-art{display:flex;justify-content:center;margin-bottom:-6px}
+  /* ===== v18 版面重構：右側直列導覽 ===== */
+  :root{--rail:60px}
+  header .head-row{flex-wrap:wrap;row-gap:8px}
+  .titles{flex:1;min-width:0}
+  .titles h1{font-size:1.02rem}
+  .titles select{display:none}
+  .unit-bar{flex:0 0 100%;display:flex;align-items:center;gap:8px;order:9}
+  .unit-bar select{flex:1;min-width:0;background:#2b4d78;color:#eaf2fb;border:1px solid #3d6394;border-radius:10px;
+    font-family:inherit;font-size:.82rem;font-weight:700;padding:8px 10px;max-width:none}
+  .unit-bar .ub-tag{flex:0 0 auto;font-size:.62rem;font-weight:800;color:#9fbcd8;letter-spacing:1.2px}
+
+  nav{position:fixed;right:calc(7px + env(safe-area-inset-right));top:50%;transform:translateY(-50%);
+    z-index:28;display:flex;flex-direction:column;gap:6px;max-width:none;margin:0;padding:0;background:none}
+  .tab{flex:0 0 auto;width:56px;height:53px;border:1px solid var(--line);border-radius:16px;
+    background:rgba(255,255,255,.94);color:var(--muted);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    font-size:.6rem;font-weight:800;padding:0;box-shadow:0 3px 12px rgba(30,58,95,.13);backdrop-filter:blur(8px);transition:.18s}
+  .tab .ico{font-size:1.06rem;line-height:1;margin:0}
+  .tab:hover{background:#fff;color:var(--ink)}
+  .tab.active{background:linear-gradient(150deg,#2a5580,#1e3a5f);color:#fff;border-color:var(--ink);
+    box-shadow:0 7px 18px rgba(30,58,95,.34);transform:translateX(-4px) scale(1.04)}
+  .tab.active .ico{filter:drop-shadow(0 2px 5px rgba(63,182,224,.6))}
+
+  main{max-width:860px;margin:0 auto;padding:12px calc(var(--rail) + env(safe-area-inset-right)) 0 max(12px,env(safe-area-inset-left))}
+  .panel{border-radius:18px;padding:18px 14px 26px}
+  footer{max-width:860px;margin:14px auto 0;padding:0 calc(var(--rail) + env(safe-area-inset-right)) 0 16px}
+
+  #aeroDock{right:auto;left:calc(12px + env(safe-area-inset-left));bottom:calc(16px + env(safe-area-inset-bottom));align-items:flex-start}
+  .aero-bubble{border-radius:15px 15px 15px 4px}
+  .install-chip{left:calc(50% - (var(--rail)/2));transform:translateX(-50%)}
+  .install-chip.show{transform:translateX(-50%)}
+  .star-burst{left:calc(50% - (var(--rail)/2))}
+  .star-burst.go{transform:translateX(-50%) translateY(-46px)}
+  .rd-tip{left:calc(50% - (var(--rail)/2))}
+  @media(max-width:380px){ :root{--rail:54px} .tab{width:50px;height:49px;font-size:.55rem} }
+  @media(min-width:1000px){ main,footer{padding-right:max(12px,env(safe-area-inset-right))} }
+  @media(max-height:620px){ .tab{height:46px} nav{gap:4px} }
+  /* ===== 提示浮水印 + 手寫板 ===== */
+  .sp-field{position:relative;flex:1;min-width:0}
+  .sp-field input{width:100%;position:relative;z-index:2;background:transparent!important}
+  .sp-ghost{position:absolute;inset:0;z-index:1;display:flex;align-items:center;pointer-events:none;
+    padding:12px 14px;font-size:1.05rem;font-weight:400;letter-spacing:normal;color:rgba(30,58,95,.24);
+    white-space:pre;overflow:hidden;opacity:0;transition:opacity .22s}
+  .sp-ghost.show{opacity:1}
+  .sp-field.ghosted input{background:linear-gradient(180deg,#fbfdff,#f3f9ff)!important}
+  .sp-tools{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
+  .sp-tools .btn{padding:7px 13px;font-size:.8rem}
+  .sp-tools .btn.on{background:var(--ink);color:#fff}
+  .hint-line{text-align:center;font-size:.82rem;color:var(--muted);font-weight:700;min-height:20px;margin-bottom:6px}
+  .hint-line b{color:var(--ink)}
+  .writepad{border:1px solid var(--line);border-radius:14px;background:#fff;padding:9px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+  .writepad canvas{display:block;width:100%;height:158px;border-radius:10px;background:#fdfeff;touch-action:none;cursor:crosshair}
+  .pad-tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .pad-tools button{border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:10px;
+    padding:6px 11px;font-family:inherit;font-size:.75rem;font-weight:800;cursor:pointer}
+  .pad-tools button.on{background:var(--aero);border-color:var(--aero);color:#fff}
+  .pad-note{font-size:.68rem;color:var(--muted);font-weight:700;margin-left:auto}
+  .pad-ink{display:flex;gap:5px}
+  .pad-ink i{width:19px;height:19px;border-radius:50%;cursor:pointer;border:2px solid #fff;box-shadow:0 0 0 1.5px var(--line)}
+  .pad-ink i.on{box-shadow:0 0 0 2.5px var(--ink)}
   </style>
 </head>
 <body>
@@ -617,7 +676,6 @@
     <button class="brand-aero" id="brandAero" aria-label="Aero 自我介紹"></button>
     <div class="titles">
       <h1>互動背單字<small>AERO ‧ 語音 × 認知教練</small></h1>
-      <select id="unitSel"></select>
     </div>
     <div class="ring">
       <div class="star-hud" id="starHud">⭐ <b>0</b><span>星星</span></div>
@@ -631,6 +689,7 @@
         </svg>
       </div>
     </div>
+    <div class="unit-bar"><span class="ub-tag">UNIT</span><select id="unitSel"></select></div>
   </div>
 </header>
 
@@ -3884,8 +3943,25 @@ function renderSpellQ(item,listen){
     :`<div class="q-prompt"><div class="ql">聽發音＋看中文，拼出這個單字</div><div class="qw zh" style="font-size:1.15rem">${esc(item.full||item.zh)}</div><button class="qspeak" id="spellSpeak" title="再聽一次發音">🔊</button></div>`;
   document.getElementById("quizArea").innerHTML=`${qHead()}
     ${promptHtml}
-    <div class="spell-row"><input id="spellIn" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="輸入英文單字後按 Enter…"><button id="spellGo">送出</button></div>
-    <div style="text-align:center;margin-bottom:6px"><button class="btn btn-soft" id="spellHint" style="padding:6px 14px">💡 提示</button></div>
+    <div class="spell-row">
+      <div class="sp-field"><div class="sp-ghost en" id="spellGhost"></div>
+        <input id="spellIn" class="en" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="輸入英文單字後按 Enter…"></div>
+      <button id="spellGo">送出</button>
+    </div>
+    <div class="sp-tools">
+      <button class="btn btn-soft" id="spellHint">💡 提示答案</button>
+      <button class="btn btn-soft" id="padToggle">✍️ 手寫板</button>
+    </div>
+    <div class="hint-line" id="hintLine"></div>
+    <div class="writepad" id="writePad" style="display:none">
+      <canvas id="padCanvas"></canvas>
+      <div class="pad-tools">
+        <button id="padClear">🧹 清除</button>
+        <button id="padTrace">👻 描寫範本</button>
+        <span class="pad-ink" id="padInk"></span>
+        <span class="pad-note">用手指寫一次，肌肉記憶會幫你記住拼法</span>
+      </div>
+    </div>
     <div class="fb" id="qfb"></div>
     <button class="q-next" id="qNext">下一題 ›</button>`;
   bindQBack();
@@ -3897,10 +3973,40 @@ function renderSpellQ(item,listen){
     document.getElementById("lMean").addEventListener("change",e=>{document.getElementById("lMeanBox").textContent=e.target.checked?(item.full||item.zh):"";});
   }
   const inp=document.getElementById("spellIn");inp.focus();
-  document.getElementById("spellHint").addEventListener("click",function(){
-    const w=item.en;
-    this.outerHTML=`<span style="font-size:.85rem;color:var(--muted)">提示：<b class="en">${esc(w[0])}</b>${"‧".repeat(Math.max(w.length-1,0))}（共 ${w.length} 個字母）${listen?"":`　<span class="en">${esc(item.kk||"")}</span>`}</span>`;
-  });
+  const ghost=document.getElementById("spellGhost");
+  const hintLine=document.getElementById("hintLine");
+  const hintBtn=document.getElementById("spellHint");
+  let hintOn=false;
+  ghost.textContent=item.en;
+  hintLine.innerHTML=`共 <b>${item.en.replace(/[^A-Za-z]/g,"").length}</b> 個字母${listen?"":`　<b class="en">${esc(item.kk||"")}</b>`}`;
+  const setHint=(on)=>{
+    hintOn=on;
+    ghost.classList.toggle("show",on);
+    ghost.parentElement.classList.toggle("ghosted",on);
+    hintBtn.classList.toggle("on",on);
+    hintBtn.textContent=on?"🙈 收起提示":"💡 提示答案";
+    hintLine.innerHTML=on
+      ?`浮水印答案已顯示 — 直接<b>照著描一次</b>，把字形寫進記憶`
+      :`共 <b>${item.en.replace(/[^A-Za-z]/g,"").length}</b> 個字母${listen?"":`　<b class="en">${esc(item.kk||"")}</b>`}`;
+    if(pad)pad.setTrace(on);
+    if(on){const r=RW();r.hintUsed=(r.hintUsed||0)+1;save();}
+    inp.focus();
+  };
+  hintBtn.addEventListener("click",()=>setHint(!hintOn));
+
+  /* 手寫板 */
+  let pad=null;
+  const padWrap=document.getElementById("writePad");
+  const padBtn=document.getElementById("padToggle");
+  const openPad=(on)=>{
+    padWrap.style.display=on?"block":"none";
+    padBtn.classList.toggle("on",on);
+    localStorage.setItem("aeroPad",on?"1":"0");
+    if(on&&!pad)pad=makeWritePad(document.getElementById("padCanvas"),item.en,()=>hintOn);
+    if(on&&pad)pad.resize();
+  };
+  padBtn.addEventListener("click",()=>openPad(padWrap.style.display!=="block"));
+  if(localStorage.getItem("aeroPad")==="1")openPad(true);
   const submit=()=>{
     if(inp.disabled)return;
     const raw=(inp.value||"").trim();
@@ -3914,6 +4020,8 @@ function renderSpellQ(item,listen){
     bindFbAudio();
     speak(item.en);
     inp.disabled=true;document.getElementById("spellGo").disabled=true;
+    ghost.classList.remove("show");
+    if(!ok&&pad)pad.setTrace(true);
     afterAnswer(ok,item,raw);
   };
   document.getElementById("spellGo").addEventListener("click",submit);
@@ -4521,6 +4629,113 @@ function rdFinish(rid){
   if(score===R.q.length)rdTip("🎉 全對！這篇短文的語境你已經掌握了");
 }
 
+
+
+/* ===================== 手寫板（四線格 × 描寫範本） ===================== */
+const PAD_INKS=[["#1e3a5f","深藍"],["#d8604f","珊瑚"],["#1e7a5a","森綠"],["#7b6ef0","紫"]];
+function makeWritePad(cv,answer,isTrace){
+  if(!cv)return null;
+  const ctx=cv.getContext("2d");
+  let dpr=Math.max(1,Math.min(3,window.devicePixelRatio||1));
+  let W=0,H=0,drawing=false,last=null,ink=localStorage.getItem("aeroInk")||PAD_INKS[0][0];
+  let strokes=[];              // 已完成筆畫（重繪用）
+  let trace=!!(isTrace&&isTrace());
+
+  function layout(){
+    const r=cv.getBoundingClientRect();
+    W=Math.max(200,r.width); H=r.height||158;
+    cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    redraw();
+  }
+  function guides(){
+    const top=H*.20, mid=H*.46, base=H*.74, desc=H*.92;
+    ctx.save();
+    ctx.strokeStyle="#cfe1f2"; ctx.lineWidth=1;
+    [top,desc].forEach(y=>{ ctx.setLineDash([5,5]); ctx.beginPath(); ctx.moveTo(8,y); ctx.lineTo(W-8,y); ctx.stroke(); });
+    ctx.setLineDash([4,6]); ctx.strokeStyle="#dfeaf6";
+    ctx.beginPath(); ctx.moveTo(8,mid); ctx.lineTo(W-8,mid); ctx.stroke();
+    ctx.setLineDash([]); ctx.strokeStyle="#9fbcd8"; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(8,base); ctx.lineTo(W-8,base); ctx.stroke();
+    ctx.restore();
+    return {top:top,base:base};
+  }
+  function watermark(g){
+    if(!trace||!answer)return;
+    const size=Math.min((g.base-g.top)*1.28,(W-30)/Math.max(1,answer.length)*1.85);
+    ctx.save();
+    ctx.font=`600 ${size}px "Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif`;
+    ctx.textBaseline="alphabetic"; ctx.textAlign="center";
+    ctx.fillStyle="rgba(30,58,95,.16)";
+    ctx.fillText(answer,W/2,g.base);
+    ctx.restore();
+  }
+  function redraw(){
+    ctx.clearRect(0,0,W,H);
+    const g=guides();
+    watermark(g);
+    strokes.forEach(st=>{
+      ctx.save();
+      ctx.strokeStyle=st.c; ctx.lineWidth=st.w; ctx.lineCap="round"; ctx.lineJoin="round";
+      ctx.beginPath();
+      st.p.forEach((pt,i)=>{ i?ctx.lineTo(pt[0],pt[1]):ctx.moveTo(pt[0],pt[1]); });
+      ctx.stroke(); ctx.restore();
+    });
+  }
+  function pos(e){
+    const r=cv.getBoundingClientRect();
+    const t=(e.touches&&e.touches[0])||e;
+    return [t.clientX-r.left,t.clientY-r.top];
+  }
+  function down(e){
+    e.preventDefault(); drawing=true;
+    const p=pos(e); last=p;
+    strokes.push({c:ink,w:3.4,p:[p]});
+  }
+  function move(e){
+    if(!drawing)return;
+    e.preventDefault();
+    const p=pos(e), st=strokes[strokes.length-1];
+    if(!st)return;
+    if(Math.abs(p[0]-last[0])+Math.abs(p[1]-last[1])<1.1)return;
+    st.p.push(p);
+    ctx.save();
+    ctx.strokeStyle=st.c; ctx.lineWidth=st.w; ctx.lineCap="round"; ctx.lineJoin="round";
+    ctx.beginPath(); ctx.moveTo(last[0],last[1]); ctx.lineTo(p[0],p[1]); ctx.stroke(); ctx.restore();
+    last=p;
+  }
+  function up(){ drawing=false; last=null; }
+
+  cv.addEventListener("pointerdown",down); cv.addEventListener("pointermove",move);
+  window.addEventListener("pointerup",up); cv.addEventListener("pointerleave",up);
+  cv.addEventListener("touchstart",down,{passive:false}); cv.addEventListener("touchmove",move,{passive:false});
+  cv.addEventListener("touchend",up);
+  window.addEventListener("resize",()=>{ layout(); });
+
+  // 工具列
+  const clr=document.getElementById("padClear");
+  if(clr)clr.onclick=()=>{ strokes=[]; redraw(); };
+  const tr=document.getElementById("padTrace");
+  if(tr){
+    tr.classList.toggle("on",trace);
+    tr.onclick=()=>{ trace=!trace; tr.classList.toggle("on",trace); redraw(); };
+  }
+  const inkBox=document.getElementById("padInk");
+  if(inkBox){
+    inkBox.innerHTML=PAD_INKS.map(c=>`<i data-c="${c[0]}" title="${c[1]}" style="background:${c[0]}" class="${c[0]===ink?"on":""}"></i>`).join("");
+    inkBox.querySelectorAll("i").forEach(b=>b.onclick=()=>{
+      ink=b.dataset.c; localStorage.setItem("aeroInk",ink);
+      inkBox.querySelectorAll("i").forEach(x=>x.classList.toggle("on",x.dataset.c===ink));
+    });
+  }
+  setTimeout(layout,20);
+  return {
+    resize:layout,
+    clear:()=>{strokes=[];redraw();},
+    setTrace:(v)=>{ trace=!!v; if(tr)tr.classList.toggle("on",trace); redraw(); },
+    isEmpty:()=>strokes.length===0
+  };
+}
 
 /* ===================== Aero 陪練小精靈 ===================== */
 let _aeroN=0;

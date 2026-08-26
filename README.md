@@ -33,7 +33,7 @@ icons/                  App 圖示（192 / 512 / maskable / iOS 180）
 
 ## 改版更新流程
 1. 修改 `index.html`
-2. **把 `sw.js` 第一行的 `CACHE = "aero-vocab-v17"` 版本號改掉**（例如 v18）
+2. **把 `sw.js` 第一行的 `CACHE = "aero-vocab-v18"` 版本號改掉**（例如 v18）
 3. 重新上傳整個資料夾
 
 沒有改版本號的話，學生手機會繼續讀舊的快取版本。
