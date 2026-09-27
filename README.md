@@ -5,7 +5,7 @@
 
 ## 檔案清單
 ```
-index.html              主程式（單檔，含全部 50 單元 1,973 張卡與 50 篇短文）
+index.html              主程式（單檔，8 分頁：單字卡／總覽／測驗／解碼／閱讀／聽說／我的／設計）
 manifest.webmanifest    App 名稱、圖示、啟動方式
 sw.js                   Service Worker：離線快取
 icons/                  App 圖示（192 / 512 / maskable / iOS 180）
@@ -33,7 +33,7 @@ icons/                  App 圖示（192 / 512 / maskable / iOS 180）
 
 ## 改版更新流程
 1. 修改 `index.html`
-2. **把 `sw.js` 第一行的 `CACHE = "aero-vocab-v18"` 版本號改掉**（例如 v18）
+2. **把 `sw.js` 第一行的 `CACHE = "aero-vocab-v25"` 版本號改掉**（例如 v26）
 3. 重新上傳整個資料夾
 
 沒有改版本號的話，學生手機會繼續讀舊的快取版本。
