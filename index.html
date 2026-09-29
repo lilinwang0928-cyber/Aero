@@ -1074,7 +1074,30 @@ body.noreward .star-hud{display:none}
 .ds-line .why{display:block;color:var(--muted);font-size:.74rem;margin-top:2px}
 .ds-line .close{margin-top:10px;padding-top:9px;border-top:1px dashed #e0bdb5;font-size:.76rem;line-height:1.75;color:#8e3a2c;font-weight:700}
 
-  </style>
+  /* ===== v25.4：小語中英語音導覽 ===== */
+/* 整塊上底色，不用底線漸層——換行的句子用漸層只會染到最後一行 */
+.q-lit{background:rgba(63,182,224,.26);border-radius:7px;
+  box-shadow:0 0 0 5px rgba(63,182,224,.26);transition:background .18s}
+.qm-zh.q-lit,.qm-en.q-lit,.qm-note.q-lit{background:rgba(63,182,224,.22);box-shadow:0 0 0 6px rgba(63,182,224,.22)}
+.q-tourbar{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px;min-height:0}
+.q-tourbar:empty{margin-top:0}
+.qt-dot{font-size:.62rem;font-weight:800;padding:3px 9px;border-radius:999px;
+  background:rgba(255,255,255,.14);color:#9fbcd8;letter-spacing:.3px}
+.qt-dot.done{background:rgba(63,182,224,.2);color:#8fe0f8}
+.qt-dot.on{background:#3fb6e0;color:#08283f}
+.qm-body .qt-dot{background:var(--mist);color:var(--muted)}
+.qm-body .qt-dot.done{background:#d8eefb;color:#1b7fa4}
+.qm-body .qt-dot.on{background:#3fb6e0;color:#08283f}
+/* 窄螢幕：104px 的圖會把文字欄壓到 113px，按鈕只能一顆一行 */
+@media(max-width:520px){
+  /* 圖改放上方，文字吃滿整列，按鈕才排得成一行 */
+  .qd-card{flex-direction:column;align-items:stretch;gap:10px;padding:13px}
+  .qd-pic{width:64px;height:64px;align-self:flex-start}
+}
+.qd-card .btn-line{gap:6px}
+/* 不要讓按鈕各自撐滿一列：flex:1 會把第一顆拉成整行 */
+.qd-card .btn-line .btn{flex:0 1 auto;padding:7px 11px;font-size:.74rem}
+</style>
 <script>
 /* 啟動看門狗：主程式跑完會設 window.__AERO_OK=1。
    4.5 秒後還沒設，就把原因顯示出來，不要讓使用者對著啟動畫面等。 */
@@ -6129,13 +6152,15 @@ function quoteTodayHtml(){
     <img class="qd-pic" src="${AEROIMG[q.pic]}" alt="">
     <div class="qd-txt">
       <div class="qd-lab">今日小語 ‧ ${String(q.n).padStart(2,"0")}</div>
-      <b>${esc(q.zh)}</b>
-      <i class="en">${esc(q.en)}</i>
-      <small>${esc(q.note)}</small>
+      <b id="qdZh">${esc(q.zh)}</b>
+      <i class="en" id="qdEn">${esc(q.en)}</i>
+      <small id="qdNote">${esc(q.note)}</small>
       <div class="btn-line" style="margin-top:9px">
-        <button class="btn btn-soft" id="qdSay">🔊 唸給我聽</button>
-        <button class="btn btn-soft" id="qdAll">🖼️ 看全部九句</button>
+        <button class="btn btn-soft" id="qdTour">🎧 中英導覽</button>
+        <button class="btn btn-soft" id="qdSay">🔊 中文</button>
+        <button class="btn btn-soft" id="qdAll">🖼️ 九句</button>
       </div>
+      <div class="q-tourbar" id="qdBar"></div>
     </div>
   </div>`;
 }
@@ -6156,17 +6181,57 @@ function openQuote(n){
   m.querySelector(".qm-body").innerHTML=`
     <img class="qm-pic" src="${AEROIMG[q.pic]}" alt="">
     <div class="qm-no">鼓勵小語 ${String(q.n).padStart(2,"0")}</div>
-    <div class="qm-zh">${esc(q.zh)}</div>
-    <div class="qm-en en">${esc(q.en)}</div>
-    <div class="qm-note">${esc(q.note)}</div>`;
+    <div class="qm-zh" id="qmZh">${esc(q.zh)}</div>
+    <div class="qm-en en" id="qmEn">${esc(q.en)}</div>
+    <div class="qm-note" id="qmNote">${esc(q.note)}</div>
+    <div class="q-tourbar" id="qmBar"></div>`;
   m.classList.add("show");
-  speak(q.say,"zh-TW",1);
-  m.querySelector("#qmSay").onclick=()=>speak(q.say,"zh-TW",1);
+  quoteTour(q,"qm","qmSay");                       /* 打開就走中英導覽 */
+  m.querySelector("#qmSay").onclick=()=>quoteTour(q,"qm","qmSay");
   const prev=m.querySelector("#qmPrev"), next=m.querySelector("#qmNext");
-  prev.onclick=()=>openQuote(n===1?AERO_Q.length:n-1);
-  next.onclick=()=>openQuote(n===AERO_Q.length?1:n+1);
-  m.querySelector("#qmClose").onclick=()=>{ try{speechSynthesis.cancel();}catch(e){} m.classList.remove("show"); };
+  prev.onclick=()=>{ stopSeq(); openQuote(n===1?AERO_Q.length:n-1); };
+  next.onclick=()=>{ stopSeq(); openQuote(n===AERO_Q.length?1:n+1); };
+  m.querySelector("#qmClose").onclick=()=>{ stopSeq(); qTourClear("qm"); m.classList.remove("show"); };
 }
+/* ---------- 小語中英雙語語音導覽 ----------
+   中文主句 → 英文（慢）→ 英文（正常）→ 中文補充。
+   英文唸兩次是刻意的：先慢速讓學習者聽清楚音節，再正常速讓它聽起來像真的句子。 */
+function quoteSteps(q){
+  return [
+    {k:"zh",  sel:"Zh",   t:q.zh,   lang:"zh-TW", rate:.98, gap:420, lab:"中文"},
+    {k:"en1", sel:"En",   t:q.en,   lang:"en-US", rate:.62, gap:380, lab:"英文 ‧ 慢"},
+    {k:"en2", sel:"En",   t:q.en,   lang:"en-US", rate:.95, gap:420, lab:"英文 ‧ 正常"},
+    {k:"note",sel:"Note", t:q.note, lang:"zh-TW", rate:1,   gap:260, lab:"補充"}
+  ];
+}
+function qTourClear(pfx){
+  ["Zh","En","Note"].forEach(x=>{ const e=document.getElementById(pfx+x); if(e)e.classList.remove("q-lit"); });
+  const bar=document.getElementById(pfx+"Bar"); if(bar)bar.innerHTML="";
+}
+let _qTourOn=null;
+function quoteTour(q,pfx,btnId){
+  const btn=btnId?document.getElementById(btnId):null;
+  const label=btn?btn.textContent:"";
+  if(_qTourOn===pfx){                              /* 再按一次＝停止 */
+    stopSeq(); qTourClear(pfx); _qTourOn=null;
+    if(btn)btn.textContent=btn.dataset.qlab||label;
+    return;
+  }
+  stopSeq(); qTourClear(pfx); _qTourOn=pfx;
+  if(btn){ if(!btn.dataset.qlab)btn.dataset.qlab=label; btn.textContent="⏹ 停止導覽"; }
+  const steps=quoteSteps(q);
+  tourPlay(steps,(i,st)=>{
+    qTourClear(pfx);
+    const e=document.getElementById(pfx+st.sel); if(e)e.classList.add("q-lit");
+    const bar=document.getElementById(pfx+"Bar");
+    if(bar)bar.innerHTML=steps.map((x,k)=>
+      `<span class="qt-dot ${k===i?"on":""} ${k<i?"done":""}">${esc(x.lab)}</span>`).join("");
+  },()=>{
+    qTourClear(pfx); _qTourOn=null;
+    if(btn)btn.textContent=btn.dataset.qlab||label;
+  });
+}
+
 /* Aero 泡泡說小語 */
 function aeroQuote(tag){
   const q=(tag&&qOf(tag))||quoteOfDay();
@@ -7281,13 +7346,15 @@ function renderDesign(){
 /* ===================== 我的（打卡 / 統計 / 錯題本 / 匯入） ===================== */
 let misScope="unit";
 function bindQuotes(){
+  const tour=document.getElementById("qdTour");
+  if(tour)tour.onclick=()=>quoteTour(quoteOfDay(),"qd","qdTour");
   const say=document.getElementById("qdSay");
-  if(say)say.onclick=()=>speak(quoteOfDay().say,"zh-TW",1);
+  if(say)say.onclick=()=>{ stopSeq(); qTourClear("qd"); _qTourOn=null; speak(quoteOfDay().say,"zh-TW",1); };
   const all=document.getElementById("qdAll"), box=document.getElementById("qGallery");
   if(all&&box)all.onclick=()=>{
     const on=box.style.display==="none";
     box.style.display=on?"block":"none";
-    all.textContent=on?"🙈 收起九句":"🖼️ 看全部九句";
+    all.textContent=on?"🙈 收起":"🖼️ 九句";
     if(on)box.scrollIntoView({block:"nearest",behavior:"smooth"});
   };
   document.querySelectorAll(".qg-card").forEach(b=>b.onclick=()=>openQuote(+b.dataset.q));

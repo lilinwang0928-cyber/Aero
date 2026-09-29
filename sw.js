@@ -1,7 +1,7 @@
 /* Aero 背單字 App — Service Worker
    策略：預先快取全部資產（App 本體為單一 HTML），之後離線可完整使用。
    更新：改版時把 CACHE 版本號 +1，舊快取會自動清除。 */
-const CACHE = "aero-vocab-v25";
+const CACHE = "aero-vocab-v25-4";
 const ASSETS = [
   "./",
   "./index.html",
