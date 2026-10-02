@@ -614,7 +614,7 @@
   .titles{flex:1;min-width:0}
   .titles h1{font-size:1.02rem}
   .titles select{display:none}
-  .unit-bar{flex:0 0 100%;display:flex;align-items:center;gap:8px;order:9}
+  .unit-bar{flex:0 0 100%;display:flex;align-items:center;gap:8px;order:9;min-width:0;max-width:100%}
   .unit-bar select{flex:1;min-width:0;background:#2b4d78;color:#eaf2fb;border:1px solid #3d6394;border-radius:10px;
     font-family:inherit;font-size:.82rem;font-weight:700;padding:8px 10px;max-width:none}
   .unit-bar .ub-tag{flex:0 0 auto;font-size:.62rem;font-weight:800;color:#9fbcd8;letter-spacing:1.2px}
@@ -1097,6 +1097,127 @@ body.noreward .star-hud{display:none}
 .qd-card .btn-line{gap:6px}
 /* 不要讓按鈕各自撐滿一列：flex:1 會把第一顆拉成整行 */
 .qd-card .btn-line .btn{flex:0 1 auto;padding:7px 11px;font-size:.74rem}
+
+/* ===================== 拼寫（編碼）分頁 ===================== */
+.sp-intro{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.sp-aero{width:62px;height:62px;border-radius:16px;flex:0 0 auto;object-fit:cover}
+.sp-intro h3{margin:0 0 4px;font-size:1.02rem}
+.sp-intro p{margin:0;font-size:.82rem;line-height:1.85;color:var(--muted)}
+.sp-dir{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+.sp-dirc{flex:1 1 150px;border:1.5px solid var(--line);border-radius:13px;padding:10px 12px;background:var(--paper)}
+.sp-dirc b{display:block;font-size:.84rem;margin-bottom:3px}
+.sp-dirc i{font-style:normal;font-size:.73rem;color:var(--muted);line-height:1.7}
+.sp-dirc.enc{border-color:#c9a84c;background:#fdf8ec}
+.sp-acts{display:flex;flex-direction:column;gap:10px}
+.sp-act{display:flex;gap:11px;align-items:flex-start;text-align:left;width:100%;
+  border:1.5px solid var(--line);background:var(--paper);border-radius:15px;padding:13px 14px;cursor:pointer}
+.sp-act:hover{border-color:var(--ink)}
+.sp-act .n{flex:0 0 34px;height:34px;border-radius:11px;background:var(--ink);color:#fff;
+  display:grid;place-items:center;font-weight:800;font-size:.9rem}
+.sp-act .t{font-weight:800;font-size:.92rem;margin-bottom:3px}
+.sp-act .d{font-size:.76rem;color:var(--muted);line-height:1.75}
+.sp-act .f{font-size:.7rem;color:var(--muted);margin-top:5px}
+.sp-act .f b{color:var(--ink)}
+.sp-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.sp-back{border:1.5px solid var(--line);background:var(--paper);border-radius:999px;
+  padding:5px 12px;font-size:.75rem;font-weight:700;cursor:pointer}
+.sp-prog{margin-left:auto;font-size:.72rem;color:var(--muted);font-weight:700}
+.sp-steps{display:flex;gap:5px;margin-bottom:11px}
+.sp-st{flex:1;text-align:center;border-radius:9px;padding:6px 2px;font-size:.66rem;font-weight:800;
+  background:var(--mist);color:var(--muted)}
+.sp-st.on{background:var(--ink);color:#fff}
+.sp-st.done{background:#e8f5ea;color:#2d6b3c}
+.sp-card{border:1.5px solid var(--line);border-radius:17px;padding:15px 14px;background:var(--paper)}
+.sp-ask{text-align:center;font-size:.9rem;font-weight:700;margin:4px 0 12px}
+.sp-ask b{color:var(--ink)}
+.sp-orb{width:62px;height:62px;border-radius:50%;border:0;background:var(--ink);color:#fff;
+  font-size:1.5rem;cursor:pointer;display:block;margin:0 auto 10px}
+.sp-orb.sm{width:44px;height:44px;font-size:1.1rem;margin:0}
+.sp-nums{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:6px 0}
+.sp-num{width:46px;height:46px;border-radius:13px;border:1.5px solid var(--line);background:var(--paper);
+  font-size:1rem;font-weight:800;cursor:pointer}
+.sp-num.right{background:#e8f5ea;border-color:#7cc08a;color:#2d6b3c}
+.sp-num.wrong{background:#fdeaea;border-color:#dd8b8b;color:#9c2b2b}
+.sp-boxes{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.sp-box{min-width:62px;min-height:62px;border:2px dashed var(--line);border-radius:13px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#fff;padding:4px}
+.sp-box.on{border-color:var(--ink);border-style:solid}
+.sp-box.v{background:#fff8ef}
+.sp-box.filled{border-style:solid;border-color:var(--ink)}
+.sp-box.right{border-color:#7cc08a;background:#e8f5ea}
+.sp-box.wrong{border-color:#dd8b8b;background:#fdeaea}
+.sp-box .ph{font-size:.95rem;font-weight:800;color:var(--ink)}
+.sp-box .gr{font-size:.95rem;font-weight:800;font-family:Georgia,serif}
+.sp-box .sm{font-size:.62rem;color:var(--muted)}
+.sp-box input{width:58px;border:0;border-bottom:2px solid var(--line);text-align:center;
+  font-size:1rem;font-weight:800;font-family:Georgia,serif;background:transparent;padding:2px 0}
+.sp-box input:focus{outline:0;border-bottom-color:var(--ink)}
+.sp-chips{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.sp-chip{border:1.5px solid var(--line);background:var(--paper);border-radius:11px;padding:8px 14px;
+  font-size:.95rem;font-weight:800;color:var(--ink);cursor:pointer}
+.sp-chip.used{opacity:.3;pointer-events:none}
+.sp-note{font-size:.76rem;color:var(--muted);line-height:1.85;margin-top:10px;
+  border-left:3px solid var(--gold,#c9a84c);background:#fdf8ec;padding:9px 11px;border-radius:0 10px 10px 0}
+.sp-note b{color:#8a6a1e}
+.sp-fb{margin-top:11px;border-radius:12px;padding:10px 12px;font-size:.82rem;line-height:1.8;display:none}
+.sp-fb.show{display:block}
+.sp-fb.ok{background:#e8f5ea;color:#2d6b3c}
+.sp-fb.no{background:#fdeaea;color:#9c2b2b}
+.sp-next{display:block;width:100%;margin-top:12px;border:0;border-radius:13px;padding:12px;
+  background:var(--ink);color:#fff;font-size:.88rem;font-weight:800;cursor:pointer}
+.sp-next.gold{background:#c9a84c}
+.sp-btn{border:1.5px solid var(--line);background:var(--paper);border-radius:11px;
+  padding:8px 13px;font-size:.78rem;font-weight:700;cursor:pointer}
+.sp-row{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.sp-word{text-align:center;font-size:2rem;font-weight:800;font-family:Georgia,serif;
+  letter-spacing:2px;margin:10px 0}
+.sp-cover{text-align:center;font-size:1.3rem;font-weight:800;color:var(--muted);
+  background:var(--mist);border-radius:14px;padding:22px 10px;margin:10px 0;letter-spacing:4px}
+.sp-cols{display:flex;gap:7px;margin:12px 0;align-items:stretch}
+.sp-col{flex:1;border:1.5px solid var(--line);border-radius:13px;padding:8px 5px;background:#fff;
+  display:flex;flex-direction:column;gap:5px;min-height:110px;cursor:pointer}
+.sp-col:hover{border-color:var(--ink)}
+.sp-col .h{text-align:center;font-size:1rem;font-weight:800;font-family:Georgia,serif;color:var(--ink);
+  border-bottom:1.5px solid var(--line);padding-bottom:5px}
+.sp-col .w{font-size:.76rem;text-align:center;font-family:Georgia,serif;font-weight:700;
+  background:var(--mist);border-radius:7px;padding:3px 2px}
+.sp-col .w.hit{background:#e8f5ea;color:#2d6b3c}
+.sp-col.right{border-color:#7cc08a;background:#f3faf4}
+.sp-col.wrong{border-color:#dd8b8b;background:#fdf4f4}
+.sp-tgt{text-align:center;margin:8px 0}
+.sp-tgt .big{font-size:1.5rem;font-weight:800;font-family:Georgia,serif}
+.sp-grp{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 12px}
+.sp-gb{border:1.5px solid var(--line);background:var(--paper);border-radius:999px;
+  padding:6px 12px;font-size:.78rem;font-weight:800;cursor:pointer}
+.sp-gb.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.sp-tbl{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:8px}
+.sp-tbl td,.sp-tbl th{border-bottom:1px dashed var(--line);padding:6px 4px;vertical-align:top;
+  overflow-wrap:anywhere}
+.sp-tbl th{text-align:left;color:var(--muted);font-size:.7rem;white-space:nowrap}
+.sp-tbl .g{font-family:Georgia,serif;font-weight:800;color:var(--ink);
+  white-space:nowrap;width:1%;padding-right:10px}
+
+/* 字母條：真實拼字逐字排開，標出每個字母屬於哪一格 */
+.sp-strip{display:flex;gap:3px;justify-content:center;flex-wrap:wrap;margin:10px 0 4px}
+.sp-lt{display:flex;flex-direction:column;align-items:center;min-width:26px;
+  font-family:Georgia,serif;font-size:1.15rem;font-weight:800;color:var(--ink);
+  background:var(--mist);border-radius:8px;padding:4px 5px 2px}
+.sp-lt i{font-style:normal;font-size:.58rem;font-weight:800;color:var(--muted);margin-top:1px}
+.sp-lt.mute{background:#f0f0f0;color:#a2a2a2}
+.sp-lt.sp{background:#fdf0dc;color:#8a6a1e;box-shadow:inset 0 -3px 0 #e9a13b}
+.sp-box.mute{border-style:dashed;background:#fafafa}
+.sp-box.wide{min-width:0}
+.sp-split{display:flex;align-items:center;gap:2px}
+.sp-box .sp-split input{width:27px}
+.sp-split b{color:#e9a13b;font-size:1rem}
+@media(max-width:430px){
+  .sp-box{min-width:54px;min-height:54px}
+  .sp-box .sp-split input{width:24px}
+  .sp-lt{min-width:22px;font-size:1rem}
+  .sp-box input{width:50px}
+  .sp-word{font-size:1.65rem}
+}
+
 </style>
 <script>
 /* 啟動看門狗：主程式跑完會設 window.__AERO_OK=1。
@@ -1187,6 +1308,7 @@ body.noreward .star-hud{display:none}
   <button class="tab" data-tab="list"><span class="ico">📋</span>總覽</button>
   <button class="tab" data-tab="quiz"><span class="ico">✍️</span>測驗</button>
   <button class="tab" data-tab="decode"><span class="ico">🔤</span>解碼</button>
+  <button class="tab" data-tab="spell"><span class="ico">✏️</span>拼寫</button>
   <button class="tab" data-tab="read"><span class="ico">📖</span>閱讀</button>
   <button class="tab" data-tab="speak"><span class="ico">🎙️</span>聽說</button>
   <button class="tab" data-tab="me"><span class="ico">🏅</span>我的</button>
@@ -1219,6 +1341,7 @@ body.noreward .star-hud{display:none}
 
   <section class="panel" id="panel-decode"><div id="decodeArea"></div></section>
 
+  <section class="panel" id="panel-spell"><div id="spellArea"></div></section>
   <section class="panel" id="panel-read"><div id="readArea"></div></section>
 
   <section class="panel" id="panel-speak"><div id="speakArea"></div></section>
@@ -3943,6 +4066,7 @@ function renderCurrent(){
   else if(curTab==="list")renderList(document.getElementById("searchBox").value);
   else if(curTab==="quiz"){if(!quizState)renderQuizIntro();}
   else if(curTab==="decode")renderDecode();
+  else if(curTab==="spell")renderSpell();
   else if(curTab==="read")renderRead();
   else if(curTab==="speak")renderSpeak();
   else if(curTab==="me")renderMe();
@@ -7238,6 +7362,77 @@ function renderDesign(){
         </div>`).join("")}</div>
     </section>
 
+
+    <section class="ds-sec">
+      <h3><span class="ds-n">2b</span>拼寫三活動：為什麼另開一頁</h3>
+      <p class="ds-note">解碼是 print → sound，拼寫是 sound → print。兩者共用同一套形素—音素對應，
+        但方向相反，而且<b>會讀不保證會拼</b>——讀的時候字母就在眼前，拼的時候必須從記憶裡把它叫出來。
+        把它們混在同一條流程裡，會讓「讀得出來」被誤當成「學會了」。</p>
+      <div class="ds-stages">
+        <div class="ds-stage">
+          <div class="ds-sh"><b>聽音拼字</b><i>Phoneme-to-Spelling</i><span>編碼</span></div>
+          <dl>
+            <dt>實際做法</dt><dd>聽 → 判斷幾個音 → 把音排進音素框 → 才寫字母。拼字是最後一步，不是第一步。</dd>
+            <dt>放棄的選項</dt><dd>放棄「聽寫整個字」。整字聽寫只會告訴你對或錯，問不出是哪一個音出了問題。</dd>
+            <dt>為什麼</dt><dd>音素框的格數是<b>音</b>的數量，不是字母數。學生最常見的錯誤是把 sh 拆成兩格、
+              或把不發音的 e 算進去；分格之後，這個誤解會自己浮出來。</dd>
+            <dt>修正過一次</dt><dd>最初的版本把不發音的字母<b>排除在格子外</b>，只在底下補一句
+              「字尾的 e 不發音，但要寫出來」。那是錯的：face 的 /e/ 不是 a 發的，是
+              <b>a_e</b> 這個<b>分裂二合字母</b>發的，字尾的 e 是它的另一半。而且格子排成
+              f｜a｜c，學生照著格子拼不回 f-a-c-e。現在 magic-e 併成一格 <b>a…e</b>，
+              其他不發音的字母也留在格子列裡標「不發音」，另外加一條<b>字母條</b>，
+              把真實拼字逐字標出它屬於第幾個音。</dd>
+            <dt class="warn">代價</dt><dd class="warn">只能收「一格一音」的字，而且要通過對位可信度檢查，
+              全庫 1,972 字裡只剩約 <b>52%</b> 可用。像 box（x 一個字母兩個音）
+              會被排除，這類字要另外教——工具沒有涵蓋它。</dd>
+          </dl>
+        </div>
+        <div class="ds-stage">
+          <div class="ds-sh"><b>一音多拼</b><i>One Sound, Many Spellings</i><span>字形組型</span></div>
+          <dl>
+            <dt>實際做法</dt><dd>固定一個音，把字分到各自的拼法底下，看完整組才給規則，最後用沒出現過的字驗收。</dd>
+            <dt>放棄的選項</dt><dd>放棄「先給規則再舉例」。先給規則，學生會把規則當成要背的句子，
+              而不是從對比裡自己看出來的東西。</dd>
+            <dt>為什麼</dt><dd>拼字規則幾乎都是<b>位置</b>規則（ck 只在短母音後的字尾、ay 幾乎只在字尾）。
+              位置要靠一整排字並排才看得見，一次看一個字永遠看不出來。</dd>
+            <dt class="warn">代價</dt><dd class="warn">這個活動必須跨課取字，所以它用的是<b>整個 Level</b> 的字，
+              和其他活動的範圍不一致。也就是說，它可能會出現學生還沒學過的字。</dd>
+          </dl>
+        </div>
+        <div class="ds-stage">
+          <div class="ds-sh"><b>讀遮拆寫再讀</b><i>Read–Cover–Segment–Write–Reread</i><span>提取</span></div>
+          <dl>
+            <dt>實際做法</dt><dd>讀完就把字從卡片上移除，中間三步畫面上都沒有這個字，寫完才掀開對照。
+              寫錯的字會排回隊伍尾端，稍後再遇一次。</dd>
+            <dt>放棄的選項</dt><dd>放棄「看著字抄寫」。抄寫產生的是手的記憶和視覺複製，不是形音對應。</dd>
+            <dt>為什麼</dt><dd>遮住之後還寫得出來，才代表字形真的被<b>提取</b>出來，而不是被看著複製。</dd>
+            <dt class="warn">代價</dt><dd class="warn">工具擋得掉順手抄，<b>擋不掉刻意查</b>——
+              學生仍可切到「總覽」去看答案。這一步最終還是靠自律，工具只是把偷看的成本提高。</dd>
+          </dl>
+        </div>
+      </div>
+      <p class="ds-note"><b>對位可信度：為什麼有一半的字不收。</b>
+        形素—音素的切分是程式用動態規劃推出來的，不是人工標註，偶爾會切錯。
+        切錯的字在「解碼」頁只是提示不準；但在拼寫頁，每一格都在宣告「這個音就是這樣寫」，
+        切錯就等於把錯的對應教出去。所以拼寫頁多加了一道檢查，把全庫 1,972 字的
+        每一組形素—音素對應都掃過一遍，共 152 種，逐一核對後擋掉兩類確定的錯誤：<br>
+        ‧ <b>子音形素吃掉後面的 e</b>：smile 切成 s|m|i|<b>le</b>、sleep 切成 s|<b>le</b>|e|p、
+        learn 切成 <b>le</b>|ar|n。但 apple、turtle、needle 這種字尾的 le 確實就是 /l/ 的寫法，
+        是對的，所以不能一刀切——判準是「le 是否在字尾」以及「前面是不是單一母音字母配長母音」。<br>
+        ‧ <b>母音形素吃掉前面的子音</b>：fully 切成 f|u|l|<b>ly</b>，但 /ɪ/ 寫作 y，不是 ly。<br>
+        掃描後確認<b>只有這兩類</b>錯誤；dge（bridge、judge）這種看起來可疑的三合字母是正確的，予以保留。
+        代價是連帶排除了 turtle 以外的一些正確分析，以及全部的 -ly 副詞。</p>
+      <p class="ds-note"><b>不發音的字母不是註腳。</b>
+        全庫 1,028 個可用字裡，799 字完全沒有不發音字母，<b>121 字是 magic-e</b>（cake、face、nose、time），
+        <b>115 字有其他不發音字母</b>（love 的 e、walk 的 l、listen 的 t）。
+        magic-e 是核心教學點，不能像對位錯誤那樣直接排除，所以改成正面處理：
+        <b>a_e 併成一格</b>，其餘不發音字母留在格子列裡標示，再用字母條把格子和真實拼字綁起來。
+        這條字母條也順便解決了 walk、listen 這類字——不發音的字母現在有自己的位置，
+        不會讓學生拼出 wak、lisen。</p>
+      <p class="ds-note"><b>三個活動共用的一條限制：不唸孤立音素。</b>
+        要放慢就放慢整個字，讓音的邊界自然浮現。孤立唸 /p/ 會變成「ㄆㄜ」，
+        學生把多出來的那個 ㄜ 一起記進去，拼字就會多字母——這是工具從頭到尾不讓步的一點。</p>
+    </section>
     <section class="ds-sec">
       <h3><span class="ds-n">3</span>哪些數字是判斷，不是證據</h3>
       <p class="ds-note">以下每一項都是我訂的，不是研究結論。它們都可以被換掉，換掉也不會讓其他部分失效。</p>
@@ -7622,6 +7817,795 @@ function pwaSetup(){
 
 /* 主程式已完整執行：關掉啟動看門狗 */
 try{ window.__AERO_OK=1; }catch(e){}
+
+/* ===================== 拼寫（編碼）：三個 SoR 活動 =====================
+   解碼是「看字 → 讀音」，這一頁是「聽音 → 寫字」，方向相反。
+   共用的限制：
+     ‧ 不唸孤立音素（避免多出 ㄜ）——要放慢就放慢整個字，讓音的邊界自然浮現。
+     ‧ 回饋到音素層級——指出哪一格寫錯，不只說「錯了」。
+     ‧ 音素框的格數看的是「音」，不是字母數。                                */
+
+let spState=null;                                   /* {act, ...} */
+function spLog(){ if(!DB.spell)DB.spell={a1:{},a2:{},a3:{}}; return DB.spell; }
+
+/* 這一頁只收「形素數 = 音素數」的字：一格一音，音素框才說得通。
+   像 box（x 一個字母兩個音）這種字會被排除，另外用說明帶過。 */
+/* 對位器是啟發式的，偶爾會把形素切錯。切錯的字在「解碼」頁只是提示不準，
+   但在拼寫頁會被當成「這個音就是這樣寫」教出去，所以這裡要再擋一層。
+   已確認的兩種錯法（全庫掃描，只有這兩種）：
+     ‧ 把後面不發音的 e 併進子音：smile 切成 s|m|i|le，
+       等於教「smile 的 /l/ 寫作 le」——e 其實屬於前面的分裂二合字母 i_e。
+       sleep 切成 s|le|e|p、learn 切成 le|ar|n 也是同一個病。
+       但 apple 的 le → /l̩/（成音節 l）是正確的分析，要保留，所以用音素區分。
+     ‧ 把前面的子音併進母音：fully 切成 f|u|l|ly，/ɪ/ 應該寫作 y 而不是 ly。
+   dge → /dʒ/（bridge, judge）是真正的三合字母，不在此列。 */
+function spTrust(al){
+  if(!al||!al.graphemes)return false;
+  const G=al.graphemes;
+  for(let i=0;i<G.length;i++){
+    const g=G[i];
+    if(g.silent)continue;
+    /* 「ly」一律不可信：/ɪ/ 寫作 y，前面那個 l 是另一個形素。 */
+    if(g.g==="ly")return false;
+    if(g.g==="le"&&g.p==="l"){
+      /* turtle、needle、title 這種字尾的 le 確實就是 /l/ 的寫法，是對的。
+         錯的是另外兩種：
+           ‧ le 不在字尾 —— 它偷走了後面母音的字母（sleep 切成 s|le|e|p）。
+           ‧ le 前面是一個「單一母音字母＋長母音」—— 那個 e 其實是分裂二合字母
+             的一半（smile 的 i_e），不屬於 /l/。 */
+      const isLast=G.slice(i+1).every(x=>x.silent);
+      if(!isLast)return false;
+      const prev=G[i-1];
+      if(prev&&!prev.silent&&prev.g.length===1&&"aeiouy".includes(prev.g)
+         &&SP_TENSE.indexOf(prev.p)>=0)return false;
+    }
+  }
+  return true;
+}
+
+/* ───── 把對位結果轉成「對得齊真實拼字」的格子 ─────
+   原本的做法是：只把發音的形素排成格子，不發音的字母丟到底下一句話。
+   那會產生兩個問題，face 同時中了：
+     ‧ 分析是錯的——/e/ 不是 a 發的，是 <b>a_e</b> 這個分裂二合字母發的，
+       字尾的 e 是它的另一半，不是一個沒人要的 e。
+     ‧ 格子排成 f｜a｜c，學生照著格子拼不回 f-a-c-e。
+   所以改成：magic-e 併成一格 a_e；其餘不發音的字母也留在格子列裡（標「不發音」），
+   另外再給一條「字母條」，把真實拼字逐字標出它屬於哪一格。 */
+const SP_TENSE=["i","e","o","u","aɪ","aʊ","ɔɪ"];
+function spCells(al){
+  const G=al.graphemes, last=G.length-1;
+  let splitAt=-1;
+  if(G[last]&&G[last].silent&&G[last].g==="e"){
+    for(let j=last-1;j>=0;j--){
+      const g=G[j]; if(g.silent)continue;
+      if(g.g.length===1&&"aeiouy".includes(g.g)&&SP_TENSE.indexOf(g.p)>=0){ splitAt=j; }
+      if("aeiouy".includes(g.g[0]))break;      /* 碰到母音就停，不再往前找 */
+    }
+  }
+  const cells=[];
+  G.forEach((g,i)=>{
+    if(splitAt>=0&&i===last)return;                    /* 字尾的 e 併進分裂形素 */
+    if(i===splitAt)cells.push({g:g.g+"_e",p:g.p,sound:true,split:true,gi:[i,last],
+                               a:g.g,b:G[last].g});
+    else if(g.silent)cells.push({g:g.g,p:null,sound:false,gi:[i]});
+    else cells.push({g:g.g,p:g.p,sound:true,gi:[i]});
+  });
+  return cells;
+}
+/* 字母條：真實拼字逐字排開，每個字母標出它屬於哪一格 */
+function spStrip(al,cells,showOwner){
+  const G=al.graphemes, own={};
+  cells.forEach((c,ci)=>c.gi.forEach(i=>own[i]=ci));
+  const out=[];
+  G.forEach((g,i)=>{
+    const ci=own[i]; const c=cells[ci]||{};
+    g.g.split("").forEach(ch=>out.push(
+      `<span class="sp-lt ${c.sound?"":"mute"} ${c.split?"sp":""}" data-c="${ci}"
+        >${esc(ch)}${showOwner?`<i>${c.sound?(cells.filter((x,k)=>x.sound&&k<=ci).length):"—"}</i>`:""}</span>`));
+  });
+  return `<div class="sp-strip">${out.join("")}</div>`;
+}
+function spSoundCells(cells){ return cells.filter(c=>c.sound); }
+
+/* 作答／對答案共用的格子列。
+   ans 是一個陣列，和 cells 等長；分裂形素那一格存 [前半, 後半]。 */
+function spAnsOf(c,v){
+  if(!c.split)return (v||"").trim();
+  const a=((v||[])[0]||"").trim(), b=((v||[])[1]||"").trim();
+  return a+"_"+b;
+}
+function spCellOK(c,v){
+  if(!c.split)return (v||"").trim().toLowerCase()===c.g.toLowerCase();
+  return ((v||[])[0]||"").trim().toLowerCase()===c.a.toLowerCase()
+      && ((v||[])[1]||"").trim().toLowerCase()===c.b.toLowerCase();
+}
+function spWriteRow(cells,ans){
+  let sn=0;
+  return `<div class="sp-boxes">${cells.map((c,i)=>{
+    if(c.sound)sn++;
+    const v=(ans||[])[i];
+    const inner=c.split
+      ? `<span class="sp-split">
+           <input type="text" data-i="${i}" data-h="0" value="${esc(((v||[])[0])||"")}" maxlength="3"
+             autocomplete="off" autocapitalize="off" spellcheck="false">
+           <b>…</b>
+           <input type="text" data-i="${i}" data-h="1" value="${esc(((v||[])[1])||"")}" maxlength="3"
+             autocomplete="off" autocapitalize="off" spellcheck="false"></span>`
+      : `<input type="text" data-i="${i}" value="${esc(v||"")}" maxlength="4"
+           autocomplete="off" autocapitalize="off" spellcheck="false">`;
+    return `<div class="sp-box filled ${c.sound?(isVowelG(c.g)?"v":""):"mute"} ${c.split?"wide":""}">
+      ${inner}
+      <span class="sm">${c.sound?("第 "+sn+" 音"):"不發音"}</span></div>`;}).join("")}</div>`;
+}
+function spCheckRow(cells,ans){
+  let sn=0;
+  return `<div class="sp-boxes">${cells.map((c,i)=>{
+    if(c.sound)sn++;
+    const ok=spCellOK(c,(ans||[])[i]);
+    const mine=spAnsOf(c,(ans||[])[i]);
+    const want=c.split?(c.a+"…"+c.b):c.g;
+    return `<div class="sp-box filled ${c.sound?(isVowelG(c.g)?"v":""):"mute"} ${ok?"right":"wrong"} ${c.split?"wide":""}">
+      <span class="gr">${esc(want)}</span>
+      <span class="ph">${c.sound?esc(c.p):"不發音"}</span>
+      <span class="sm">${ok?"✓":"你寫 "+esc((c.split?mine.replace("_","…"):mine)||"—")}</span>
+    </div>`;}).join("")}</div>`;
+}
+/* 分裂二合字母要特別講一句，否則學生只會看到「多了一個 e」 */
+function spSplitNote(cells,word){
+  const c=cells.find(x=>x.split); if(!c)return "";
+  return `<div class="sp-note"><b>這個字有一個「分裂」的形素。</b>
+    <b class="en">${esc(c.a)}</b> 和字尾的 <b class="en">${esc(c.b)}</b> 是<b>同一組</b>，
+    中間被子音隔開，合起來發一個 <b>/${esc(c.p)}/</b>——寫成 <b class="en">${esc(c.a)}_${esc(c.b)}</b>。
+    字尾的 ${esc(c.b)} 自己不發音，它的工作是讓前面的 ${esc(c.a)} 唸長音。
+    所以 <b class="en">${esc(word)}</b> 不是「${esc(c.a)} 發 /${esc(c.p)}/、後面多一個 e」。</div>`;
+}
+
+
+function spAlign(w){
+  const a=dcOf(w); if(!a)return null;
+  const live=a.graphemes.filter(g=>!g.silent);
+  if(live.length!==a.phonemes.length)return null;
+  if(live.length<2||live.length>5)return null;
+  if(!/^[a-zA-Z]+$/.test(w.w))return null;
+  if(!spTrust(a))return null;
+  return a;
+}
+function spWords(){ return activeUnit().words.filter(w=>!!spAlign(w)); }
+
+const SP_ACTS=[
+ {k:"a1",n:"聽音拼字",en:"Phoneme-to-Spelling",
+  d:"老師唸一個字，你先判斷它有幾個音、把音排進音素框，最後才寫出每一格的字母。",
+  f:"聽 → 切音 → 排音素框 → 寫形素"},
+ {k:"a2",n:"一音多拼",en:"One Sound, Many Spellings",
+  d:"同一個音可以有好幾種寫法。把一整組字分類到各自的拼法底下，拼字規則自己會浮出來。",
+  f:"例：/k/ → c（cat）、k（kit）、ck（back）　‧　取整個 Level 的字"},
+ {k:"a3",n:"讀遮拆寫再讀",en:"Read–Cover–Segment–Write–Reread",
+  d:"讀完就把字從畫面上移除，先說出音、再寫出字母，最後掀開對照。目的是擋掉「用眼睛抄」。",
+  f:"讀 → 遮 → 拆音 → 寫 → 再讀"}
+];
+
+function renderSpell(){
+  const area=document.getElementById("spellArea");
+  if(spState&&spState.act==="a1")return spA1(area);
+  if(spState&&spState.act==="a2")return spA2(area);
+  if(spState&&spState.act==="a3")return spA3(area);
+  const n=spWords().length;
+  area.innerHTML=`
+    <div class="sp-intro">
+      <img class="sp-aero" src="${AEROIMG.a_p3}" alt="Aero">
+      <div>
+        <h3>拼寫 ‧ 把聲音寫成字</h3>
+        <p>「解碼」分頁練的是<b>看字讀音</b>；這一頁練的是<b>聽音寫字</b>。
+        兩者用的是同一套形素—音素對應，但方向相反，<b>會讀不等於會拼</b>，要分開練。</p>
+      </div>
+    </div>
+    <div class="sp-dir">
+      <div class="sp-dirc"><b>解碼 Decoding</b><i>看到 ship → 讀出 /ʃɪp/<br>字在眼前，音要產出</i></div>
+      <div class="sp-dirc enc"><b>編碼 Encoding</b><i>聽到 /ʃɪp/ → 寫出 ship<br>音在耳裡，字要產出</i></div>
+    </div>
+    <div class="sp-acts">
+      ${SP_ACTS.map((a,i)=>`<button class="sp-act" data-a="${a.k}">
+        <span class="n">${i+1}</span>
+        <span>
+          <span class="t">${a.n}<span style="font-weight:400;color:var(--muted);font-size:.72rem"> ${a.en}</span></span>
+          <span class="d">${a.d}</span>
+          <span class="f">流程：<b>${a.f}</b></span>
+        </span>
+      </button>`).join("")}
+    </div>
+    <div class="sp-note"><b>音素框的格數看的是「音」，不是字母。</b>
+      ship 有 4 個字母，卻只有 3 個音——sh 兩個字母合起來只發一個 /ʃ/，要放進<b>同一格</b>。
+      這是整個拼寫訓練的核心，也是學生最常出錯的地方。<br>
+      本單元目前有 <b>${n}</b> 個字可以做「一格一音」的練習。兩種字被排除在外：
+      一種是<b>一個字母發兩個音</b>（box 的 x＝/ks/），音素框塞不下；
+      另一種是<b>自動對位切錯的字</b>——例如 smile 被切成 s|m|i|le，
+      那會教成「smile 的 /l/ 寫作 le」，但那個 e 其實屬於前面的 i_e。
+      這類字寧可不收，也不要教錯。</div>`;
+  area.querySelectorAll(".sp-act").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.a;
+    if(k==="a1")spState={act:"a1",queue:shuffle(spWords()),i:0,step:0,d:{}};
+    else if(k==="a2")spState={act:"a2",gi:0,qi:0,picks:[],done:false};
+    else spState={act:"a3",queue:shuffle(spWords()),i:0,step:0,d:{}};
+    renderSpell(); window.scrollTo({top:0,behavior:"smooth"});
+  });
+}
+function spHead(title,steps,cur,prog){
+  return `<div class="sp-top">
+      <button class="sp-back" id="spBack">‹ 回拼寫首頁</button>
+      <span class="sp-prog">${prog||""}</span>
+    </div>
+    <div class="sp-steps">${steps.map((t,i)=>
+      `<div class="sp-st ${i===cur?"on":""} ${i<cur?"done":""}">${i<cur?"✓ ":""}${t}</div>`).join("")}</div>`;
+}
+function spBindBack(){
+  const b=document.getElementById("spBack");
+  if(b)b.onclick=()=>{ stopSeq(); spState=null; renderSpell(); window.scrollTo({top:0,behavior:"smooth"}); };
+}
+/* 放慢整個字（不唸孤立音素），讓音的邊界自然浮現 */
+function spSlow(word){
+  tourPlay([{t:word,lang:"en-US",rate:0.3,gap:520},
+            {t:word,lang:"en-US",rate:0.55,gap:430},
+            {t:word,lang:"en-US",rate:0.9,gap:260}]);
+}
+
+/* ─────────────── 活動 1：聽音拼字 ─────────────── */
+const SP_A1_STEPS=["聽","幾個音","排音素","寫形素"];
+function spA1(area){
+  const st=spState;
+  if(st.i>=st.queue.length){
+    const d=st.d.score||{n:0,ok:0};
+    area.innerHTML=spHead("聽音拼字",SP_A1_STEPS,3,"")+`
+      <div class="sp-card" style="text-align:center">
+        <div class="sp-ask">這一輪走完了</div>
+        <p style="font-size:.84rem;color:var(--muted)">音素框全對 <b>${d.ok}</b> / <b>${d.n}</b> 字</p>
+        <button class="sp-next" id="spAgain">再來一輪</button>
+      </div>`;
+    spBindBack();
+    document.getElementById("spAgain").onclick=()=>{
+      spState={act:"a1",queue:shuffle(spWords()),i:0,step:0,d:{score:st.d.score}}; renderSpell(); };
+    return;
+  }
+  const w=st.queue[st.i], al=spAlign(w);
+  const live=al.graphemes.filter(g=>!g.silent);
+  const n=live.length;
+  area.innerHTML=spHead("聽音拼字",SP_A1_STEPS,st.step,`第 ${st.i+1} / ${st.queue.length} 字`)+
+    `<div class="sp-card" id="spCard"></div>`;
+  spBindBack();
+  const card=document.getElementById("spCard");
+
+  if(st.step===0){
+    card.innerHTML=`
+      <button class="sp-orb" id="spPlay">🔊</button>
+      <div class="sp-ask">先<b>只聽聲音</b>，還不要看拼字</div>
+      <div class="sp-row">
+        <button class="sp-btn" id="spSlow">🐌 放慢整個字</button>
+      </div>
+      <div class="sp-note">放慢的是<b>整個字</b>，不是把音一個一個唸出來。
+        孤立唸 /p/ 會變成「ㄆㄜ」，學生把那個多出來的 ㄜ 一起記進去，拼字就會多字母。</div>
+      <button class="sp-next" id="spGo">我聽清楚了 ›</button>`;
+    const play=()=>speak(w.w,"en-US",0.8);
+    document.getElementById("spPlay").onclick=play;
+    document.getElementById("spSlow").onclick=()=>spSlow(w.w);
+    setTimeout(play,300);
+    document.getElementById("spGo").onclick=()=>{ stopSeq(); st.step=1; renderSpell(); };
+    return;
+  }
+
+  if(st.step===1){
+    const opts=[];
+    for(let k=Math.max(2,n-2);k<=Math.min(6,n+2);k++)opts.push(k);
+    card.innerHTML=`
+      <button class="sp-orb sm" id="spPlay" style="margin:0 auto 8px">🔊</button>
+      <div class="sp-ask">這個字有<b>幾個音</b>？</div>
+      <div class="sp-nums">${opts.map(k=>`<button class="sp-num" data-n="${k}">${k}</button>`).join("")}</div>
+      <div class="sp-fb" id="spFb"></div>
+      <div id="spAfter"></div>`;
+    document.getElementById("spPlay").onclick=()=>speak(w.w,"en-US",0.8);
+    card.querySelectorAll(".sp-num").forEach(b=>b.onclick=()=>{
+      const v=+b.dataset.n, ok=v===n;
+      card.querySelectorAll(".sp-num").forEach(x=>{ x.disabled=true;
+        if(+x.dataset.n===n)x.classList.add("right"); else if(x===b)x.classList.add("wrong"); });
+      const fb=document.getElementById("spFb");
+      fb.className="sp-fb show "+(ok?"ok":"no");
+      fb.innerHTML=ok?`✅ 對了，<b>${n}</b> 個音。`
+        :`這個字有 <b>${n}</b> 個音。再放慢聽一次，注意音和音的交界。`;
+      st.d.segOk=ok;
+      document.getElementById("spAfter").innerHTML=`
+        <div class="sp-row"><button class="sp-btn" id="spSlow">🐌 放慢整個字</button></div>
+        <button class="sp-next" id="spGo">排進音素框 ›</button>`;
+      document.getElementById("spSlow").onclick=()=>spSlow(w.w);
+      document.getElementById("spGo").onclick=()=>{ stopSeq(); st.step=2; st.d.order=[]; renderSpell(); };
+    });
+    return;
+  }
+
+  if(st.step===2){
+    const order=st.d.order||[];
+    const chips=st.d.chips||(st.d.chips=shuffle(live.map((g,i)=>({p:g.p,i}))));
+    card.innerHTML=`
+      <button class="sp-orb sm" id="spPlay" style="margin:0 auto 8px">🔊</button>
+      <div class="sp-ask">把<b>${n} 個音</b>依照順序排進格子</div>
+      <div class="sp-boxes">${live.map((g,i)=>{
+        const f=order[i]!==undefined;
+        return `<div class="sp-box ${f?"filled":""} ${isVowelG(g.g)?"v":""} ${i===order.length?"on":""}">
+          <span class="ph">${f?esc(live[order[i]].p):"?"}</span>
+          <span class="sm">第 ${i+1} 音</span></div>`;}).join("")}</div>
+      <div class="sp-chips">${chips.map(c=>
+        `<button class="sp-chip ${order.indexOf(c.i)>=0?"used":""}" data-i="${c.i}">${esc(c.p)}</button>`).join("")}</div>
+      <div class="sp-row">
+        <button class="sp-btn" id="spUndo">↩ 退一格</button>
+        <button class="sp-btn" id="spSlow">🐌 放慢整個字</button>
+      </div>
+      <div class="sp-fb" id="spFb"></div>
+      <div id="spAfter"></div>`;
+    document.getElementById("spPlay").onclick=()=>speak(w.w,"en-US",0.8);
+    document.getElementById("spSlow").onclick=()=>spSlow(w.w);
+    document.getElementById("spUndo").onclick=()=>{ (st.d.order||[]).pop(); renderSpell(); };
+    card.querySelectorAll(".sp-chip").forEach(b=>b.onclick=()=>{
+      st.d.order=(st.d.order||[]).concat([+b.dataset.i]);
+      renderSpell();
+      if(st.d.order.length===n){
+        /* 用「音」比對，不是用 chip 的編號。像 baby 有兩個 /b/，
+           學生點哪一個 /b/ 都該算對——比編號會把正確的排法判成錯。 */
+        const ok=st.d.order.every((v,i)=>live[v].p===live[i].p);
+        const fb=document.getElementById("spFb");
+        fb.className="sp-fb show "+(ok?"ok":"no");
+        fb.innerHTML=ok?"✅ 順序正確。接下來才輪到字母。"
+          :"順序還不對。音的<b>先後</b>決定字母的先後，先把順序聽準再寫。";
+        document.getElementById("spAfter").innerHTML=
+          `<button class="sp-next" id="spGo">${ok?"寫出每一格的字母 ›":"再試一次順序"}</button>`;
+        document.getElementById("spGo").onclick=()=>{
+          if(ok){ stopSeq(); st.step=3; renderSpell(); }
+          else { st.d.order=[]; renderSpell(); }
+        };
+      }
+    });
+    return;
+  }
+
+  /* step 3：寫形素 */
+  const cells=spCells(al);
+  const shown=st.d.checked;
+  card.innerHTML=`
+    <button class="sp-orb sm" id="spPlay" style="margin:0 auto 8px">🔊</button>
+    <div class="sp-ask">每一格<b>寫出字母</b>——一格可能不只一個字母</div>
+    ${shown?spCheckRow(cells,st.d.ans):spWriteRow(cells,st.d.ans)}
+    ${shown?spStrip(al,cells,true):""}
+    ${shown?`<div class="sp-note" style="border-left-color:#7fa0c4;background:#eef3f8">
+       <b style="color:#2d4a70">拼起來就是 <span class="en">${esc(w.w)}</span>。</b>
+       上面那一條是真實的拼字，每個字母底下的數字就是它屬於第幾個音；
+       標灰的字母不發音。<b>格子和字母要對得起來，才算真的會拼。</b></div>`:""}
+    ${shown?spSplitNote(cells,w.w):""}
+    <div class="sp-fb" id="spFb"></div>
+    <div id="spAfter"></div>`;
+  document.getElementById("spPlay").onclick=()=>speak(w.w,"en-US",0.8);
+  if(!shown){
+    const ins=[...card.querySelectorAll("input")];
+    ins.forEach(el=>{ el.oninput=()=>{
+        st.d.ans=st.d.ans||[]; const i=+el.dataset.i;
+        if(el.dataset.h!==undefined){ st.d.ans[i]=st.d.ans[i]||["",""]; st.d.ans[i][+el.dataset.h]=el.value; }
+        else st.d.ans[i]=el.value; };
+      el.onkeydown=(e)=>{ if(e.key==="Enter"){ e.preventDefault(); check(); } }; });
+    if(ins[0])setTimeout(()=>ins[0].focus(),120);
+    document.getElementById("spAfter").innerHTML=`<button class="sp-next" id="spChk">對答案</button>`;
+    document.getElementById("spChk").onclick=check;
+  }else{
+    const bad=cells.map((c,i)=>({c,i})).filter(x=>!spCellOK(x.c,(st.d.ans||[])[x.i]));
+    const allOK=bad.length===0;
+    const fb=document.getElementById("spFb");
+    fb.className="sp-fb show "+(allOK?"ok":"no");
+    fb.innerHTML=allOK
+      ? `✅ 每一格都對，拼起來正好是 <b class="en">${esc(w.w)}</b>。`
+      : bad.map(x=>x.c.sound
+          ? `/${esc(x.c.p)}/ 這個音要寫成 <b class="en">${esc(x.c.split?x.c.a+"…"+x.c.b:x.c.g)}</b>`
+          : `不發音的 <b class="en">${esc(x.c.g)}</b> 也要寫出來`).join("；")+
+        `。<br><b>回饋到音素層級</b>——問題不在「整個字拼錯」，而在某一個音你選錯了字母。`;
+    const multi=cells.filter(c=>c.sound&&!c.split&&c.g.length>1);
+    document.getElementById("spAfter").innerHTML=
+      (multi.length?`<div class="sp-note">注意：<b class="en">${multi.map(c=>esc(c.g)).join("、")}</b>
+         ${multi.length>1?"各":""}是<b>好幾個字母只發一個音</b>，所以只佔一格。</div>`:"")+
+      `<div class="sp-row"><button class="sp-btn" id="spSlow">🐌 放慢整個字</button></div>
+       <button class="sp-next gold" id="spGo">下一個字 ›</button>`;
+    const sl=document.getElementById("spSlow"); if(sl)sl.onclick=()=>spSlow(w.w);
+    document.getElementById("spGo").onclick=()=>{
+      stopSeq(); st.i++; st.step=0; st.d={score:st.d.score}; renderSpell();
+      window.scrollTo({top:0,behavior:"smooth"}); };
+  }
+  function check(){
+    st.d.checked=true;
+    const ans=st.d.ans||[];
+    const allOK=cells.every((c,i)=>spCellOK(c,ans[i]));
+    const sc=st.d.score||{n:0,ok:0}; sc.n++; if(allOK)sc.ok++; st.d.score=sc;
+    const lg=spLog(); lg.a1[w.id]={ok:allOK,t:Date.now()}; save();
+    renderSpell();
+  }
+}
+
+/* ─────────────── 活動 2：一音多拼 ─────────────── */
+/* 規則是人寫的，不是程式歸納的——程式只負責從單字庫找出符合的例字。 */
+const SP_GROUPS=[
+ {ph:"k", gs:["c","k","ck"], t:"/k/",
+  rule:"<b>c</b> 用在 a、o、u 和子音前面（cat, cold, cup）；<b>k</b> 用在 e、i、y 前面（key, kit）；"+
+       "<b>ck</b> 只出現在<b>短母音後面、而且在字尾</b>（back, kick）。",
+  why:"這三種拼法<b>互補分布</b>：看到後面接什麼字母，就能決定用哪一個。這是少數真的有規則可循的一組。"},
+ {ph:"s", gs:["s","c","ss"], t:"/s/",
+  rule:"<b>c</b> 在 e、i、y 前面才發 /s/（city, cent）；<b>ss</b> 多在短母音後的字尾（class, miss）；其餘用 <b>s</b>。",
+  why:"和 /k/ 是同一條線索的兩面：c 碰到 e、i、y 發 /s/，碰到 a、o、u 發 /k/。兩組一起教，規則才完整。"},
+ {ph:"f", gs:["f","ff","ph"], t:"/f/",
+  rule:"<b>ff</b> 多在短母音後的字尾（off）；<b>ph</b> 多半來自希臘字源（phone, photo）；其餘用 <b>f</b>。",
+  why:"ph 這一類要靠<b>字源</b>，不是靠位置。知道它多出現在科學與學術用字，就不會每次都猜錯。"},
+ {ph:"e", gs:["a","ai","ay"], t:"/e/（長音 a）",
+  rule:"<b>ay</b> 幾乎只出現在<b>字尾</b>（day, play）；<b>ai</b> 出現在<b>字中</b>（rain, train）；"+
+       "<b>a</b> 常搭配字尾不發音的 e（cake, name）。",
+  why:"位置決定拼法：同一個音，在字中和在字尾用不同的寫法。這是英語拼字最常見的一種分工。"},
+ {ph:"i", gs:["ee","ea","e"], t:"/i/（長音 e）",
+  rule:"<b>沒有可靠的規則</b>。ee 和 ea 都常見（see／sea 同音不同拼），只能整組對照、靠字形記。",
+  why:"誠實地說：這一組<b>規則幫不上忙</b>。把它和 /k/ 放在一起看，學生才知道「哪些要推理、哪些只能記」。"},
+ {ph:"aɪ", gs:["i","y","igh"], t:"/aɪ/",
+  rule:"<b>y</b> 常在<b>字尾</b>（my, try）；<b>igh</b> 是固定組合（high, night）；"+
+       "<b>i</b> 常搭配字尾不發音的 e（bike, time）。",
+  why:"又是位置分工。字尾不用 i 收尾，所以改用 y——這條在英語裡非常穩定。"},
+ {ph:"ɝ", gs:["er","ir","ur"], t:"/ɝ/",
+  rule:"<b>三種拼法發完全一樣的音，沒有規則</b>（her, bird, turn）。",
+  why:"這組最容易錯，因為聽起來毫無差別。只能整組並排，靠詞彙本身記住——先知道「這組沒規則」，就不會白費力氣找規則。"},
+ {ph:"o", gs:["o","oa","ow"], t:"/o/（長音 o）",
+  rule:"<b>ow</b> 常在<b>字尾</b>（snow, know）；<b>oa</b> 多在<b>字中</b>（boat, road）；"+
+       "<b>o</b> 常搭配字尾不發音的 e（hope, note）。",
+  why:"和長音 a、/aɪ/ 同一個模式：字中一種寫法、字尾另一種寫法。三組一起看，這個模式就立起來了。"}
+];
+/* 一音多拼要看得出規則，就必須有夠多的字。單一課的字太少，
+   同一個音往往只出現一種拼法，整個活動就垮了——所以這一個活動
+   （也只有這一個）把範圍放大到整個 Level。 */
+function spA2Pool(){
+  const u=activeUnit();
+  if(u._isAll)return {words:u.words,label:u.title.replace(/^⭐\s*/,"")};
+  const lv=levelOf(u);
+  const m=mergedPools().find(x=>x.id==="__ALL_L"+lv+"__");
+  return m?{words:m.words,label:"Level "+lv+" 全部"}:{words:u.words,label:u.title};
+}
+function spGroupWords(grp){
+  const pool=spA2Pool().words, out={};
+  grp.gs.forEach(g=>out[g]=[]);
+  pool.forEach(w=>{
+    const a=dcOf(w); if(!a||!spTrust(a))return;
+    if(!/^[a-zA-Z]+$/.test(w.w)||w.w.length>8)return;
+    /* 這個字裡「發這個音」的形素必須剛好只有一個。
+       像 cake（c 和 k 都發 /k/）會同時屬於兩欄，題目就沒有唯一答案，直接排除。 */
+    const hits=a.graphemes.filter(g=>!g.silent&&g.ps.join("")===grp.ph);
+    if(hits.length!==1)return;
+    const g=hits[0].g, gi=a.graphemes.indexOf(hits[0]);
+    if(out[g]&&!out[g].some(x=>x.w.id===w.id))out[g].push({w,al:a,g,gi});
+  });
+  return out;
+}
+/* 把每一欄的字分成「分類用」與「套規則用」，後者不先出現，留著驗收規則 */
+function spSplit(byG,gs){
+  const sort=[],apply=[];
+  gs.forEach(k=>{ (byG[k]||[]).slice(0,3).forEach(x=>sort.push(x)); });
+  /* 套規則的題目要「各欄輪流」出，否則字多的那一欄會塞滿，
+     學生只要每題都猜同一個拼法就全對，規則根本沒被驗到。 */
+  for(let r=0;r<2;r++) gs.forEach(k=>{
+    const x=(byG[k]||[])[3+r];
+    if(x&&apply.length<6)apply.push(x);
+  });
+  return {sort,apply};
+}
+/* 把目標形素挖空：back → ba＿ */
+function spBlank(x){
+  return x.al.graphemes.map((g,i)=>i===x.gi?"＿":g.g).join("");
+}
+function spA2(area){
+  const st=spState;
+  const avail=SP_GROUPS.map(g=>({g,w:spGroupWords(g)}))
+    .filter(x=>x.g.gs.filter(k=>x.w[k].length>=2).length>=2);
+  if(!avail.length){
+    area.innerHTML=spHead("一音多拼",["分類","規則","套規則"],0,"")+
+      `<div class="sp-card"><div class="sp-ask">這個單元的字還不夠做一音多拼</div>
+       <div class="sp-note">一音多拼需要同一個音在<b>同一個單元裡</b>出現好幾種拼法。
+         請到「單字卡」切換到字數較多的單元（例如 ⭐ Level 全部），再回來。</div></div>`;
+    spBindBack(); return;
+  }
+  const cur=avail[Math.min(st.gi,avail.length-1)];
+  const grp=cur.g, byG=cur.w, poolLab=spA2Pool().label;
+  const cols=grp.gs.filter(k=>byG[k].length>=1);
+  const split=spSplit(byG,cols);
+  if(!st.queue||st.queue.gi!==st.gi){
+    st.queue={gi:st.gi,list:shuffle(split.sort),apply:shuffle(split.apply)};
+    st.qi=0; st.picks=[]; st.phase=0; st.ai=0; st.apicks=[];
+  }
+  const queue=st.queue.list, applyList=st.queue.apply;
+  const tabs=avail.map((x,i)=>
+    `<button class="sp-gb ${i===st.gi?"on":""}" data-gi="${i}">${x.g.t}</button>`).join("");
+  const bindTabs=()=>area.querySelectorAll(".sp-gb").forEach(b=>b.onclick=()=>{
+    stopSeq(); st.gi=+b.dataset.gi; st.queue=null; renderSpell(); window.scrollTo({top:0,behavior:"smooth"}); });
+
+  /* ── 階段 0：分類 ── */
+  if(st.phase===0){
+    const it=queue[st.qi], last=st.picks[st.picks.length-1];
+    const justAnswered=last&&last.qi===st.qi;
+    if(!it){ st.phase=1; return renderSpell(); }
+    area.innerHTML=spHead("一音多拼",["分類","規則","套規則"],0,`第 ${st.qi+1} / ${queue.length} 字`)+`
+      <div class="sp-grp">${tabs}</div>
+      <div class="sp-card">
+        <div class="sp-ask">這個字裡的 <b>${grp.t}</b>，是用哪一種拼法？</div>
+        <div class="sp-tgt">
+          <div class="big en">${esc(it.w.w)}</div>
+          <button class="sp-btn" id="spSay" style="margin-top:6px">🔊 聽一次</button>
+        </div>
+        <div class="sp-cols">${cols.map(k=>{
+          const mine=st.picks.filter(p=>p.ok&&p.g===k);
+          let cls=""; if(justAnswered){ if(k===it.g)cls="right"; else if(k===last.pick)cls="wrong"; }
+          return `<div class="sp-col ${cls}" data-g="${k}">
+            <div class="h en">${esc(k)}</div>
+            ${mine.map(p=>`<div class="w en hit">${esc(p.word)}</div>`).join("")}
+          </div>`;}).join("")}</div>
+        <div class="sp-fb" id="spFb"></div>
+        <div id="spAfter"></div>
+      </div>`;
+    spBindBack(); bindTabs();
+    document.getElementById("spSay").onclick=()=>speak(it.w.w,"en-US",0.85);
+    if(!justAnswered){
+      area.querySelectorAll(".sp-col").forEach(c=>c.onclick=()=>{
+        const pick=c.dataset.g, ok=pick===it.g;
+        st.picks.push({qi:st.qi,pick,ok,g:it.g,word:it.w.w});
+        const lg=spLog(); lg.a2[grp.ph+"-"+it.w.id]={ok,t:Date.now()}; save();
+        renderSpell();
+        const fb=document.getElementById("spFb");
+        if(fb){ fb.className="sp-fb show "+(ok?"ok":"no");
+          fb.innerHTML=ok?`✅ <b class="en">${esc(it.w.w)}</b> 的 ${grp.t} 寫成 <b class="en">${esc(it.g)}</b>。`
+            :`<b class="en">${esc(it.w.w)}</b> 的 ${grp.t} 寫成 <b class="en">${esc(it.g)}</b>，不是 <b class="en">${esc(pick)}</b>。`; }
+        const af=document.getElementById("spAfter");
+        if(af){ af.innerHTML=`<button class="sp-next" id="spGo">${st.qi+1>=queue.length?"看這一組的規則 ›":"下一個字 ›"}</button>`;
+          document.getElementById("spGo").onclick=()=>{
+            st.qi++; if(st.qi>=queue.length)st.phase=1; renderSpell(); }; }
+      });
+    }
+    return;
+  }
+
+  /* ── 階段 1：規則 ── */
+  if(st.phase===1){
+    const right=st.picks.filter(p=>p.ok).length;
+    area.innerHTML=spHead("一音多拼",["分類","規則","套規則"],1,"")+`
+      <div class="sp-grp">${tabs}</div>
+      <div class="sp-card">
+        <div class="sp-ask">${grp.t} 的拼法整理</div>
+        <p style="text-align:center;font-size:.8rem;color:var(--muted)">分對 <b>${right}</b> / ${queue.length}</p>
+        <table class="sp-tbl">
+          <tr><th>拼法</th><th>例字</th></tr>
+          ${cols.map(k=>{
+            const show=byG[k].slice(0,6).map(x=>esc(x.w.w)).join("、");
+            const more=byG[k].length>6?`<span style="color:var(--muted)"> …等 ${byG[k].length} 字</span>`:"";
+            return `<tr><td class="g">${esc(k)}</td><td class="en">${show}${more}</td></tr>`;}).join("")}
+        </table>
+        <div class="sp-note"><b>規則：</b>${grp.rule}</div>
+        <div class="sp-note" style="border-left-color:#7fa0c4;background:#eef3f8">
+          <b style="color:#2d4a70">為什麼要整組一起看：</b>${grp.why}</div>
+        <div class="sp-note" style="border-left-color:#aaa;background:#f5f5f5">
+          <b style="color:#555">例字範圍：${esc(poolLab)}。</b>
+          一課的字太少，同一個音常常只出現一種拼法，就看不出對比——
+          所以只有這個活動把範圍放大到整個 Level，其餘活動仍只用目前這一課。</div>
+        <div class="sp-row"><button class="sp-btn" id="spAll">🔊 整組唸一次</button></div>
+        ${applyList.length
+          ? `<button class="sp-next" id="spGo">用規則試 ${applyList.length} 個新字 ›</button>`
+          : `<div class="sp-note">這個單元裡沒有多餘的字可以做「套規則」，換一組或換到字數較多的單元。</div>
+             <button class="sp-next gold" id="spNextG">換下一組 ›</button>`}
+      </div>`;
+    spBindBack(); bindTabs();
+    document.getElementById("spAll").onclick=()=>{
+      const seq=[]; cols.forEach(k=>byG[k].forEach(x=>seq.push({t:x.w.w,lang:"en-US",rate:0.85,gap:380})));
+      tourPlay(seq); };
+    const go=document.getElementById("spGo");
+    if(go)go.onclick=()=>{ stopSeq(); st.phase=2; st.ai=0; st.apicks=[]; renderSpell();
+      window.scrollTo({top:0,behavior:"smooth"}); };
+    const ng=document.getElementById("spNextG");
+    if(ng)ng.onclick=()=>{ stopSeq(); st.gi=(st.gi+1)%avail.length; st.queue=null; renderSpell();
+      window.scrollTo({top:0,behavior:"smooth"}); };
+    return;
+  }
+
+  /* ── 階段 2：套規則（分類時沒出現過的字，形素挖空） ── */
+  const it=applyList[st.ai];
+  const last=st.apicks[st.apicks.length-1];
+  const answered=last&&last.ai===st.ai;
+  if(!it||st.ai>=applyList.length){
+    const ok=st.apicks.filter(x=>x.ok).length;
+    area.innerHTML=spHead("一音多拼",["分類","規則","套規則"],2,"")+`
+      <div class="sp-grp">${tabs}</div>
+      <div class="sp-card" style="text-align:center">
+        <div class="sp-ask">${grp.t} 這一組走完了</div>
+        <p style="font-size:.84rem;color:var(--muted)">套規則答對 <b>${ok}</b> / ${st.apicks.length}</p>
+        <div class="sp-note" style="text-align:left">${
+          ok===st.apicks.length
+          ? "全對——表示規則不只是看懂，而是用得出來。"
+          : "錯的地方要回頭看規則那一段：<b>規則講的是「位置」</b>，不是字的意思。"}</div>
+        <button class="sp-next gold" id="spNextG">換下一組 ›</button>
+      </div>`;
+    spBindBack(); bindTabs();
+    document.getElementById("spNextG").onclick=()=>{
+      stopSeq(); st.gi=(st.gi+1)%avail.length; st.queue=null; renderSpell();
+      window.scrollTo({top:0,behavior:"smooth"}); };
+    return;
+  }
+  area.innerHTML=spHead("一音多拼",["分類","規則","套規則"],2,`第 ${st.ai+1} / ${applyList.length} 字`)+`
+    <div class="sp-grp">${tabs}</div>
+    <div class="sp-card">
+      <div class="sp-ask">這個字的 <b>${grp.t}</b> 該填哪一種拼法？</div>
+      <div class="sp-tgt">
+        <div class="big en">${esc(spBlank(it))}</div>
+        <div style="font-size:.76rem;color:var(--muted);margin-top:4px">${esc(shortZh(it.w))}</div>
+        <button class="sp-btn" id="spSay" style="margin-top:6px">🔊 聽一次</button>
+      </div>
+      <div class="sp-chips">${cols.map(k=>{
+        let cls=""; if(answered){ if(k===it.g)cls="used"; }
+        return `<button class="sp-chip" data-g="${k}" ${answered?"disabled":""}>${esc(k)}</button>`;}).join("")}</div>
+      <div class="sp-fb" id="spFb"></div>
+      <div id="spAfter"></div>
+    </div>`;
+  spBindBack(); bindTabs();
+  document.getElementById("spSay").onclick=()=>speak(it.w.w,"en-US",0.85);
+  if(!answered){
+    area.querySelectorAll(".sp-chip").forEach(c=>c.onclick=()=>{
+      const pick=c.dataset.g, ok=pick===it.g;
+      st.apicks.push({ai:st.ai,pick,ok});
+      const lg=spLog(); lg.a2[grp.ph+"-apply-"+it.w.id]={ok,t:Date.now()}; save();
+      renderSpell();
+      const fb=document.getElementById("spFb");
+      if(fb){ fb.className="sp-fb show "+(ok?"ok":"no");
+        fb.innerHTML=(ok?"✅ ":"")+`完整拼法是 <b class="en">${esc(it.w.w)}</b>，${grp.t} 寫成 <b class="en">${esc(it.g)}</b>。`
+          +(ok?"":`<br>你選了 <b class="en">${esc(pick)}</b>——回去看規則：決定用哪一種的是<b>位置</b>。`); }
+      const af=document.getElementById("spAfter");
+      if(af){ af.innerHTML=`<button class="sp-next" id="spGo">${st.ai+1>=applyList.length?"看結果 ›":"下一題 ›"}</button>`;
+        document.getElementById("spGo").onclick=()=>{ st.ai++; renderSpell(); }; }
+    });
+  }
+}
+
+/* ─────────────── 活動 3：讀—遮—拆—寫—再讀 ─────────────── */
+const SP_A3_STEPS=["讀","遮","拆音","寫","再讀"];
+function spA3(area){
+  const st=spState;
+  if(st.i>=st.queue.length){
+    const sc=st.d.score||{n:0,ok:0};
+    area.innerHTML=spHead("讀遮拆寫再讀",SP_A3_STEPS,4,"")+`
+      <div class="sp-card" style="text-align:center">
+        <div class="sp-ask">這一輪走完了</div>
+        <p style="font-size:.84rem;color:var(--muted)">蓋住後寫對 <b>${sc.ok}</b> / <b>${sc.n}</b> 字</p>
+        <button class="sp-next" id="spAgain">再來一輪</button>
+      </div>`;
+    spBindBack();
+    document.getElementById("spAgain").onclick=()=>{
+      spState={act:"a3",queue:shuffle(spWords()),i:0,step:0,d:{score:st.d.score}}; renderSpell(); };
+    return;
+  }
+  const w=st.queue[st.i], al=spAlign(w);
+  const live=al.graphemes.filter(g=>!g.silent), n=live.length;
+  area.innerHTML=spHead("讀遮拆寫再讀",SP_A3_STEPS,st.step,`第 ${st.i+1} / ${st.queue.length} 字`)+
+    `<div class="sp-card" id="spCard"></div>`;
+  spBindBack();
+  const card=document.getElementById("spCard");
+
+  if(st.step===0){            /* 讀 */
+    card.innerHTML=`
+      <div class="sp-ask">第一步：<b>讀出來</b></div>
+      <div class="sp-word en">${esc(w.w)}</div>
+      <div style="text-align:center;font-size:.8rem;color:var(--muted)">${esc(shortZh(w))}</div>
+      <div class="sp-row">
+        <button class="sp-btn" id="spSay">🔊 聽一次</button>
+        <button class="sp-btn" id="spSlow">🐌 放慢</button>
+      </div>
+      <div class="sp-note">先<b>出聲讀</b>，不是默看。嘴巴動過，等一下蓋起來才有東西可以回想。</div>
+      <button class="sp-next" id="spGo">我讀出來了，蓋起來 ›</button>`;
+    document.getElementById("spSay").onclick=()=>speak(w.w,"en-US",0.85);
+    document.getElementById("spSlow").onclick=()=>spSlow(w.w);
+    setTimeout(()=>speak(w.w,"en-US",0.85),300);
+    document.getElementById("spGo").onclick=()=>{ stopSeq(); st.step=1; renderSpell(); };
+    return;
+  }
+
+  if(st.step===1){            /* 遮 */
+    card.innerHTML=`
+      <div class="sp-ask">第二步：<b>蓋住</b></div>
+      <div class="sp-cover">● ● ● ●</div>
+      <div class="sp-note"><b>這個字已經從畫面上移除，不是用顏色蓋住。</b>
+        接下來到「再讀」之前，這張卡片上都不會再出現它，所以沒辦法一邊看一邊抄。<br>
+        說清楚界線：你仍然可以切到「單字卡」或「總覽」去查。
+        工具擋得掉<b>順手抄</b>，擋不掉<b>刻意查</b>——這一步真正要的是你自己不去看。</div>
+      <div class="sp-row"><button class="sp-btn" id="spSay">🔊 再聽一次聲音</button></div>
+      <button class="sp-next" id="spGo">開始拆音 ›</button>`;
+    document.getElementById("spSay").onclick=()=>speak(w.w,"en-US",0.85);
+    document.getElementById("spGo").onclick=()=>{ stopSeq(); st.step=2; renderSpell(); };
+    return;
+  }
+
+  if(st.step===2){            /* 拆音 */
+    const opts=[]; for(let k=Math.max(2,n-2);k<=Math.min(6,n+2);k++)opts.push(k);
+    card.innerHTML=`
+      <div class="sp-ask">第三步：<b>說出它有幾個音</b></div>
+      <div class="sp-cover">● ● ● ●</div>
+      <div class="sp-nums">${opts.map(k=>`<button class="sp-num" data-n="${k}">${k}</button>`).join("")}</div>
+      <div class="sp-fb" id="spFb"></div>
+      <div id="spAfter"></div>`;
+    card.querySelectorAll(".sp-num").forEach(b=>b.onclick=()=>{
+      const v=+b.dataset.n, ok=v===n;
+      card.querySelectorAll(".sp-num").forEach(x=>{ x.disabled=true;
+        if(+x.dataset.n===n)x.classList.add("right"); else if(x===b)x.classList.add("wrong"); });
+      const fb=document.getElementById("spFb");
+      fb.className="sp-fb show "+(ok?"ok":"no");
+      fb.innerHTML=ok?`✅ <b>${n}</b> 個音。`:`是 <b>${n}</b> 個音——聲音還在腦子裡，先把音數穩住再寫。`;
+      st.d.segOk=ok;
+      document.getElementById("spAfter").innerHTML=
+        `<div class="sp-row"><button class="sp-btn" id="spSay">🔊 再聽一次</button></div>
+         <button class="sp-next" id="spGo">寫出來 ›</button>`;
+      document.getElementById("spSay").onclick=()=>speak(w.w,"en-US",0.85);
+      document.getElementById("spGo").onclick=()=>{ stopSeq(); st.step=3; renderSpell(); };
+    });
+    return;
+  }
+
+  if(st.step===3){            /* 寫 */
+    const cells=spCells(al);
+    card.innerHTML=`
+      <div class="sp-ask">第四步：<b>一格一個音</b>，寫出字母</div>
+      ${spWriteRow(cells,st.d.ans)}
+      <div class="sp-note">寫的是<b>形素</b>不是字母——一格可以放兩三個字母（sh、ck、igh），
+        因為它們合起來只發一個音。標<b>不發音</b>的格子也要填，那些字母一樣要寫出來。
+        中間有「…」的那一格是<b>分裂形素</b>：兩個字母被子音隔開，但算同一個音。</div>
+      <div class="sp-row"><button class="sp-btn" id="spSay">🔊 再聽一次</button></div>
+      <button class="sp-next" id="spGo">掀開對照 ›</button>`;
+    document.getElementById("spSay").onclick=()=>speak(w.w,"en-US",0.85);
+    const ins=[...card.querySelectorAll("input")];
+    ins.forEach(el=>{ el.oninput=()=>{
+      st.d.ans=st.d.ans||[]; const i=+el.dataset.i;
+      if(el.dataset.h!==undefined){ st.d.ans[i]=st.d.ans[i]||["",""]; st.d.ans[i][+el.dataset.h]=el.value; }
+      else st.d.ans[i]=el.value; }; });
+    if(ins[0])setTimeout(()=>ins[0].focus(),120);
+    document.getElementById("spGo").onclick=()=>{
+      st.d.ans=st.d.ans||[];
+      const allOK=cells.every((c,i)=>spCellOK(c,st.d.ans[i]));
+      const sc=st.d.score||{n:0,ok:0}; sc.n++; if(allOK)sc.ok++; st.d.score=sc;
+      const lg=spLog(); lg.a3[w.id]={ok:allOK,t:Date.now()}; save();
+      st.step=4; renderSpell();
+    };
+    return;
+  }
+
+  /* step 4：再讀 */
+  const cells=spCells(al);
+  const ans=st.d.ans||[];
+  const bad=cells.map((c,i)=>({c,i})).filter(x=>!spCellOK(x.c,ans[x.i]));
+  const allOK=bad.length===0;
+  card.innerHTML=`
+    <div class="sp-ask">第五步：<b>再讀一次</b></div>
+    <div class="sp-word en">${esc(w.w)}</div>
+    ${spCheckRow(cells,ans)}
+    ${spStrip(al,cells,true)}
+    <div class="sp-note" style="border-left-color:#7fa0c4;background:#eef3f8">
+      <b style="color:#2d4a70">格子和拼字要對得起來。</b>
+      上面那一條是 <b class="en">${esc(w.w)}</b> 的真實拼字，每個字母底下的數字是它屬於第幾個音；
+      標灰的字母不發音。</div>
+    ${spSplitNote(cells,w.w)}
+    <div class="sp-fb show ${allOK?"ok":"no"}">${
+      allOK?`✅ 蓋住之後還寫得出來，這一題才算真的會。`
+           :bad.map(x=>x.c.sound
+              ?`/${esc(x.c.p)}/ 要寫成 <b class="en">${esc(x.c.split?x.c.a+"…"+x.c.b:x.c.g)}</b>`
+              :`不發音的 <b class="en">${esc(x.c.g)}</b> 也要寫出來`).join("；")+
+            `。<br>把這個字放回去，等一下會再出現一次。`}</div>
+    <div class="sp-row">
+      <button class="sp-btn" id="spSay">🔊 跟著唸一次</button>
+      <button class="sp-btn" id="spSlow">🐌 放慢</button>
+    </div>
+    <button class="sp-next gold" id="spGo">下一個字 ›</button>`;
+  document.getElementById("spSay").onclick=()=>speak(w.w,"en-US",0.85);
+  document.getElementById("spSlow").onclick=()=>spSlow(w.w);
+  setTimeout(()=>speak(w.w,"en-US",0.85),300);
+  document.getElementById("spGo").onclick=()=>{
+    stopSeq();
+    if(!allOK)st.queue.push(w);
+    st.i++; st.step=0; st.d={score:st.d.score}; renderSpell();
+    window.scrollTo({top:0,behavior:"smooth"}); };
+}
+
 </script>
 </body>
 </html>
