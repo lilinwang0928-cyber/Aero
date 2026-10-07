@@ -147,7 +147,12 @@
   .row-head .arr{flex:0 0 auto;color:var(--muted);transition:.2s;font-size:.85rem}
   .row.open .arr{transform:rotate(90deg)}
   .row-body{display:none;padding:0 15px 15px;border-top:1px solid var(--mist)}.row.open .row-body{display:block}
-  @media (max-width:520px){.row-head .rz{flex:0 0 100%;order:5;margin-top:2px}}
+  /* 窄螢幕時中文釋義要換到下一行。原本只設了 flex:0 0 100%，
+     但 .row-head 沒有 flex-wrap，100% 寬度的元素擠在同一行就衝出畫面。 */
+  @media (max-width:520px){
+    .row-head{flex-wrap:wrap}
+    .row-head .rz{flex:0 0 100%;order:5;margin-top:2px;min-width:0}
+  }
   .pos-group{margin-bottom:16px}
   .pos-ghead{display:flex;align-items:center;gap:8px;margin:0 2px 8px;padding-bottom:6px;border-bottom:2px solid var(--mist-2)}
   .pos-gname{font-size:1rem;font-weight:800;color:var(--ink)}
@@ -1019,6 +1024,10 @@
 .vox-btn.has{border-color:#7fbf8d;background:#f1f9f2}
 .vox-btn.rec{border-color:#c6564a;background:#fdf0ee;color:#a8412f}
 .vox-btn.armed{border-color:#d3a029;background:#fdf7e8}
+.vox-btn.play{border-color:#8fa9c9}
+.vox-btn.play:disabled{opacity:.42;cursor:not-allowed;border-color:var(--line)}
+.vox-btn.play.has{border-color:#5f8fc4;background:#eef4fb;color:#2f5f94}
+.vox-btn.play.playing{border-color:#2f5f94;background:#dde9f7}
 /* ===== v25：設定面板 ===== */
 .st-block .st-item{border:1.5px solid var(--line);border-radius:13px;padding:11px 13px;margin-top:11px;background:var(--paper)}
 .st-h{display:flex;align-items:center;gap:10px;font-size:.86rem;color:var(--text)}
@@ -3942,6 +3951,14 @@ function MIS(){ return uState().mistakes; }
 
 /* ===================== 發音（Chrome 防 GC） ===================== */
 let _utterRef=null,_wd=null;
+/* 語速。原本各處各寫一個數字（0.85／0.8／0.72／0.62／0.55／0.5／0.42…），
+   結果「正常」與「慢速」只差 1.6 倍，聽起來分不出來。
+   這裡收斂成三個常數，正常與慢速拉開到兩倍以上：
+     正常 0.95 — 接近自然語速
+     慢速 0.45 — 一聽就知道變慢了
+     極慢 0.30 — 只用在「放慢聽音的邊界」那種場合
+   不再往 0.3 以下調：各家瀏覽器對極低語速的處理差很多，有的乾脆忽略。 */
+const R_NORM=0.95, R_SLOW=0.45, R_VSLOW=0.30;
 function speak(text,lang="en-US",rate){
   try{ _speak(text,lang,rate); }catch(e){}          /* 語音被瀏覽器擋掉時，靜音但不中斷 */
 }
@@ -3950,8 +3967,8 @@ function _speak(text,lang="en-US",rate){
   try{ if(OPTV("human")&&/^en/i.test(lang||"")&&voxHas(text)){ voxPlay(text,rate); return; } }catch(e){}
   if(!("speechSynthesis" in window))return;
   window.speechSynthesis.cancel(); if(_wd){clearInterval(_wd);_wd=null;}
-  const u=new SpeechSynthesisUtterance(text); u.lang=lang; u.rate=rate||.92;
-  try{ const vv=pickVoice(lang); if(vv)u.voice=vv; }catch(e){}
+  const u=new SpeechSynthesisUtterance(text); u.lang=lang; u.rate=rate||R_NORM;
+  try{ const vv=pickVoiceForRate(lang,u.rate); if(vv)u.voice=vv; }catch(e){}
   _utterRef=u;
   u.onend=()=>{_utterRef=null;if(_wd){clearInterval(_wd);_wd=null;}};
   u.onerror=()=>{_utterRef=null;if(_wd){clearInterval(_wd);_wd=null;}};
@@ -4000,6 +4017,9 @@ function tourPlay(steps,onEach,onDone){
     const s=steps[i];if(onEach)onEach(i,s);i++;
     try{speechSynthesis.cancel();}catch(e){}
     const u=new SpeechSynthesisUtterance(s.t);u.lang=s.lang||"en-US";u.rate=s.rate||.9;_utterRef=u;
+    /* 序列播放原本沒指定音色，會落到瀏覽器預設那一支：
+       既不是使用者選的，慢速也不一定照做。這裡補上同一套挑選邏輯。 */
+    try{ const vv=pickVoiceForRate(u.lang,u.rate); if(vv)u.voice=vv; }catch(e){}
     u.onend=()=>{if(_wd){clearInterval(_wd);_wd=null;}if(!_seq.stop&&_seq.id===myId)setTimeout(step,s.gap||360);};
     u.onerror=()=>{if(!_seq.stop&&_seq.id===myId)setTimeout(step,s.gap||360);};
     try{ speechSynthesis.speak(u); }catch(e){ if(!_seq.stop&&_seq.id===myId)setTimeout(step,320); return; }
@@ -4087,7 +4107,7 @@ function posSpeak(pos){
 }
 /* 產生單字卡背面的導覽腳本（英文唸完接中文） */
 function buildTour(w){
-  const S=[],EN={lang:"en-US",rate:.85},ZH={lang:"zh-TW",rate:.95};
+  const S=[],EN={lang:"en-US",rate:R_NORM},ZH={lang:"zh-TW",rate:.95};
   S.push(Object.assign({t:w.w,sel:"tWord",label:"單字"},EN,{gap:420}));
   const ps=posSpeak(w.pos);
   S.push(Object.assign({t:(ps?ps+"，":"")+String(w.zh).replace(/[；;]/g,"，"),sel:"tDef",label:"詞性與中文"},ZH,{gap:460}));
@@ -4576,7 +4596,7 @@ function renderQuestion(){
     const correct=o.dataset.correct==="true";
     const fb=document.getElementById("qfb");
     const ex=firstExOf(item.en);
-    const au=fbAudioHtml([{l:"🔊 "+auLabel(item.en),t:item.en},{l:"🐢 慢速",t:item.en,r:.55},ex?{l:"🔊 例句",t:ex[0]}:null]);
+    const au=fbAudioHtml([{l:"🔊 "+auLabel(item.en),t:item.en},{l:"🐢 慢速",t:item.en,r:R_SLOW},ex?{l:"🔊 例句",t:ex[0]}:null]);
     if(correct){o.classList.add("correct");fb.className="fb ok show";fb.innerHTML=`✅ 答對了！<b class="en">${esc(item.en)}</b> = ${esc(item.zh)}`+au;}
     else{o.classList.add("wrong");document.querySelectorAll(".opt").forEach(x=>{if(x.dataset.correct==="true")x.classList.add("correct");});
       fb.className="fb no show";fb.innerHTML=`正解：<b>${esc(correctVal)}</b>　（<span class="en">${esc(item.en)}</span> = ${esc(item.zh)}）`+au;}
@@ -4623,7 +4643,7 @@ function renderSpellQ(item,listen){
   speak(item.en);
   if(listen){
     document.getElementById("lReplay").addEventListener("click",()=>speak(item.en));
-    document.getElementById("lSlow").addEventListener("click",()=>speak(item.en,"en-US",0.5));
+    document.getElementById("lSlow").addEventListener("click",()=>speak(item.en,"en-US",R_SLOW));
     document.getElementById("lMean").addEventListener("change",e=>{document.getElementById("lMeanBox").textContent=e.target.checked?(item.full||item.zh):"";});
   }
   const inp=document.getElementById("spellIn");inp.focus();
@@ -4668,7 +4688,7 @@ function renderSpellQ(item,listen){
     const ok=raw.toLowerCase()===item.en.toLowerCase();
     const fb=document.getElementById("qfb");
     const exS=firstExOf(item.en);
-    const auS=fbAudioHtml([{l:"🔊 "+auLabel(item.en),t:item.en},{l:"🐢 慢速",t:item.en,r:.5},exS?{l:"🔊 例句",t:exS[0]}:null]);
+    const auS=fbAudioHtml([{l:"🔊 "+auLabel(item.en),t:item.en},{l:"🐢 慢速",t:item.en,r:R_SLOW},exS?{l:"🔊 例句",t:exS[0]}:null]);
     if(ok){fb.className="fb ok show";fb.innerHTML=`✅ 拼對了！<b class="en">${esc(item.en)}</b> <span class="en">${esc(item.kk||"")}</span> = ${esc(item.zh)}`+auS;}
     else{fb.className="fb no show";fb.innerHTML=`正確拼法：<b class="en">${esc(item.en)}</b> <span class="en">${esc(item.kk||"")}</span><br><span style="font-size:.85rem">你的拼法：<span class="en">${esc(raw)}</span></span>`+auS;}
     bindFbAudio();
@@ -4686,7 +4706,7 @@ function renderSpellQ(item,listen){
         fb.appendChild(box);
         box.querySelectorAll(".pf-cell").forEach(b=>b.onclick=()=>{
           const g=al.graphemes[+b.dataset.i];
-          speak(item.en,"en-US",0.42);
+          speak(item.en,"en-US",R_SLOW);
           if(g&&!g.silent){ const inf=phInfo(g.p);
             aeroSay(`<b>${esc(g.g.replace("_","-"))}</b> 這一格發 /${esc(g.p)}/<br><span class="ab-en">${inf?esc(inf.air):""}</span>`,"think",5000); }
         });
@@ -4714,7 +4734,7 @@ function renderClozeQ(item){
   document.querySelectorAll(".opt").forEach(o=>o.addEventListener("click",()=>{
     const correct=o.dataset.correct==="true";
     const fb=document.getElementById("qfb");
-    const auC=fbAudioHtml([{l:"🔊 整句",t:item.senFull},{l:"🐢 慢速",t:item.senFull,r:.55},{l:"🔊 "+auLabel(item.en),t:item.en}]);
+    const auC=fbAudioHtml([{l:"🔊 整句",t:item.senFull},{l:"🐢 慢速",t:item.senFull,r:R_SLOW},{l:"🔊 "+auLabel(item.en),t:item.en}]);
     if(correct){o.classList.add("correct");fb.className="fb ok show";fb.innerHTML=`✅ 答對了！<span class="en" style="font-size:.9rem">${esc(item.senFull)}</span>`+auC;}
     else{o.classList.add("wrong");document.querySelectorAll(".opt").forEach(x=>{if(x.dataset.correct==="true")x.classList.add("correct");});
       fb.className="fb no show";fb.innerHTML=`正解：<b class="en">${esc(item.en)}</b>（${esc(item.zh)}）<br><span class="en" style="font-size:.85rem">${esc(item.senFull)}</span>`+auC;}
@@ -4866,6 +4886,7 @@ function renderResult(){
 /* ===================== 聽說 + 錄音比對 ===================== */
 let spList=null,spPos=0,spRevealed=false,spLastURL=null;
 let recStream=null,recorder=null,recChunks=[],recognizer=null,recActive=false,lastTranscript="";
+let recStopping=false,recMaxTimer=null,recStopTimer=null,recSrDied=false;
 const IS_MOBILE=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(/Mac/.test(navigator.platform||"")&&navigator.maxTouchPoints>1);
 function pickRecMime(){
   if(!(window.MediaRecorder&&MediaRecorder.isTypeSupported))return "";
@@ -4890,7 +4911,7 @@ function renderSpeak(){
         <div class="sp-legend"><span class="lg-dot">•</span> <b>粗體＝重音字</b>（要念清楚、計滿分）　／　淡字＝弱讀　／　<i>斜體 a · the</i> 等冠詞不計分</div>
         <div class="sp-actions">
           <button class="b-listen" id="spListen">🔊 整句</button>
-          <button class="b-slow" id="spSlow">🐢 慢速</button>
+          <button class="b-slow" id="spSlow">🐢 慢速（約一半速度）</button>
           <button class="b-chunk" id="spChunkBtn">🧩 逐塊播放</button>
         </div>
         <div class="sp-chunks" id="spChunks"></div>
@@ -4916,7 +4937,7 @@ function renderSpeak(){
       <div class="sp-note">${srSupported?"按「開始錄音」朗讀英文句子，系統會用語音辨識比對你念到的字並評分。":"📱 此裝置以錄音回聽為主：按「開始錄音」朗讀，按「停止錄音」後即可用「▶ 我的錄音」與「🔊 範例」交互聆聽比對發音（語音辨識評分僅桌機 Chrome／Edge 支援）。"}</div>
     </div>`;
   document.getElementById("spListen").onclick=()=>{stopChunks();speak(s.en);};
-  document.getElementById("spSlow").onclick=()=>{stopChunks();speak(s.en,"en-US",0.62);};
+  document.getElementById("spSlow").onclick=()=>{stopChunks();speak(s.en,"en-US",R_SLOW);};
   document.getElementById("spChunkBtn").onclick=()=>playChunks(s);
   document.getElementById("spReveal").onclick=()=>{spRevealed=!spRevealed;renderSpeak();};
   document.getElementById("spPrev").onclick=()=>{if(spPos>0){spPos--;resetSp();renderSpeak();}};
@@ -4963,6 +4984,7 @@ function speakChunk(text,done){
   if(!("speechSynthesis" in window)){if(done)done();return;}
   try{ window.speechSynthesis.cancel(); }catch(e){ if(done)done(); return; }if(_wd){clearInterval(_wd);_wd=null;}
   const u=new SpeechSynthesisUtterance(text);u.lang="en-US";u.rate=.8;
+  try{ const vv=pickVoiceForRate("en-US",u.rate); if(vv)u.voice=vv; }catch(e){}
   u.onend=()=>{if(done)done();};u.onerror=()=>{if(done)done();};
   window.speechSynthesis.speak(u);
 }
@@ -5000,7 +5022,8 @@ async function toggleRec(s){
   stopChunks();
   const btn=document.getElementById("spRec");
   if(recActive){stopRec();return;}
-  recActive=true;btn.classList.add("recording");btn.textContent="⏹️ 停止錄音";lastTranscript="";
+  recActive=true;recStopping=false;recSrDied=false;
+  btn.classList.add("recording");btn.textContent="⏹️ 停止錄音";lastTranscript="";
   if(spLastURL){URL.revokeObjectURL(spLastURL);spLastURL=null;}
   const pbOld=document.getElementById("spPlayback");if(pbOld)pbOld.classList.remove("show");
   // MediaRecorder（回放）：明確挑選裝置支援的音訊格式（iOS 為 audio/mp4），並用 timeslice 確保行動裝置可靠取得資料
@@ -5020,17 +5043,38 @@ async function toggleRec(s){
   if(SR){
     try{recognizer=new SR();recognizer.lang="en-US";recognizer.interimResults=false;recognizer.maxAlternatives=1;
       recognizer.onresult=ev=>{lastTranscript=ev.results[0][0].transcript||"";};
-      recognizer.onerror=()=>{};
-      recognizer.onend=()=>{if(recActive)finishRec(s);};
+      recognizer.onerror=()=>{ recSrDied=true; };
+      /* 辨識結束不等於錄音該結束。辨識服務連不上、或它判定沒聽到聲音時，
+         onend 會提早觸發；以前這裡直接把錄音收掉，按下錄音鍵就像沒反應。
+         現在錄音只由使用者按停止（或 60 秒上限）結束，辨識提早收攤
+         只代表這一次拿不到文字，錄音照樣存得下來。 */
+      recognizer.onend=()=>{
+        recognizer=null;
+        if(recStopping)recDoFinish(s);
+        else recSrDied=true;
+      };
       recognizer.start();
-    }catch(e){}
+    }catch(e){ recSrDied=true; }
   }
+  /* 忘了按停止的保險 */
+  if(recMaxTimer)clearTimeout(recMaxTimer);
+  recMaxTimer=setTimeout(()=>{ if(recActive)stopRec(); },60000);
+}
+function recDoFinish(s){
+  if(recStopTimer){clearTimeout(recStopTimer);recStopTimer=null;}
+  if(!recActive)return;
+  recStopping=false;
+  finishRec(s||spList[spPos]);
 }
 function stopRec(){
-  recActive=false;
-  const btn=document.getElementById("spRec");if(btn){btn.classList.remove("recording");btn.textContent="🎙️ 開始錄音";}
-  if(recognizer){try{recognizer.stop();}catch(e){}}
-  else finishRec(spList[spPos]);
+  if(!recActive)return;
+  recStopping=true;
+  if(recMaxTimer){clearTimeout(recMaxTimer);recMaxTimer=null;}
+  if(recognizer){
+    try{ recognizer.stop(); }catch(e){ recognizer=null; }
+    /* onend 沒來的保險，免得停不下來 */
+    recStopTimer=setTimeout(()=>recDoFinish(spList[spPos]),900);
+  }else recDoFinish(spList[spPos]);
 }
 function finishRec(s){
   recActive=false;
@@ -5071,8 +5115,10 @@ function scoreAndShow(s){
   if(!lastTranscript){
     const srUsable=(("webkitSpeechRecognition" in window)||("SpeechRecognition" in window))&&!IS_MOBILE;
     box.className="sp-score show "+(srUsable?"low":"mid");
-    box.innerHTML=srUsable
+    box.innerHTML=(srUsable&&!recSrDied)
       ?`<div class="big">—</div><div class="sp-heard">沒有辨識到語音。請確認已允許麥克風後再試一次。</div>`
+      :recSrDied
+      ?`<div class="big">🎧</div><div class="sp-heard"><b>這次沒有取得辨識文字</b>（辨識服務連不上，或它判定沒聽到聲音），但<b>錄音已經存下來了</b>。按「▶ 我的錄音」與「🔊 範例」交互聆聽比對。</div>`
       :`<div class="big">🎧</div><div class="sp-heard">錄音完成！按「▶ 我的錄音」與「🔊 範例」交互聆聽，比對自己的發音。</div>`;
     return;}
   // 加權計分：冠詞權重 0、弱讀詞 0.4、重音字 1
@@ -5233,7 +5279,7 @@ function rdTip(html){
 function rdHighlight(i){
   document.querySelectorAll("#rdText .rs").forEach(el=>el.classList.toggle("on",+el.dataset.s===i));
 }
-function rdRate(){ return readSlow?.68:.9; }
+function rdRate(){ return readSlow?R_SLOW:R_NORM; }
 
 function bindRead(rid){
   const R=READINGS[rid];
@@ -5847,8 +5893,8 @@ function dcCorr(w,al){
       <button class="dc-orb" id="dcPlay">🔊</button>
       <div class="dc-say">先把整個字聽清楚</div>
       <div class="btn-line" style="justify-content:center">
-        <button class="btn btn-soft" id="dcSlow">🐢 慢速</button>
-        <button class="btn btn-soft" id="dcVslow">🐌 極慢</button>
+        <button class="btn btn-soft" id="dcSlow">🐢 慢速（約一半）</button>
+        <button class="btn btn-soft" id="dcVslow">🐌 極慢（約三分之一）</button>
       </div>
     </div>
     ${dcBoxes(al,1,sel)}
@@ -5857,10 +5903,10 @@ function dcCorr(w,al){
     <div class="dc-note">這一階<b>不播放單獨的音</b>——單獨唸子音一定會多出一個「ㄜ」，聽久了反而記錯。
       我們改用<b>真實單字的最小對比</b>：兩個字只差這一個音，差別就在你耳朵裡。</div>
     <button class="q-next show" id="dcGo">我聽清楚了 ›</button>`;
-  const play=()=>speak(w.w,"en-US",0.85);
+  const play=()=>speak(w.w,"en-US",R_NORM);
   document.getElementById("dcPlay").onclick=play;
-  document.getElementById("dcSlow").onclick=()=>speak(w.w,"en-US",0.5);
-  document.getElementById("dcVslow").onclick=()=>speak(w.w,"en-US",0.32);
+  document.getElementById("dcSlow").onclick=()=>speak(w.w,"en-US",R_SLOW);
+  document.getElementById("dcVslow").onclick=()=>speak(w.w,"en-US",R_VSLOW);
   const pickBox=(i)=>{
     dcState.data.corrSel=i;
     document.querySelectorAll("#dcStage .ek").forEach(e=>e.classList.toggle("on",+e.dataset.i===i));
@@ -5921,13 +5967,13 @@ function renderPhPanel(w,live,seq,i){
     document.querySelectorAll("#phPanel .mp").forEach(x=>x.classList.remove("on"));
     b.classList.add("on");
     tourPlay([
-      {t:b.dataset.a,lang:"en-US",rate:0.6,gap:520},
-      {t:b.dataset.b,lang:"en-US",rate:0.6,gap:520},
-      {t:b.dataset.a,lang:"en-US",rate:0.75,gap:420},
-      {t:b.dataset.b,lang:"en-US",rate:0.75,gap:300}
+      {t:b.dataset.a,lang:"en-US",rate:R_SLOW,gap:520},
+      {t:b.dataset.b,lang:"en-US",rate:R_SLOW,gap:520},
+      {t:b.dataset.a,lang:"en-US",rate:R_NORM,gap:420},
+      {t:b.dataset.b,lang:"en-US",rate:R_NORM,gap:300}
     ],null,()=>b.classList.remove("on"));
   });
-  document.querySelectorAll("#phPanel .ss").forEach(b=>b.onclick=()=>speak(b.dataset.s,"en-US",0.62));
+  document.querySelectorAll("#phPanel .ss").forEach(b=>b.onclick=()=>speak(b.dataset.s,"en-US",R_SLOW));
 }
 
 /* ② 切音 */
@@ -5943,7 +5989,7 @@ function dcSeg(w,al){
     <div class="seg-opts">${opts.map(k=>`<button class="seg-opt" data-n="${k}">${k}</button>`).join("")}</div>
     <div class="fb" id="dcFb"></div>
     <div id="dcAfter"></div>`;
-  const play=()=>speak(w.w,"en-US",0.72);
+  const play=()=>speak(w.w,"en-US",R_NORM);
   document.getElementById("dcPlay").onclick=play;
   setTimeout(play,300);
   document.querySelectorAll(".seg-opt").forEach(b=>b.onclick=()=>{
@@ -5966,9 +6012,9 @@ function dcSeg(w,al){
     document.getElementById("dcSeq").onclick=()=>{
       /* 不唸孤立音素：以極慢→慢→正常三次播放同一個字，音的邊界自然浮現 */
       tourPlay([
-        {t:w.w,lang:"en-US",rate:0.3,gap:560},
-        {t:w.w,lang:"en-US",rate:0.5,gap:480},
-        {t:w.w,lang:"en-US",rate:0.85,gap:300}
+        {t:w.w,lang:"en-US",rate:R_VSLOW,gap:560},
+        {t:w.w,lang:"en-US",rate:R_SLOW,gap:480},
+        {t:w.w,lang:"en-US",rate:R_NORM,gap:300}
       ],(i)=>{
         const lab=["極慢","慢速","正常"][i]||"";
         const el=document.getElementById("dcSpeedLab"); if(el)el.textContent=lab;
@@ -5998,15 +6044,15 @@ function dcBlend(w,al){
     /* 合音是速度的連續體：從極慢拉開，逐步收攏成一個字 */
     document.querySelectorAll(".bs").forEach(e=>e.classList.remove("join"));
     tourPlay([
-      {t:w.w,lang:"en-US",rate:0.28,gap:600},
-      {t:w.w,lang:"en-US",rate:0.45,gap:520}
+      {t:w.w,lang:"en-US",rate:R_VSLOW,gap:600},
+      {t:w.w,lang:"en-US",rate:R_SLOW,gap:520}
     ],null,null);
   };
   document.getElementById("dcBlendBtn").onclick=()=>{
     document.querySelectorAll(".bs").forEach(e=>e.classList.add("join"));
-    speak(w.w,"en-US",0.8);
+    speak(w.w,"en-US",R_NORM);
   };
-  setTimeout(()=>speak(w.w,"en-US",0.82),320);
+  setTimeout(()=>speak(w.w,"en-US",R_NORM),320);
   document.querySelectorAll(".q-opts .opt").forEach(b=>b.onclick=()=>{
     const ok=b.dataset.v===shortZh(w);
     document.querySelectorAll(".q-opts .opt").forEach(x=>{
@@ -6040,7 +6086,7 @@ function dcDecode(w,al){
     <div id="dcWork"></div>
     <div class="fb" id="dcFb"></div>
     <div id="dcAfter"></div>`;
-  document.getElementById("dcPlay").onclick=()=>speak(w.w,"en-US",0.85);
+  document.getElementById("dcPlay").onclick=()=>speak(w.w,"en-US",R_NORM);
   host.querySelectorAll(".lv-b").forEach(b=>b.onclick=()=>{ dcState.data.lv=+b.dataset.lv; dcDecode(w,al); });
   const work=document.getElementById("dcWork");
 
@@ -6057,7 +6103,7 @@ function dcDecode(w,al){
       work.querySelectorAll(".mg").forEach(x=>x.classList.remove("on")); b.classList.add("on");
       if(g.silent){ aeroSay("這個字母<b>不發音</b>，但要寫出來 ✍️","think",3200); return; }
       const inf=phInfo(g.p);
-      speak(w.w,"en-US",0.4);                 /* 放慢整字，讓這一格自然凸顯 */
+      speak(w.w,"en-US",R_SLOW);                 /* 放慢整字，讓這一格自然凸顯 */
       aeroSay(`<b>${esc(g.g.replace("_","-"))}</b> 發 /${esc(g.p)}/　${inf?esc(inf.m):""}<br>
         <span class="ab-en">${inf?esc(inf.air):""}</span>`,"think",5200);
     });
@@ -6092,12 +6138,12 @@ function dcDecode(w,al){
       <button class="q-next show" id="dcGo">下一階：對映 ›</button>`;
     document.querySelectorAll("#dcAfter .pf-cell").forEach(b=>b.onclick=()=>{
       const g=al.graphemes[+b.dataset.i];
-      speak(w.w,"en-US",0.42);
+      speak(w.w,"en-US",R_SLOW);
       if(g&&!g.silent){ const inf=phInfo(g.p);
         aeroSay(`<b>${esc(g.g.replace("_","-"))}</b> 這一格發 /${esc(g.p)}/<br><span class="ab-en">${inf?esc(inf.air):""}</span>`,"think",5000); }
     });
     dcState.data.decOk=ok; dcState.data.decLv=lv;
-    speak(w.w,"en-US",0.85);
+    speak(w.w,"en-US",R_NORM);
     document.getElementById("dcGo").onclick=()=>{ stopSeq(); dcNext(); };
   };
   document.getElementById("dcSubmit").onclick=submit;
@@ -6154,7 +6200,8 @@ function dcMap(w,al){
         ${voxBtnHtml(w.w,"omVox")}
       </div>
       <div class="cf-foot" style="text-align:center;margin-top:6px;border:0;padding:0">
-        整字播放預設為合成語音。錄一次真人音，之後這個字就改播真人音。</div>
+        整字播放預設為合成語音。按<b>🎤 錄音</b>錄一次自己的聲音（最長 4 秒，再按一下可提早停止），
+        用<b>▶︎ 回聽</b>聽自己錄的。錄過之後，這個字就改播你的真人音。</div>
     </div>
     <div class="sr-card">
       <div class="sr-h">📅 間隔提取已排程</div>
@@ -6166,13 +6213,13 @@ function dcMap(w,al){
       <button class="btn btn-primary" id="dcNextWord" style="flex:1">下一個字 ›</button>
       <button class="btn btn-soft" id="dcDone">回到字表</button>
     </div>`;
-  document.getElementById("omSay").onclick=()=>speak(w.w,"en-US",0.85);
+  document.getElementById("omSay").onclick=()=>speak(w.w,"en-US",R_NORM);
   document.getElementById("omSeq").onclick=()=>{
-    tourPlay([{t:w.w,lang:"en-US",rate:0.32,gap:520},
-              {t:w.w,lang:"en-US",rate:0.55,gap:440},
-              {t:w.w,lang:"en-US",rate:0.85,gap:260}],null,null);
+    tourPlay([{t:w.w,lang:"en-US",rate:R_VSLOW,gap:520},
+              {t:w.w,lang:"en-US",rate:R_SLOW,gap:440},
+              {t:w.w,lang:"en-US",rate:R_NORM,gap:260}],null,null);
   };
-  if(ex)document.getElementById("omEx").onclick=()=>speak(ex[0],"en-US",0.9);
+  if(ex)document.getElementById("omEx").onclick=()=>speak(ex[0],"en-US",R_NORM);
   bindVoxBtn("omVox");
   creditActivity("cards");
   if(allOk){ addStars(3,"完成解碼五階"); aeroQuote("read"); } else aeroQuote("weak");
@@ -6323,8 +6370,8 @@ function openQuote(n){
 function quoteSteps(q){
   return [
     {k:"zh",  sel:"Zh",   t:q.zh,   lang:"zh-TW", rate:.98, gap:420, lab:"中文"},
-    {k:"en1", sel:"En",   t:q.en,   lang:"en-US", rate:.62, gap:380, lab:"英文 ‧ 慢"},
-    {k:"en2", sel:"En",   t:q.en,   lang:"en-US", rate:.95, gap:420, lab:"英文 ‧ 正常"},
+    {k:"en1", sel:"En",   t:q.en,   lang:"en-US", rate:R_SLOW, gap:380, lab:"英文 ‧ 慢"},
+    {k:"en2", sel:"En",   t:q.en,   lang:"en-US", rate:R_NORM, gap:420, lab:"英文 ‧ 正常"},
     {k:"note",sel:"Note", t:q.note, lang:"zh-TW", rate:1,   gap:260, lab:"補充"}
   ];
 }
@@ -6949,7 +6996,7 @@ const DS_NOT=[
    不可退讓的部分寫在程式裡，不提供關閉選項。 */
 
 /* ---------- 設定存取 ---------- */
-const OPT_DEF={human:1,voice:"",depth:"full",reward:1,plain:0,conf:1,srDays:null};
+const OPT_DEF={human:1,voice:"",depth:"full",reward:1,plain:0,conf:1,srDays:null,slowlocal:1};
 function OPTS(){ if(!DB.opt)DB.opt={}; return DB.opt; }
 function OPTV(k){ const o=OPTS(); return (o[k]===undefined||o[k]===null&&k!=="srDays"&&k!=="voice")?OPT_DEF[k]:o[k]; }
 function OPTSET(k,v){ OPTS()[k]=v; save(); }
@@ -7072,7 +7119,7 @@ function voxPlay(t,rate){
     try{
       if(_voxAudio){ try{_voxAudio.pause();}catch(e){} }
       const url=URL.createObjectURL(b),a=new Audio(url);
-      a.playbackRate=Math.max(.5,Math.min(1,rate||1));
+      a.playbackRate=Math.max(.35,Math.min(1,rate||1));   /* 下限放寬，否則慢速會被卡回 0.5 */
       _voxAudio=a; a.onended=()=>{try{URL.revokeObjectURL(url);}catch(e){}};
       a.play().catch(()=>{});
     }catch(e){}
@@ -7102,39 +7149,101 @@ function voxRecord(word,onState){
 function enVoices(){
   try{ return (speechSynthesis.getVoices()||[]).filter(v=>/^en/i.test(v.lang||"")); }catch(e){ return []; }
 }
+/* 挑音色：優先 Google US English。
+   這個音色是 Chrome 內建的（桌機與 Android 都有）；iPhone／iPad 的 Safari 用的是
+   Apple 自己的音色，沒有這一支，所以下面排了一串退路，找不到也不會變成無聲或唸成別國腔。
+   使用者若在「我的 → 設定」自己挑過音色，那個選擇仍然最優先。 */
+const VOICE_WANT=["google us english","google us english female","google us english male"];
 function pickVoice(lang){
   if(!/^en/i.test(lang||""))return null;
   const list=enVoices(); if(!list.length)return null;
   const want=OPTV("voice");
   if(want){ const f=list.find(v=>v.voiceURI===want||v.name===want); if(f)return f; }
-  return null;
+  const lc=v=>(v.name||"").toLowerCase();
+  for(const n of VOICE_WANT){ const f=list.find(v=>lc(v)===n); if(f)return f; }
+  /* 退路的順序：口音比廠牌重要。這是美式發音教材，
+     有 Google UK 卻沒有 Google US 時，要選本機的美式音色，不是英式的 Google。 */
+  return list.find(v=>/google/i.test(v.name||"")&&/^en[-_]?us/i.test(v.lang||""))
+      || list.find(v=>/^en[-_]?us/i.test(v.lang||""))
+      || list.find(v=>/google/i.test(v.name||""))
+      || list[0] || null;
+}
+/* 這台裝置到底有沒有 Google US English，設定頁要照實說 */
+/* 本機音色（作業系統合成）幾乎都會照做 rate；網路音色常常不理會。 */
+function localEnVoices(){ return enVoices().filter(v=>v.localService); }
+/* 依語速挑音色：正常速照偏好；放慢時若目前是網路音色，改用本機音色，
+   否則會發生「按了慢速卻完全沒變慢」。可在設定裡關掉這個行為。 */
+function pickVoiceForRate(lang,rate){
+  const v=pickVoice(lang);
+  if(!v)return null;
+  if(!(rate<0.8))return v;                        /* 正常速：不動 */
+  if(OPTV("slowlocal")===0)return v;              /* 使用者關掉了自動切換 */
+  if(v.localService)return v;                     /* 本機音色，本來就會照做 */
+  const loc=localEnVoices();
+  return loc.find(x=>/^en[-_]?us/i.test(x.lang||"")) || loc[0] || v;
+}
+/* 慢速實際會用到哪一支，設定頁要說出來 */
+function slowVoiceName(){
+  const v=pickVoiceForRate("en-US",0.45);
+  return v?v.name:null;
+}
+function hasGoogleUS(){
+  return enVoices().some(v=>(v.name||"").toLowerCase().indexOf("google us english")===0);
 }
 function voiceSrcLabel(){
   const list=enVoices();
   if(!list.length)return {ok:false,txt:"這台裝置沒有安裝英語語音，整字播放可能不會發聲或會用非英語語音唸英文。請在系統設定加裝英語語音，或改用下方的真人錄音。"};
   const v=pickVoice("en-US")||list[0];
-  return {ok:true,txt:`目前整字播放使用合成語音：<b>${esc(v.name)}</b>（${esc(v.lang)}）。合成語音不等於真人示範。`};
+  const g=hasGoogleUS();
+  const sv=slowVoiceName(), diff=(sv&&sv!==v.name);
+  return {ok:true,txt:`正常語速使用：<b>${esc(v.name)}</b>（${esc(v.lang)}）。`+
+    (diff?`<br>慢速改用：<b>${esc(sv)}</b>——因為前者是<b>網路合成</b>的音色，
+          速度由伺服器決定，網頁設定的語速常常不會被採用。`
+         :(v.localService?"":`<br><b>注意：這是網路合成的音色，慢速可能不會真的變慢。</b>
+          這台裝置沒有可用的本機英語音色，慢速請改用真人錄音。`))+
+    (g?"（已指定 Google US English）"
+      :"<br><b>這台裝置沒有 Google US English</b>——它只有 Chrome 才內建，Safari 用的是 Apple 的音色。"+
+       "已自動改用這台裝置上最接近的美式英語音色。")+
+    "　合成語音不等於真人示範。"};
 }
 /* 錄音按鈕（可放在任何單字旁） */
+/* 錄音與回聽拆成兩顆鍵。
+   舊版是一顆鍵輪流切換，而且只要已經錄過，第一下按的是「播放」不是「錄音」——
+   想重錄得按兩次。現在錄音鍵永遠是錄音，回聽鍵永遠是回聽。 */
 function voxBtnHtml(word,id){
   const has=voxHas(word);
-  return `<button class="vox-btn ${has?"has":""}" id="${id}" data-vw="${esc(word)}" title="錄真人音">
-    ${has?"🎤 已有真人音":"🎤 錄真人音"}</button>`;
+  return `<button class="vox-btn" id="${id}" data-vw="${esc(word)}" title="按一下開始錄音，再按一下停止">🎤 錄音</button>` +
+    `<button class="vox-btn play" id="${id}_p" data-vw="${esc(word)}" ${has?"":"disabled"}
+       title="聽自己剛才錄的">▶︎ 回聽</button>`;
 }
 function bindVoxBtn(id,after){
   const b=document.getElementById(id); if(!b)return;
+  const p=document.getElementById(id+"_p");
+  const w=b.dataset.vw;
+  const syncPlay=()=>{ if(!p)return; const has=voxHas(w); p.disabled=!has;
+    p.classList.toggle("has",has); p.textContent="▶︎ 回聽"; };
+  syncPlay();
+  /* 錄音鍵：按下就錄，不論之前有沒有錄過。再按一下停止。 */
   b.onclick=()=>{
-    const w=b.dataset.vw;
-    if(voxHas(w)&&!b.classList.contains("armed")){
-      b.classList.add("armed"); b.textContent="▶︎ 試聽 ‧ 再按一次重錄"; voxPlay(w,1); return;
-    }
     voxRecord(w,s=>{
-      if(s==="rec"){ b.classList.remove("armed"); b.classList.add("rec"); b.textContent="⏺ 錄音中…（再按停止）"; }
-      else if(s==="saved"){ b.classList.remove("rec","armed"); b.classList.add("has"); b.textContent="✓ 已存真人音"; if(after)after(); }
-      else if(s==="denied"){ b.classList.remove("rec","armed"); b.textContent="✕ 沒有麥克風權限"; }
-      else if(s==="unsupported"){ b.classList.remove("rec","armed"); b.textContent="✕ 此瀏覽器不支援錄音"; }
-      else { b.classList.remove("rec","armed"); b.textContent="✕ 錄音失敗，再試一次"; }
+      if(s==="rec"){ b.classList.add("rec"); b.textContent="⏺ 錄音中…（按一下停止）"; }
+      else if(s==="saved"){
+        b.classList.remove("rec"); b.classList.add("has"); b.textContent="✓ 已錄好，可重錄";
+        syncPlay(); if(after)after();
+        setTimeout(()=>{ if(b.isConnected){ b.classList.remove("has"); b.textContent="🎤 重錄"; } },1800);
+      }
+      else if(s==="denied"){ b.classList.remove("rec"); b.textContent="✕ 沒有麥克風權限"; }
+      else if(s==="unsupported"){ b.classList.remove("rec"); b.textContent="✕ 此瀏覽器不支援錄音"; }
+      else if(s==="empty"){ b.classList.remove("rec"); b.textContent="✕ 沒錄到聲音，再試一次"; }
+      else { b.classList.remove("rec"); b.textContent="✕ 錄音失敗，再試一次"; }
     });
+  };
+  /* 回聽鍵：只做回聽，不會變成重錄 */
+  if(p)p.onclick=()=>{
+    if(!voxHas(w))return;
+    p.classList.add("playing"); p.textContent="▶︎ 播放中…";
+    voxPlay(w,1);
+    setTimeout(()=>{ if(p.isConnected){ p.classList.remove("playing"); p.textContent="▶︎ 回聽"; } },1500);
   };
 }
 
@@ -7284,6 +7393,28 @@ function settingsHtml(){
     </div>
 
     <div class="st-item">
+      <div class="st-h"><b>⑤· 慢速自動換本機語音</b>
+        <label class="sw"><input type="checkbox" id="optSlowLocal" ${OPTV("slowlocal")?"checked":""}><i></i></label></div>
+      <div class="st-d">網路合成的音色（Chrome 的 Google 系列）速度由伺服器決定，
+        網頁設定的語速常常不被採用——按了慢速卻沒變慢，多半就是這個原因。
+        開啟後，<b>只有放慢時</b>會改用作業系統內建的本機音色，正常語速仍然用你指定的那一支。</div>
+      <div class="st-lim">關掉的話，慢速會沿用正常速那一支音色，速度可能沒有變化。</div>
+    </div>
+
+    <div class="st-item">
+      <div class="st-h"><b>⑤·· 語速試聽</b></div>
+      <div class="st-d">按順序聽一次，確認這台裝置分得出兩種速度。
+        若兩顆聽起來仍然一樣，代表這台裝置的語音引擎不理會語速設定——
+        此時唯一可靠的慢速來源是<b>真人錄音</b>：錄音的播放速度由瀏覽器的播放器控制，一定有效。</div>
+      <div class="btn-line" style="margin-top:9px">
+        <button class="btn btn-soft" id="rateNorm">🔊 正常語速</button>
+        <button class="btn btn-soft" id="rateSlow">🐢 慢速</button>
+        <button class="btn btn-soft" id="rateBoth">▶︎ 連著聽</button>
+      </div>
+      <div class="st-src" id="rateWho"></div>
+    </div>
+
+    <div class="st-item">
       <div class="st-h"><b>⑥ 評估模式（成人樸素介面）</b>
         <label class="sw"><input type="checkbox" id="optPlain" ${OPTV("plain")?"checked":""}><i></i></label></div>
       <div class="st-d">隱藏吉祥物、對話泡泡與分頁圖示，供要評估這個工具的成人使用。教學內容完全相同。</div>
@@ -7300,8 +7431,27 @@ function bindSettings(){
   on("optHuman",e=>{ OPTSET("human",e.target.checked?1:0); });
   on("optReward",e=>{ OPTSET("reward",e.target.checked?1:0); applyMode(); renderMe(); });
   on("optPlain",e=>{ OPTSET("plain",e.target.checked?1:0); applyMode(); renderMe(); });
+  on("optSlowLocal",e=>{ OPTSET("slowlocal",e.target.checked?1:0); renderMe(); });
+  const SAMPLE="This is the normal speed. Listen to the difference.";
+  const rn=document.getElementById("rateNorm");
+  if(rn)rn.onclick=()=>speak(SAMPLE,"en-US",R_NORM);
+  const rs=document.getElementById("rateSlow");
+  if(rs)rs.onclick=()=>speak(SAMPLE,"en-US",R_SLOW);
+  const showV=(r)=>{ const el=document.getElementById("rateWho"); if(!el)return;
+    const v=pickVoiceForRate("en-US",r);
+    el.textContent=v?("這次用的是："+v.name):"這次用的是：瀏覽器預設音色"; };
+  if(rn)rn.addEventListener("click",()=>showV(R_NORM));
+  if(rs)rs.addEventListener("click",()=>showV(R_SLOW));
+  const rb=document.getElementById("rateBoth");
+  if(rb)rb.onclick=()=>{
+    tourPlay([{t:SAMPLE,lang:"en-US",rate:R_NORM,gap:700},
+              {t:SAMPLE,lang:"en-US",rate:R_SLOW,gap:400}]);
+    const el=document.getElementById("rateWho");
+    if(el){ const a=pickVoiceForRate("en-US",R_NORM), b=pickVoiceForRate("en-US",R_SLOW);
+      el.textContent="正常速："+(a?a.name:"瀏覽器預設")+"　／　慢速："+(b?b.name:"瀏覽器預設"); }
+  };
   const sv=document.getElementById("optVoice");
-  if(sv)sv.onchange=()=>{ OPTSET("voice",sv.value); speak("This is the selected voice.","en-US",.95); };
+  if(sv)sv.onchange=()=>{ OPTSET("voice",sv.value); speak("This is the selected voice.","en-US",R_NORM); };
   document.querySelectorAll("[data-depth]").forEach(b=>b.onclick=()=>{ OPTSET("depth",b.dataset.depth); renderMe(); });
   const ss=document.getElementById("srdSave");
   if(ss)ss.onclick=()=>{
@@ -8043,9 +8193,9 @@ function spBindBack(){
 }
 /* 放慢整個字（不唸孤立音素），讓音的邊界自然浮現 */
 function spSlow(word){
-  tourPlay([{t:word,lang:"en-US",rate:0.3,gap:520},
-            {t:word,lang:"en-US",rate:0.55,gap:430},
-            {t:word,lang:"en-US",rate:0.9,gap:260}]);
+  tourPlay([{t:word,lang:"en-US",rate:R_VSLOW,gap:520},
+            {t:word,lang:"en-US",rate:R_SLOW,gap:430},
+            {t:word,lang:"en-US",rate:R_NORM,gap:260}]);
 }
 
 /* ─────────────── 活動 1：聽音拼字 ─────────────── */
@@ -8083,7 +8233,7 @@ function spA1(area){
       <div class="sp-note">放慢的是<b>整個字</b>，不是把音一個一個唸出來。
         孤立唸 /p/ 會變成「ㄆㄜ」，學生把那個多出來的 ㄜ 一起記進去，拼字就會多字母。</div>
       <button class="sp-next" id="spGo">我聽清楚了 ›</button>`;
-    const play=()=>speak(w.w,"en-US",0.8);
+    const play=()=>speak(w.w,"en-US",R_NORM);
     document.getElementById("spPlay").onclick=play;
     document.getElementById("spSlow").onclick=()=>spSlow(w.w);
     setTimeout(play,300);
@@ -8100,7 +8250,7 @@ function spA1(area){
       <div class="sp-nums">${opts.map(k=>`<button class="sp-num" data-n="${k}">${k}</button>`).join("")}</div>
       <div class="sp-fb" id="spFb"></div>
       <div id="spAfter"></div>`;
-    document.getElementById("spPlay").onclick=()=>speak(w.w,"en-US",0.8);
+    document.getElementById("spPlay").onclick=()=>speak(w.w,"en-US",R_NORM);
     card.querySelectorAll(".sp-num").forEach(b=>b.onclick=()=>{
       const v=+b.dataset.n, ok=v===n;
       card.querySelectorAll(".sp-num").forEach(x=>{ x.disabled=true;
@@ -8138,7 +8288,7 @@ function spA1(area){
       </div>
       <div class="sp-fb" id="spFb"></div>
       <div id="spAfter"></div>`;
-    document.getElementById("spPlay").onclick=()=>speak(w.w,"en-US",0.8);
+    document.getElementById("spPlay").onclick=()=>speak(w.w,"en-US",R_NORM);
     document.getElementById("spSlow").onclick=()=>spSlow(w.w);
     document.getElementById("spUndo").onclick=()=>{ (st.d.order||[]).pop(); renderSpell(); };
     card.querySelectorAll(".sp-chip").forEach(b=>b.onclick=()=>{
@@ -8178,7 +8328,7 @@ function spA1(area){
     ${shown?spSplitNote(cells,w.w):""}
     <div class="sp-fb" id="spFb"></div>
     <div id="spAfter"></div>`;
-  document.getElementById("spPlay").onclick=()=>speak(w.w,"en-US",0.8);
+  document.getElementById("spPlay").onclick=()=>speak(w.w,"en-US",R_NORM);
   if(!shown){
     const ins=[...card.querySelectorAll("input")];
     ins.forEach(el=>{ el.oninput=()=>{
@@ -8343,7 +8493,7 @@ function spA2(area){
         <div id="spAfter"></div>
       </div>`;
     spBindBack(); bindTabs();
-    document.getElementById("spSay").onclick=()=>speak(it.w.w,"en-US",0.85);
+    document.getElementById("spSay").onclick=()=>speak(it.w.w,"en-US",R_NORM);
     if(!justAnswered){
       area.querySelectorAll(".sp-col").forEach(c=>c.onclick=()=>{
         const pick=c.dataset.g, ok=pick===it.g;
@@ -8393,7 +8543,7 @@ function spA2(area){
       </div>`;
     spBindBack(); bindTabs();
     document.getElementById("spAll").onclick=()=>{
-      const seq=[]; cols.forEach(k=>byG[k].forEach(x=>seq.push({t:x.w.w,lang:"en-US",rate:0.85,gap:380})));
+      const seq=[]; cols.forEach(k=>byG[k].forEach(x=>seq.push({t:x.w.w,lang:"en-US",rate:R_NORM,gap:380})));
       tourPlay(seq); };
     const go=document.getElementById("spGo");
     if(go)go.onclick=()=>{ stopSeq(); st.phase=2; st.ai=0; st.apicks=[]; renderSpell();
@@ -8443,7 +8593,7 @@ function spA2(area){
       <div id="spAfter"></div>
     </div>`;
   spBindBack(); bindTabs();
-  document.getElementById("spSay").onclick=()=>speak(it.w.w,"en-US",0.85);
+  document.getElementById("spSay").onclick=()=>speak(it.w.w,"en-US",R_NORM);
   if(!answered){
     area.querySelectorAll(".sp-chip").forEach(c=>c.onclick=()=>{
       const pick=c.dataset.g, ok=pick===it.g;
@@ -8496,9 +8646,9 @@ function spA3(area){
       </div>
       <div class="sp-note">先<b>出聲讀</b>，不是默看。嘴巴動過，等一下蓋起來才有東西可以回想。</div>
       <button class="sp-next" id="spGo">我讀出來了，蓋起來 ›</button>`;
-    document.getElementById("spSay").onclick=()=>speak(w.w,"en-US",0.85);
+    document.getElementById("spSay").onclick=()=>speak(w.w,"en-US",R_NORM);
     document.getElementById("spSlow").onclick=()=>spSlow(w.w);
-    setTimeout(()=>speak(w.w,"en-US",0.85),300);
+    setTimeout(()=>speak(w.w,"en-US",R_NORM),300);
     document.getElementById("spGo").onclick=()=>{ stopSeq(); st.step=1; renderSpell(); };
     return;
   }
@@ -8513,7 +8663,7 @@ function spA3(area){
         工具擋得掉<b>順手抄</b>，擋不掉<b>刻意查</b>——這一步真正要的是你自己不去看。</div>
       <div class="sp-row"><button class="sp-btn" id="spSay">🔊 再聽一次聲音</button></div>
       <button class="sp-next" id="spGo">開始拆音 ›</button>`;
-    document.getElementById("spSay").onclick=()=>speak(w.w,"en-US",0.85);
+    document.getElementById("spSay").onclick=()=>speak(w.w,"en-US",R_NORM);
     document.getElementById("spGo").onclick=()=>{ stopSeq(); st.step=2; renderSpell(); };
     return;
   }
@@ -8537,7 +8687,7 @@ function spA3(area){
       document.getElementById("spAfter").innerHTML=
         `<div class="sp-row"><button class="sp-btn" id="spSay">🔊 再聽一次</button></div>
          <button class="sp-next" id="spGo">寫出來 ›</button>`;
-      document.getElementById("spSay").onclick=()=>speak(w.w,"en-US",0.85);
+      document.getElementById("spSay").onclick=()=>speak(w.w,"en-US",R_NORM);
       document.getElementById("spGo").onclick=()=>{ stopSeq(); st.step=3; renderSpell(); };
     });
     return;
@@ -8553,7 +8703,7 @@ function spA3(area){
         中間有「…」的那一格是<b>分裂形素</b>：兩個字母被子音隔開，但算同一個音。</div>
       <div class="sp-row"><button class="sp-btn" id="spSay">🔊 再聽一次</button></div>
       <button class="sp-next" id="spGo">掀開對照 ›</button>`;
-    document.getElementById("spSay").onclick=()=>speak(w.w,"en-US",0.85);
+    document.getElementById("spSay").onclick=()=>speak(w.w,"en-US",R_NORM);
     const ins=[...card.querySelectorAll("input")];
     ins.forEach(el=>{ el.oninput=()=>{
       st.d.ans=st.d.ans||[]; const i=+el.dataset.i;
@@ -8596,9 +8746,9 @@ function spA3(area){
       <button class="sp-btn" id="spSlow">🐌 放慢</button>
     </div>
     <button class="sp-next gold" id="spGo">下一個字 ›</button>`;
-  document.getElementById("spSay").onclick=()=>speak(w.w,"en-US",0.85);
+  document.getElementById("spSay").onclick=()=>speak(w.w,"en-US",R_NORM);
   document.getElementById("spSlow").onclick=()=>spSlow(w.w);
-  setTimeout(()=>speak(w.w,"en-US",0.85),300);
+  setTimeout(()=>speak(w.w,"en-US",R_NORM),300);
   document.getElementById("spGo").onclick=()=>{
     stopSeq();
     if(!allOK)st.queue.push(w);
