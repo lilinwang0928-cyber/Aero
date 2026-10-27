@@ -15,6 +15,12 @@
 <meta name="apple-mobile-web-app-title" content="Aero 背單字">
 <meta name="format-detection" content="telephone=no">
 <title>互動背單字學習平台 ‧ Aero 語音 × 認知教練</title>
+<script>
+/* 深淺色：先套用，避免開頁時閃一下白底 */
+(function(){try{var t=localStorage.getItem("aero_theme");
+  if(t!=="dark"&&t!=="light")t=(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";
+  document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","light");}})();
+</script>
 <style>
   :root{
     --ink:#1e3a5f; --sage:#4a90c2; --mist:#e4eef8; --mist-2:#cfe1f2;
@@ -1387,6 +1393,230 @@ body.noreward .star-hud{display:none}
     nav{right:max(10px,calc((100vw - 860px)/2 - 58px))}
   }
 </style>
+<style id="darkTheme">
+  /* 標題列右側小工具：深淺色、重新整理 */
+  .hd-tool{flex:0 0 auto;width:36px;height:36px;border-radius:10px;border:1px solid #3d6394;background:#2b4d78;color:#eaf2fb;
+    font-size:1.05rem;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;transition:.15s}
+  .hd-tool:hover{background:#355d8f}
+  .hd-tool:focus-visible{outline:2px solid #8fe0f8;outline-offset:2px}
+  .hd-tool.spin span{display:inline-block;animation:hdspin .8s linear infinite}
+  @keyframes hdspin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.hd-tool.spin span{animation:none}}
+  /* 跨裝置搬移 */
+  .mv-box textarea{width:100%;min-height:92px;font:inherit;font-size:.78rem;border:1.5px solid var(--line);border-radius:10px;
+    padding:8px 10px;background:var(--paper);color:var(--text);resize:vertical;word-break:break-all}
+  .mv-msg{font-size:.8rem;margin-top:8px;color:var(--muted)}
+  .mv-msg.ok{color:var(--green-ok);font-weight:700}.mv-msg.no{color:var(--coral);font-weight:700}
+  .mv-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .mv-row .btn{flex:1 1 140px}
+  .mv-chk{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--muted);margin-top:8px}
+
+:root[data-theme="dark"] body{background:radial-gradient(circle at 12% -5%,#18222a 0,transparent 40%),
+      radial-gradient(circle at 92% 8%,rgba(63,182,224,.16) 0,transparent 34%),
+      radial-gradient(circle at 6% 96%,rgba(123,110,240,.10) 0,transparent 32%),var(--cream)}
+:root[data-theme="dark"] .brand-aero{border:2px solid rgba(45,82,93,0.55);background:linear-gradient(150deg,#18222a,#204153)}
+:root[data-theme="dark"] .chip{background:#18222a}
+:root[data-theme="dark"] .chip.on{background:#2c5a88}
+:root[data-theme="dark"] .front{background:radial-gradient(circle at 50% 22%,#152e39 0,#18222a 42%),linear-gradient(160deg,#18222a 0,#16283b 100%)}
+:root[data-theme="dark"] .num-badge{background:#2c5a88}
+:root[data-theme="dark"] .speak-btn:hover{background:#2c5a88}
+:root[data-theme="dark"] .back{background:linear-gradient(160deg,#18222a 0,#182b3e 100%)}
+:root[data-theme="dark"] .tour-btn.on{background:#2c5a88}
+:root[data-theme="dark"] .nav-btn{background:#18222a}
+:root[data-theme="dark"] .search-wrap input{background:#18222a}
+:root[data-theme="dark"] .row{background:#18222a}
+:root[data-theme="dark"] .seg button{background:#18222a}
+:root[data-theme="dark"] .seg button.sel{background:#2c5a88}
+:root[data-theme="dark"] .opt{background:#18222a}
+:root[data-theme="dark"] .fb-play{background:rgba(24,34,42,0.72)}
+:root[data-theme="dark"] .fb-play:hover{background:#18222a}
+:root[data-theme="dark"] .q-next{background:#2c5a88}
+:root[data-theme="dark"] .g-trophy{background:#2c5a88}
+:root[data-theme="dark"] .g-star.on{border-color:#454545}
+:root[data-theme="dark"] .g-chip.pts{background:#2c5a88}
+:root[data-theme="dark"] .g-milestone{background:#2c5a88}
+:root[data-theme="dark"] .wl-item{background:#18222a}
+:root[data-theme="dark"] .result button.ghost{background:#18222a}
+:root[data-theme="dark"] .sp-card{background:#18222a}
+:root[data-theme="dark"] .b-listen:hover{background:#2c5a88}
+:root[data-theme="dark"] .b-replay{background:#18222a}
+:root[data-theme="dark"] .sp-score.mid{background:#47381b}
+:root[data-theme="dark"] .stat-card{background:#18222a}
+:root[data-theme="dark"] .tasks{background:#18222a}
+:root[data-theme="dark"] .block{background:#18222a;box-shadow:0 1px 3px rgba(0,0,0,0.11)}
+:root[data-theme="dark"] .btn-primary{background:#2c5a88}
+:root[data-theme="dark"] .spell-row input{background:#18222a}
+:root[data-theme="dark"] .spell-row button{background:#2c5a88}
+:root[data-theme="dark"] .wl-item .fb-play:hover{background:#18222a}
+:root[data-theme="dark"] .b-chunk{background:#2c5a88}
+:root[data-theme="dark"] .ck.now{background:#2c5a88}
+:root[data-theme="dark"] .listen-ctrls button{background:#18222a}
+:root[data-theme="dark"] .forms-grid .fgiven{background:#47381b}
+:root[data-theme="dark"] .forms-go{background:#2c5a88}
+:root[data-theme="dark"] .vtoggle{background:#18222a}
+:root[data-theme="dark"] .vgroup{background:#18222a}
+:root[data-theme="dark"] .vplay-all{background:#2c5a88}
+:root[data-theme="dark"] .list-seg button{background:#18222a}
+:root[data-theme="dark"] .syl-head{background:#2c5a88}
+:root[data-theme="dark"] .vsub{background:#18222a}
+:root[data-theme="dark"] .mkp-choice{background:#2c5a88}
+:root[data-theme="dark"] .rd-head{background:linear-gradient(160deg,#18222a 0,#182b3e 100%)}
+:root[data-theme="dark"] .rd-swap{background:#18222a}
+:root[data-theme="dark"] .rd-tools button{background:#18222a}
+:root[data-theme="dark"] .rd-tools button.on{background:#2c5a88}
+:root[data-theme="dark"] .rd-text{background:#18222a}
+:root[data-theme="dark"] .rd-tip{background:#2c5a88}
+:root[data-theme="dark"] .rq{background:#18222a}
+:root[data-theme="dark"] .rd-score{background:#2c5a88}
+:root[data-theme="dark"] .rd-pick button{background:#18222a}
+:root[data-theme="dark"] .install-chip{border:1px solid rgba(45,82,93,0.40);box-shadow:0 10px 26px rgba(0,0,0,0.77)}
+:root[data-theme="dark"] .install-chip .x{background:rgba(24,34,42,0.16)}
+:root[data-theme="dark"] #splash .sp-hero{border:3px solid rgba(45,82,93,0.60)}
+:root[data-theme="dark"] .aero-avatar{background:linear-gradient(150deg,#18222a,#1b3848);box-shadow:0 8px 22px rgba(0,0,0,0.57);border:2px solid #454545}
+:root[data-theme="dark"] .aero-bubble{background:#2c5a88}
+:root[data-theme="dark"] .ai-box{background:linear-gradient(165deg,#18222a 0,#182f3f 100%)}
+:root[data-theme="dark"] .aero-card{background:linear-gradient(165deg,#18222a 0,#182f3f 100%)}
+:root[data-theme="dark"] .ac-stats div{background:#18222a}
+:root[data-theme="dark"] .zc-row{background:#18222a}
+:root[data-theme="dark"] .zb-cell{background:#18222a}
+:root[data-theme="dark"] .zb-keys button{background:#18222a}
+:root[data-theme="dark"] .star-hud{background:rgba(24,34,42,0.14);border:1px solid rgba(45,82,93,0.35)}
+:root[data-theme="dark"] .star-burst{background:linear-gradient(135deg,#9c823b,#f0a93b);color:#e7d3ae}
+:root[data-theme="dark"] .star-burst i{color:#e4cda2}
+:root[data-theme="dark"] .star-box{background:linear-gradient(150deg,#3a2e16,#4a3b1c);border:1px solid #5d4e2d}
+:root[data-theme="dark"] .aw-card{background:#18222a}
+:root[data-theme="dark"] .aw-card.br{background:linear-gradient(160deg,#18222a,#46341b)}
+:root[data-theme="dark"] .aw-card.sv{border-color:#334557;background:linear-gradient(160deg,#18222a,#1a2c3e)}
+:root[data-theme="dark"] .aw-card.gd{border-color:#5d4e2d;background:linear-gradient(160deg,#373015,#51431f)}
+:root[data-theme="dark"] .aw-card.lg{background:linear-gradient(160deg,#1e1434,#221941)}
+:root[data-theme="dark"] .aw-rar{background:#2c5a88}
+:root[data-theme="dark"] .diag{border:1px solid #2d505d}
+:root[data-theme="dark"] .wk-row{background:#18222a}
+:root[data-theme="dark"] .tab{background:rgba(24,34,42,0.94);box-shadow:0 3px 12px rgba(0,0,0,0.29)}
+:root[data-theme="dark"] .tab:hover{background:#18222a}
+:root[data-theme="dark"] .tab.active{box-shadow:0 7px 18px rgba(0,0,0,0.75)}
+:root[data-theme="dark"] .aero-av{border:2px solid #454545;box-shadow:0 3px 10px rgba(0,0,0,0.40);background:#182d3f}
+:root[data-theme="dark"] .aw-art .aero-av{box-shadow:0 2px 8px rgba(0,0,0,0.35)}
+:root[data-theme="dark"] .qi-art .aero-av,:root[data-theme="dark"] .dg-art .aero-av,:root[data-theme="dark"] .empty-aero .aero-av{box-shadow:0 6px 18px rgba(0,0,0,0.44)}
+:root[data-theme="dark"] .ai-art img{border:3px solid #454545}
+:root[data-theme="dark"] .ai-art img{border:3px solid #454545}
+:root[data-theme="dark"] .qd-card .btn-soft{background:rgba(24,34,42,0.14);border:1px solid rgba(45,82,93,0.32)}
+:root[data-theme="dark"] .qd-card .btn-soft:hover{background:rgba(24,34,42,0.24)}
+:root[data-theme="dark"] .qg-card{background:#18222a}
+:root[data-theme="dark"] .qm-box{background:linear-gradient(165deg,#18222a,#182f3f)}
+:root[data-theme="dark"] .sp-ghost{color:rgba(167,193,227,0.24)}
+:root[data-theme="dark"] .sp-field.ghosted input{background:linear-gradient(180deg,#132333,#152738) !important}
+:root[data-theme="dark"] .sp-tools .btn.on{background:#2c5a88}
+:root[data-theme="dark"] .writepad{background:#18222a}
+:root[data-theme="dark"] .writepad canvas{background:#132231}
+:root[data-theme="dark"] .pad-tools button{background:#18222a}
+:root[data-theme="dark"] .pad-ink i{border:2px solid #454545}
+:root[data-theme="dark"] .dc-intro{background:linear-gradient(150deg,#182f3f,#18222a)}
+:root[data-theme="dark"] .dc-aero{border:2px solid #454545}
+:root[data-theme="dark"] .dc-card{background:#18222a}
+:root[data-theme="dark"] .dc-card.mapped{background:linear-gradient(140deg,#18222a,#183e2b)}
+:root[data-theme="dark"] .dc-back{background:#18222a}
+:root[data-theme="dark"] .dc-step.on{background:#2c5a88}
+:root[data-theme="dark"] .ek{background:#18222a}
+:root[data-theme="dark"] .ek.v{border-color:#5d4c2d;background:#3a2e16}
+:root[data-theme="dark"] .ek.c{border-color:#2d465d;background:#142535}
+:root[data-theme="dark"] .ph-key{background:#18222a}
+:root[data-theme="dark"] .seg-opt{background:#18222a}
+:root[data-theme="dark"] .lv-b{background:#18222a}
+:root[data-theme="dark"] .lv-b.on{background:#2c5a88}
+:root[data-theme="dark"] .mg{background:#18222a}
+:root[data-theme="dark"] .mg.v{border-color:#5d4c2d;background:#3a2e16}
+:root[data-theme="dark"] .mg.c{border-color:#2d465d;background:#142535}
+:root[data-theme="dark"] .pf-cell{background:#18222a}
+:root[data-theme="dark"] .om-card{background:linear-gradient(160deg,#18222a,#182f3f)}
+:root[data-theme="dark"] .om-ex{background:#18222a}
+:root[data-theme="dark"] .sr-card{background:#2c5a88}
+:root[data-theme="dark"] .sr-box{background:rgba(24,34,42,0.12)}
+:root[data-theme="dark"] .sr-box.past{background:rgba(48,108,126,0.25)}
+:root[data-theme="dark"] .sr-box.on{color:#ead9b7}
+:root[data-theme="dark"] .sr-rule{background:#18222a}
+:root[data-theme="dark"] .ph-card{background:#18222a}
+:root[data-theme="dark"] .ph-card.v{background:linear-gradient(160deg,#3a2e16,#18222a);border-color:#5d4c2d}
+:root[data-theme="dark"] .ph-card.c{background:linear-gradient(160deg,#142535,#18222a);border-color:#2d465d}
+:root[data-theme="dark"] .ph-sym{background:#2c5a88}
+:root[data-theme="dark"] .pt.voiced{background:#1e4932}
+:root[data-theme="dark"] .pt.unvoiced{background:#1a2c3e}
+:root[data-theme="dark"] .pt.hold{background:#193542;color:#97c8e1}
+:root[data-theme="dark"] .ph-air{background:rgba(24,34,42,0.75)}
+:root[data-theme="dark"] .mp{background:#18222a}
+:root[data-theme="dark"] .ss{background:#18222a}
+:root[data-theme="dark"] .ds-n{background:#2c5a88}
+:root[data-theme="dark"] .ds-stage{background:#18222a}
+:root[data-theme="dark"] .ds-param{background:#18222a}
+:root[data-theme="dark"] .dp-h code{background:#2c5a88}
+:root[data-theme="dark"] .ds-stat{background:#2c5a88}
+:root[data-theme="dark"] .ds-break{background:#18222a}
+:root[data-theme="dark"] .ds-obj{background:#18222a}
+:root[data-theme="dark"] .cf-wrap.c0{border-color:#2d5d34}
+:root[data-theme="dark"] .cf-wrap.c1{border-color:#5d4e2d}
+:root[data-theme="dark"] .c0 .cf-badge{background:#193b1e}
+:root[data-theme="dark"] .c1 .cf-badge{background:#403518}
+:root[data-theme="dark"] .c2 .cf-badge{background:#3c1c17}
+:root[data-theme="dark"] .cf-note{color:#d7998b}
+:root[data-theme="dark"] .dc-plan.ok{background:#193b1e}
+:root[data-theme="dark"] .dc-plan.warn{background:#3c1c17}
+:root[data-theme="dark"] .vox-btn.has{background:#193b1e}
+:root[data-theme="dark"] .vox-btn.rec{background:#3c1c17;color:#de998d}
+:root[data-theme="dark"] .vox-btn.armed{background:#403518}
+:root[data-theme="dark"] .vox-btn.play.has{background:#17293e;color:#95b7dd}
+:root[data-theme="dark"] .vox-btn.play.playing{background:#1d324b}
+:root[data-theme="dark"] .st-src.warn{color:#de998d}
+:root[data-theme="dark"] .st-seg .sg.on{background:#1b3a46;color:#94cbe0}
+:root[data-theme="dark"] .sw i{background:#374d62}
+:root[data-theme="dark"] .sw i:after{background:#18222a}
+:root[data-theme="dark"] .st-note.warn{color:#de998d}
+:root[data-theme="dark"] .ds-adopt .tag.yes{background:#1e4526;color:#a8d9b3}
+:root[data-theme="dark"] .ds-adopt .tag.no{background:#3f2018;color:#df9c90}
+:root[data-theme="dark"] .ds-adopt .tag.part{background:#44371a;color:#e3cd9d}
+:root[data-theme="dark"] .ds-line{background:#391d15}
+:root[data-theme="dark"] .ds-line h4{color:#dfa197}
+:root[data-theme="dark"] .ds-line .close{border-top:1px dashed #5d362d;color:#dfa197}
+:root[data-theme="dark"] .qt-dot{background:rgba(24,34,42,0.14)}
+:root[data-theme="dark"] .qt-dot.on{color:#b4d3e9}
+:root[data-theme="dark"] .qm-body .qt-dot.done{background:#1d3b4c;color:#94cbe0}
+:root[data-theme="dark"] .qm-body .qt-dot.on{color:#b4d3e9}
+:root[data-theme="dark"] .sp-dirc.enc{background:#3e3217}
+:root[data-theme="dark"] .sp-act .n{background:#2c5a88}
+:root[data-theme="dark"] .sp-st.on{background:#2c5a88}
+:root[data-theme="dark"] .sp-st.done{background:#1d4323;color:#a7dab4}
+:root[data-theme="dark"] .sp-orb{background:#2c5a88}
+:root[data-theme="dark"] .sp-num.right{background:#1d4323;color:#a7dab4}
+:root[data-theme="dark"] .sp-num.wrong{background:#3f1818;color:#df9292}
+:root[data-theme="dark"] .sp-box{background:#18222a}
+:root[data-theme="dark"] .sp-box.v{background:#3b2b16}
+:root[data-theme="dark"] .sp-box.right{background:#1d4323}
+:root[data-theme="dark"] .sp-box.wrong{background:#3f1818}
+:root[data-theme="dark"] .sp-note{background:#3e3217}
+:root[data-theme="dark"] .sp-note b{color:#e2cc9a}
+:root[data-theme="dark"] .sp-fb.ok{background:#1d4323;color:#a7dab4}
+:root[data-theme="dark"] .sp-fb.no{background:#3f1818;color:#df9292}
+:root[data-theme="dark"] .sp-next{background:#2c5a88}
+:root[data-theme="dark"] .sp-col{background:#18222a}
+:root[data-theme="dark"] .sp-col .w.hit{background:#1d4323;color:#a7dab4}
+:root[data-theme="dark"] .sp-col.right{background:#183a1d}
+:root[data-theme="dark"] .sp-col.wrong{background:#391515}
+:root[data-theme="dark"] .sp-gb.on{background:#2c5a88}
+:root[data-theme="dark"] .sp-lt.mute{background:#222f3c}
+:root[data-theme="dark"] .sp-lt.sp{background:#48371b;color:#e2cc9a}
+:root[data-theme="dark"] .sp-box.mute{background:#1b2630}
+:root[data-theme="dark"] .panel{border:1px solid #2d455d;box-shadow:0 1px 2px rgba(0,0,0,0.11),0 14px 34px rgba(0,0,0,0.18)}
+:root[data-theme="dark"] .zb-var{background:#18222a;box-shadow:0 2px 8px rgba(0,0,0,0.13)}
+:root[data-theme="dark"]{color-scheme:dark;
+  --ink:#e4edf6; --sage:#6cb0e0; --mist:#223244; --mist-2:#2e4459; --cream:#121c27; --paper:#1a2633; --line:#2f4356;
+  --coral:#ef7d6c; --coral-soft:#3a2420; --gold:#f0b552; --text:#dbe6f0; --muted:#93a8bc; --green-ok:#5ccf9c; --green-bg:#173329;
+  --aero:#5ccaf0; --aero-2:#9a90f5; --aero-soft:#18323f;
+  --shadow:0 10px 28px rgba(0,0,0,.45); --shadow-sm:0 2px 10px rgba(0,0,0,.35)}
+:root[data-theme="dark"] body{background:radial-gradient(circle at 12% -5%,#1b2a3a 0,transparent 40%),radial-gradient(circle at 92% 8%,rgba(63,182,224,.10) 0,transparent 34%),#121c27!important;color:var(--text)}
+/* 積木圖本身是淺底，深色模式下放在淺色小底板上，顏色才對 */
+
+:root[data-theme="dark"] input,:root[data-theme="dark"] select,:root[data-theme="dark"] textarea{color:var(--text)}
+
+</style>
 <script>
 /* 啟動看門狗：主程式跑完會設 window.__AERO_OK=1。
    4.5 秒後還沒設，就把原因顯示出來，不要讓使用者對著啟動畫面等。 */
@@ -1467,7 +1697,9 @@ body.noreward .star-hud{display:none}
         </svg>
       </div>
     </div>
-    <div class="unit-bar"><span class="ub-tag">UNIT</span><select id="unitSel"></select></div>
+    <div class="unit-bar"><span class="ub-tag">UNIT</span><select id="unitSel"></select>
+      <button class="hd-tool" id="themeBtn" type="button" aria-label="切換深色／淺色" title="切換深色／淺色"><span>🌙</span></button>
+      <button class="hd-tool" id="reloadBtn" type="button" aria-label="重新整理" title="重新整理（取得最新版本）"><span>↻</span></button></div>
   </div>
 </header>
 
@@ -8234,12 +8466,156 @@ function plainProgressHtml(){
 }
 
 /* ================= 設定面板 ================= */
+
+/* ===================== 深淺色切換、重新整理 ===================== */
+function themeNow(){ return document.documentElement.getAttribute("data-theme")==="dark"?"dark":"light"; }
+function themeApply(t){
+  document.documentElement.setAttribute("data-theme",t);
+  try{ localStorage.setItem("aero_theme",t); }catch(e){}
+  const b=document.getElementById("themeBtn");
+  if(b){ b.querySelector("span").textContent=t==="dark"?"☀️":"🌙";
+    b.title=b.ariaLabel=t==="dark"?"切換成淺色":"切換成深色"; }
+  const m=document.querySelector('meta[name="theme-color"]'); if(m)m.setAttribute("content",t==="dark"?"#0f1822":"#1e3a5f");
+}
+(function(){
+  themeApply(themeNow());
+  const tb=document.getElementById("themeBtn");
+  if(tb)tb.onclick=()=>themeApply(themeNow()==="dark"?"light":"dark");
+  const rb=document.getElementById("reloadBtn");
+  if(rb)rb.onclick=()=>{
+    rb.classList.add("spin"); try{ save(); }catch(e){}
+    /* 有離線快取時先抓最新版，再重新載入 */
+    const go=()=>location.reload();
+    try{
+      if("serviceWorker" in navigator){
+        navigator.serviceWorker.getRegistration().then(r=>r?r.update():null).catch(()=>{}).then(()=>setTimeout(go,250));
+        setTimeout(go,2500); return;
+      }
+    }catch(e){}
+    setTimeout(go,150);
+  };
+})();
+
+/* ===================== 跨裝置搬移：匯出／匯入 ===================== */
+const MV_KEYS=[KEY,"aero_theme","aero_zb_v1"];
+function mvMsg(t,c){ const m=document.getElementById("mvMsg"); if(m){ m.className="mv-msg "+(c||""); m.innerHTML=t; } }
+function blobToDataURL(b){ return new Promise(r=>{ const f=new FileReader(); f.onload=()=>r(f.result); f.onerror=()=>r(null); f.readAsDataURL(b); }); }
+async function mvCollect(withVox){
+  try{ save(); }catch(e){}
+  const ls={}; MV_KEYS.forEach(k=>{ const v=LS.getItem(k); if(v!==null&&v!==undefined) ls[k]=v; });
+  const pack={app:"aero-vocab",v:1,at:new Date().toISOString(),ls};
+  if(withVox){
+    pack.vox={};
+    await voxLoadKeys();
+    for(const k of Array.from(VOX)){ const b=await voxGet(k); if(b){ const u=await blobToDataURL(b); if(u)pack.vox[k]=u; } }
+  }
+  return pack;
+}
+/* 備份碼：JSON → gzip（瀏覽器支援時）→ base64，前面加版本記號 */
+async function mvEncode(obj){
+  const txt=JSON.stringify(obj);
+  try{
+    if(window.CompressionStream){
+      const st=new Blob([txt]).stream().pipeThrough(new CompressionStream("gzip"));
+      const buf=new Uint8Array(await new Response(st).arrayBuffer());
+      let bin=""; for(let i=0;i<buf.length;i+=0x8000) bin+=String.fromCharCode.apply(null,buf.subarray(i,i+0x8000));
+      return "AERO1Z:"+btoa(bin);
+    }
+  }catch(e){}
+  return "AERO1J:"+btoa(unescape(encodeURIComponent(txt)));
+}
+async function mvDecode(str){
+  str=String(str||"").trim();
+  if(str.startsWith("{")) return JSON.parse(str);
+  const m=str.match(/^AERO1([ZJ]):([\s\S]+)$/); if(!m) throw new Error("bad");
+  const b64=m[2].replace(/\s+/g,"");
+  if(m[1]==="J") return JSON.parse(decodeURIComponent(escape(atob(b64))));
+  if(!window.DecompressionStream) throw new Error("nogz");
+  const bin=atob(b64), u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+  const st=new Blob([u]).stream().pipeThrough(new DecompressionStream("gzip"));
+  return JSON.parse(await new Response(st).text());
+}
+let _mvPending=null;
+function mvStage(obj){
+  if(!obj||obj.app!=="aero-vocab"||!obj.ls||!obj.ls[KEY]){ mvMsg("這不是 Aero 的備份資料，請確認檔案或備份碼完整。","no"); return; }
+  _mvPending=obj;
+  let info=""; try{ const d=JSON.parse(obj.ls[KEY]); const n=Object.values(d.units||{}).reduce((a,u)=>a+Object.keys(u.progress||{}).length,0);
+    info=`（${new Date(obj.at).toLocaleString("zh-TW")} 匯出，含 ${n} 筆單字紀錄${obj.vox?"、"+Object.keys(obj.vox).length+" 段錄音":""}）`; }catch(e){}
+  mvMsg("讀到備份資料"+info+"。確定要用它取代這台裝置目前的紀錄嗎？");
+  const y=document.getElementById("mvYes"); if(y)y.hidden=false;
+}
+async function mvApply(){
+  const obj=_mvPending; if(!obj) return;
+  Object.entries(obj.ls).forEach(([k,v])=>{ if(MV_KEYS.indexOf(k)>=0) LS.setItem(k,v); });
+  if(obj.vox){
+    for(const [k,u] of Object.entries(obj.vox)){ try{ const b=await (await fetch(u)).blob(); await voxPut(k,b); }catch(e){} }
+  }
+  mvMsg("✅ 匯入完成，正在重新載入…","ok");
+  setTimeout(()=>location.reload(),700);
+}
+function mvBind(){
+  const $=id=>document.getElementById(id);
+  if(!$("mvBox")) return;
+  $("mvDown").onclick=async()=>{
+    mvMsg("正在整理…");
+    const pack=await mvCollect($("mvVox").checked);
+    const blob=new Blob([JSON.stringify(pack)],{type:"application/json"});
+    const d=new Date(), name="aero-backup-"+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0")+".json";
+    try{
+      const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name;
+      document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },1500);
+      mvMsg("✅ 已下載 <b>"+esc(name)+"</b>。把這個檔案傳到新裝置，再用「選擇備份檔」匯入。","ok");
+    }catch(e){ mvMsg("這個瀏覽器不能直接下載，請改用「複製備份碼」。","no"); }
+  };
+  $("mvCopy").onclick=async()=>{
+    mvMsg("正在整理…");
+    const code=await mvEncode(await mvCollect($("mvVox").checked));
+    $("mvText").value=code;
+    let ok=false; try{ await navigator.clipboard.writeText(code); ok=true; }catch(e){}
+    if(!ok){ $("mvText").focus(); $("mvText").select(); }
+    mvMsg(ok?`✅ 已複製備份碼（${code.length.toLocaleString()} 字元）。貼到 LINE 或 Email 傳給新裝置，再貼回這一格匯入。`
+            :"備份碼已放在下面的框裡並選取好了，請按「複製」。","ok");
+  };
+  $("mvFile").onchange=e=>{
+    const f=e.target.files&&e.target.files[0]; if(!f) return;
+    const r=new FileReader();
+    r.onload=async()=>{ try{ mvStage(await mvDecode(r.result)); }catch(err){ mvMsg("讀不懂這個檔案，請確認它是 Aero 匯出的備份檔。","no"); } };
+    r.readAsText(f); e.target.value="";
+  };
+  $("mvPaste").onclick=async()=>{
+    const t=$("mvText").value; if(!t.trim()){ mvMsg("請先把備份碼貼到框裡。","no"); return; }
+    try{ mvStage(await mvDecode(t)); }
+    catch(err){ mvMsg(err&&err.message==="nogz"?"這個瀏覽器太舊，解不開壓縮過的備份碼。請改用備份檔。":"備份碼不完整或有多餘的字，請重新複製一次。","no"); }
+  };
+  $("mvYes").onclick=mvApply;
+}
 function settingsHtml(){
   const vs=voiceSrcLabel(),list=enVoices();
   const cur=OPTV("voice");
   return `<div class="block st-block">
     <h3>⚙️ 設定 <span style="margin-left:auto;font-size:.72rem;color:var(--muted);font-weight:700">回應反對意見的可調整項</span></h3>
     <div class="sub">這些選項對應「設計」分頁裡的反對意見。凡是可以讓步的，都開放調整；不能讓步的寫在旁邊。</div>
+
+    <div class="st-item mv-box" id="mvBox">
+      <div class="st-h"><b>📦 跨裝置搬移學習紀錄</b></div>
+      <div class="st-d">學習紀錄存在<b>這台裝置的瀏覽器</b>裡。換手機、換電腦時，先在舊裝置<b>匯出</b>，再到新裝置<b>匯入</b>。
+        內容包含：各單元熟記／待複習、錯題、測驗紀錄、星星與獎卡、打卡、間隔提取、拼寫紀錄與設定。</div>
+      <label class="mv-chk"><input type="checkbox" id="mvVox"> 一併帶走自己錄的真人錄音（檔案會比較大）</label>
+      <div class="mv-row">
+        <button class="btn btn-primary" id="mvDown" type="button">⬇ 下載備份檔</button>
+        <button class="btn btn-soft" id="mvCopy" type="button">📋 複製備份碼</button>
+      </div>
+      <div class="st-d" style="margin-top:12px"><b>匯入</b>：選擇備份檔，或把備份碼貼到下面（可用 LINE、Email 傳到新裝置）。匯入會<b>取代</b>這台裝置目前的紀錄。</div>
+      <div class="mv-row">
+        <label class="btn btn-soft" style="text-align:center;cursor:pointer">📂 選擇備份檔<input type="file" id="mvFile" accept=".json,application/json,text/plain" hidden></label>
+      </div>
+      <textarea id="mvText" placeholder="在這裡貼上備份碼" spellcheck="false" autocomplete="off"></textarea>
+      <div class="mv-row">
+        <button class="btn btn-soft" id="mvPaste" type="button">匯入貼上的備份碼</button>
+        <button class="btn btn-primary" id="mvYes" type="button" hidden>確定取代這台裝置的紀錄</button>
+      </div>
+      <div class="mv-msg" id="mvMsg"></div>
+    </div>
 
     <div class="st-item">
       <div class="st-h"><b>① 形素對位分級標示</b>
@@ -8328,6 +8704,7 @@ function bindSettings(){
   on("optCoda",e=>{ OPTSET("coda",e.target.checked?1:0); renderMe(); });
   zbBindEditor();
   zbBindCheck();
+  mvBind();
   const SAMPLE="This is the normal speed. Listen to the difference.";
   const rn=document.getElementById("rateNorm");
   if(rn)rn.onclick=()=>speak(SAMPLE,"en-US",R_NORM);
