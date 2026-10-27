@@ -1,29 +1,11 @@
-# 互動背單字 ‧ AERO
+# 互動背單字學習平台（Aero）
 
-SoR（Science of Reading）取向的英語單字學習平台。單檔 HTML，離線可用。
+單檔 HTML 互動背單字平台，單字卡附 SoR 專利注音積木（P.A.GOes 音節排列與聲調標示）。
 
-## 分頁
+## 部署到 GitHub Pages
+1. 在 GitHub 建立新的 repository（或打開原本的 repository）。
+2. 上傳 `index.html`（取代舊檔）、`README.md`、`.nojekyll`、`manifest.webmanifest`、`sw.js`，以及整個 `icons` 資料夾（內含三張 PNG）。
+3. Settings → Pages → Source 選 `Deploy from a branch`，Branch 選 `main`、資料夾 `/ (root)`，按 Save。
+4. 約一分鐘後，網址為 `https://<帳號>.github.io/<repository 名稱>/`。
 
-| 分頁 | 練什麼 |
-|---|---|
-| 單字卡 | 音形義建立初次連結 |
-| 總覽 | 整個 Level 的字表 |
-| 測驗 | 間隔複習 |
-| 解碼 | 看字讀音：對應 → 切音 → 合音 → 解碼 → 對映 |
-| 拼寫 | 聽音寫字：聽音拼字、一音多拼、讀遮拆寫再讀 |
-| 閱讀 | 句子與短文 |
-| 聽說 | 跟讀、錄音、回聽 |
-
-## 語音
-
-整字播放用瀏覽器內建的語音合成。**慢速會自動改用作業系統的本機音色**——
-Chrome 的 Google 系列是網路合成，速度由伺服器決定，網頁設的語速常常不被採用。
-可在「我的 → 設定」關掉這個行為，該頁也會寫明正常速與慢速各用哪一支。
-
-若整台裝置都分不出語速，慢速請改用「聽說」頁的真人錄音，
-錄音的播放速度由瀏覽器播放器控制，一定有效。
-
-## 佈署
-
-單檔，沒有任何外部依賴（圖片全部內嵌為 data URI，不連 CDN、不連字型）。
-把這個資料夾的內容放到任何靜態主機的根目錄即可。
+所有積木圖片與程式都已內嵌在 `index.html`。`manifest.webmanifest`、`sw.js` 與 `icons/` 負責「加到主畫面」與離線使用；少了它們網站仍可開，但無法安裝成 App 或離線使用。
