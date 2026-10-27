@@ -750,10 +750,10 @@
 
   /* v25.3：導覽只佔標題列以下的空間，高度由 fitRail() 實測後寫進 --hdr / --tabh */
   nav{position:fixed;right:calc(7px + env(safe-area-inset-right));
-    top:calc(var(--hdr,96px) + 6px);
+    top:calc(var(--hdr,96px) + 18px);
     bottom:calc(6px + env(safe-area-inset-bottom));
     transform:none;
-    z-index:28;display:flex;flex-direction:column;justify-content:center;gap:var(--tabgap,6px);
+    z-index:28;display:flex;flex-direction:column;justify-content:flex-start;gap:var(--tabgap,6px);
     max-width:none;margin:0;padding:0;background:none;overflow:hidden}
   nav.scroll{justify-content:flex-start;overflow-y:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
     overscroll-behavior:contain}
@@ -1024,6 +1024,47 @@
   .pt.stop{background:var(--coral-soft);color:var(--coral)}
   .ph-air{font-size:.8rem;color:var(--text);line-height:1.65;background:rgba(255,255,255,.75);
     border-radius:11px;padding:9px 11px;border:1px dashed var(--line)}
+
+  .s44-open{display:flex;align-items:center;gap:10px;width:100%;margin:10px 0 4px;padding:11px 14px;border:1.5px solid var(--line);
+    border-radius:14px;background:var(--paper);cursor:pointer;text-align:left;font:inherit;color:var(--text)}
+  .s44-open:hover{border-color:var(--sage)}
+  .s44-open span{flex:0 0 auto;width:38px;height:38px;border-radius:11px;background:var(--coral);color:#fff;font-weight:900;display:grid;place-items:center;font-size:1rem}
+  .s44-open b{color:var(--ink);font-size:.95rem}
+  .s44-open i{font-style:normal;color:var(--muted);font-size:.74rem;margin-left:auto}
+  .s44-intro{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:8px 0}
+  .s44-intro h3{font-size:1.02rem;color:var(--ink);margin-bottom:4px}
+  .s44-intro p{font-size:.8rem;line-height:1.7;color:var(--muted)}
+  .s44-intro b{color:var(--ink)} .s44-intro b.bad{color:var(--coral)}
+  .s44-filter{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+  .s44-filter button{border:1.5px solid var(--line);background:var(--paper);color:var(--text);border-radius:999px;padding:6px 12px;font:inherit;font-size:.8rem;cursor:pointer}
+  .s44-filter button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  .s44-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:9px}
+  .s44c{position:relative;border:1.5px solid var(--line);background:var(--paper);border-radius:14px;padding:10px 11px 11px;display:flex;flex-direction:column;gap:6px;transition:box-shadow .3s}
+  .s44c.warn{border-color:color-mix(in srgb,var(--coral) 45%,var(--line))}
+  .s44c.flash{box-shadow:0 0 0 3px var(--gold)}
+  .s44n{position:absolute;top:8px;right:10px;font-size:.72rem;font-weight:800;color:var(--muted)}
+  .s44w{align-self:flex-start;border:none;background:none;padding:0;cursor:pointer;font:inherit;font-size:1.22rem;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:6px}
+  .s44w .hl{color:var(--coral);font-weight:900;text-decoration:underline;text-underline-offset:3px}
+  .s44w .pl{font-size:.75rem;opacity:.7}
+  .s44row{display:flex;align-items:center;gap:8px}
+  .s44k{font-size:.9rem;color:var(--sage);font-weight:700}
+  .s44b{--sbh:30px}
+  .s44nat{display:flex;flex-wrap:wrap;gap:4px}
+  .s44nat span{font-size:.74rem;background:var(--mist);color:var(--ink);border-radius:6px;padding:1px 6px}
+  .s44-zy{display:inline-flex;align-items:center;gap:6px;font-size:.8rem}
+  .s44-zy b{font-size:.95rem;color:var(--text)}
+  .s44-zy i{font-style:normal;font-weight:800;font-size:.72rem;border-radius:999px;padding:2px 8px}
+  .s44-zy.ok i{background:var(--green-bg);color:var(--green-ok)}
+  .s44-zy.bad i,.s44-zy.none i{background:var(--coral-soft);color:var(--coral)}
+  .s44-zy.bad b{text-decoration:line-through;text-decoration-color:var(--coral)}
+  .s44why{font-size:.74rem;line-height:1.6;color:var(--muted)}
+  .ph-44{margin-top:10px;border:1.5px solid var(--line);border-radius:12px;padding:9px 11px;background:var(--paper)}
+  .ph-44.warn{border-color:color-mix(in srgb,var(--coral) 45%,var(--line))}
+  .p44-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+  .p44-n{border:none;background:var(--ink);color:var(--paper);font:inherit;font-weight:800;font-size:.72rem;border-radius:999px;padding:3px 9px;cursor:pointer}
+  .ph-44 .s44w{font-size:1.05rem}
+  .p44-zy{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-top:7px}
+  .p44-why{font-size:.76rem;line-height:1.6;color:var(--muted);flex:1 1 200px}
   .ph-sec{font-size:.66rem;font-weight:800;letter-spacing:1.4px;color:var(--sage);margin:12px 0 6px}
   .mp-row{display:grid;gap:7px}
   .mp{border:1.5px solid var(--line);background:#fff;border-radius:13px;padding:9px 12px;cursor:pointer;
@@ -1394,6 +1435,15 @@ body.noreward .star-hud{display:none}
   }
 </style>
 <style id="darkTheme">
+  /* 單字卡滑動 */
+  .card-stage{touch-action:pan-y;user-select:none;-webkit-user-select:none}
+  .card-stage.swipe-in-l{animation:swInL .28s ease}
+  .card-stage.swipe-in-r{animation:swInR .28s ease}
+  @keyframes swInL{from{transform:translateX(60px);opacity:0}to{transform:none;opacity:1}}
+  @keyframes swInR{from{transform:translateX(-60px);opacity:0}to{transform:none;opacity:1}}
+  @media (prefers-reduced-motion:reduce){.card-stage.swipe-in-l,.card-stage.swipe-in-r{animation:none}}
+  .swipe-hint{font-size:.72rem;color:var(--muted);text-align:center;margin-top:6px}
+
   /* 標題列右側小工具：深淺色、重新整理 */
   .hd-tool{flex:0 0 auto;width:36px;height:36px;border-radius:10px;border:1px solid #3d6394;background:#2b4d78;color:#eaf2fb;
     font-size:1.05rem;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;transition:.15s}
@@ -4364,6 +4414,54 @@ function sayAs(t){
   if(/^\s*(am|pm|a\.m\.|p\.m\.)\s*$/i.test(t)) return t.trim()[0].toUpperCase()+".M.";
   return t.replace(/(\d)\s*(a|p)\.?m\.?(?=[\s,.;:!?)]|$)/gi,(m,d,ap)=>d+" "+ap.toUpperCase()+".M.");
 }
+/* ===== 單字卡左右滑動換卡 =====
+   手指（或滑鼠拖曳）往左滑＝下一張、往右滑＝上一張。
+   水平移動超過一定距離才算滑動；上下捲動、點一下翻面都不受影響。
+   到了第一張或最後一張，卡片會彈回來。 */
+let _swiped=false, _swipeIn="";
+function cardSwipeBind(stage,canPrev,canNext){
+  if(!stage)return;
+  if(_swipeIn){ stage.classList.add("swipe-in-"+_swipeIn); _swipeIn="";
+    setTimeout(()=>stage.classList.remove("swipe-in-l","swipe-in-r"),320); }
+  let sx=0,sy=0,dx=0,on=false,horiz=null,pid=null;
+  const reduce=(()=>{try{return matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){return false;}})();
+  const set=(x,anim)=>{ stage.style.transition=anim?"transform .22s ease, opacity .22s ease":"none";
+    stage.style.transform=x?`translateX(${x}px) rotate(${x/40}deg)`:""; stage.style.opacity=x?String(Math.max(.35,1-Math.abs(x)/600)):""; };
+  stage.addEventListener("pointerdown",e=>{
+    if(e.pointerType==="mouse"&&e.button!==0)return;
+    if(e.target.closest("button,a,input,select,textarea"))return;
+    on=true; horiz=null; sx=e.clientX; sy=e.clientY; dx=0; pid=e.pointerId;
+  });
+  stage.addEventListener("pointermove",e=>{
+    if(!on||e.pointerId!==pid)return;
+    const mx=e.clientX-sx, my=e.clientY-sy;
+    if(horiz===null){ if(Math.abs(mx)<8&&Math.abs(my)<8)return; horiz=Math.abs(mx)>Math.abs(my);
+      if(horiz){ try{stage.setPointerCapture(pid);}catch(_){} } }
+    if(!horiz){ on=false; return; }
+    e.preventDefault();
+    dx=mx; if((dx>0&&!canPrev)||(dx<0&&!canNext)) dx=dx/3;   /* 到底了：有阻力 */
+    set(dx,false);
+  });
+  const end=e=>{
+    if(!on||(e&&e.pointerId!==pid))return; on=false;
+    if(!horiz){ return; }
+    _swiped=Math.abs(dx)>8;   /* 擋掉滑動後觸發的那一下「翻面」 */
+    setTimeout(()=>{_swiped=false;},350);
+    const TH=Math.min(90,stage.offsetWidth*.22);
+    if(dx<=-TH&&canNext){ set(reduce?0:-stage.offsetWidth,true); setTimeout(()=>{const b=document.getElementById("nextBtn"); if(b)b.click();},reduce?0:180); }
+    else if(dx>=TH&&canPrev){ set(reduce?0:stage.offsetWidth,true); setTimeout(()=>{const b=document.getElementById("prevBtn"); if(b)b.click();},reduce?0:180); }
+    else set(0,true);
+  };
+  stage.addEventListener("pointerup",end);
+  stage.addEventListener("pointercancel",end);
+}
+/* 電腦版：鍵盤左右鍵換卡（游標在輸入框時不動作） */
+document.addEventListener("keydown",e=>{
+  if(e.key!=="ArrowLeft"&&e.key!=="ArrowRight")return;
+  if(e.target&&e.target.closest&&e.target.closest("input,textarea,select,[contenteditable]"))return;
+  const pn=document.getElementById("panel-card"); if(!pn||!pn.classList.contains("active"))return;
+  const b=document.getElementById(e.key==="ArrowRight"?"nextBtn":"prevBtn"); if(b&&!b.disabled){ e.preventDefault(); b.click(); }
+});
 function speak(text,lang="en-US",rate){
   try{ _speak(text,lang,rate); }catch(e){}          /* 語音被瀏覽器擋掉時，靜音但不中斷 */
 }
@@ -5184,7 +5282,7 @@ function renderCard(){
         <div class="word en">${w.w}</div><div class="kk en">${w.kk}</div>
         ${zbStripHtml(w)}
         <button class="speak-btn" data-sp="${esc(w.w)}">🔊</button>
-        <div class="flip-hint">點卡片看中文與例句 ↻</div></div>
+        <div class="flip-hint">點卡片看中文與例句 ↻　‧　左右滑動換卡</div></div>
       <div class="face back"><span class="corner"></span>
         <div class="b-word" id="tWord"><span class="en">${w.w}</span><button class="mini-speak" data-sp="${esc(w.w)}">🔊</button></div>
         <div class="pos en" id="tDef2">${w.pos}</div><div class="zh-def" id="tDef">${w.zh}</div>${phrases}${rel}${exs}</div>
@@ -5202,7 +5300,7 @@ function renderCard(){
     </div>`;
   zbBind(w.w);
   const card=document.getElementById("theCard");
-  card.addEventListener("click",e=>{if(e.target.closest("button"))return;stopTour();flipped=!flipped;card.classList.toggle("flipped",flipped);if(flipped)creditActivity("cards");});
+  card.addEventListener("click",e=>{if(e.target.closest("button"))return;if(_swiped){_swiped=false;return;}stopTour();flipped=!flipped;card.classList.toggle("flipped",flipped);if(flipped)creditActivity("cards");});
   area.querySelectorAll("[data-sp]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();stopTour();speak(b.dataset.sp);}));
   /* ---- 背面語音導覽 ---- */
   const tBtn=document.getElementById("tourBtn"),tSt=document.getElementById("tourStatus");
@@ -5228,8 +5326,9 @@ function renderCard(){
       if(tSt)tSt.textContent=s.label+"　"+(i+1)+"/"+steps.length;
     },()=>{tourOn=false;clearTour();});
   });
-  document.getElementById("prevBtn").onclick=()=>{if(idx>0){stopTour();idx--;renderCard();}};
-  document.getElementById("nextBtn").onclick=()=>{if(idx<deck.length-1){stopTour();idx++;renderCard();}};
+  document.getElementById("prevBtn").onclick=()=>{if(idx>0){stopTour();idx--;_swipeIn="r";renderCard();}};
+  document.getElementById("nextBtn").onclick=()=>{if(idx<deck.length-1){stopTour();idx++;_swipeIn="l";renderCard();}};
+  cardSwipeBind(area.querySelector(".card-stage"),idx>0,idx<deck.length-1);
   area.querySelectorAll("[data-mark]").forEach(b=>b.addEventListener("click",()=>{
     stopTour();
     const m=b.dataset.mark;PROG()[w.id]=(PROG()[w.id]===m)?undefined:m;if(!PROG()[w.id])delete PROG()[w.id];
@@ -6899,8 +6998,101 @@ const DC_STAGES=[
  {k:"map",  n:"對映", en:"Orthographic",   ico:"🧠", tip:"音‧形‧義綁在一起"}
 ];
 
+
+/* ---------- 美語 44 音（依老師提供的對照表） ---------- */
+/* [編號, 例字(方括號為目標字母), KK, 自然發音, 積木, 國語注音, 1=注音可近似 0=注音會唸錯 -1=注音沒有, 說明] */
+const S44=[
+ [1,"bl[e]ss","ɛ","e ea","45","ㄝ",1,"ㄝ和 ɛ 很接近，可以當起點。"],
+ [2,"r[ai]n","e","a_e ai a ay","48","ㄝ",0,"e 是滑音：從ㄝ滑向ㄧ，嘴巴會動；ㄝ停在原地沒有滑動。"],
+ [3,"m[a]ss","æ","a","49","ㄝ／ㄚ",0,"æ 介於ㄝ和ㄚ之間：嘴巴張大、嘴角往兩邊拉。唸成ㄝ或ㄚ都不準。"],
+ [4,"pr[ou]d","aʊ","ou ow","50","ㄠ",0,"aʊ 從ㄚ滑到 ʊ，最後嘴唇要收圓；ㄠ收尾太快、太扁。"],
+ [5,"w[i]sh","ɪ","i y","62","ㄧ",0,"ɪ 短而放鬆，舌頭比ㄧ低。唸成ㄧ會變成另一個音（ship 變 sheep）。"],
+ [6,"g[oo]d","ʊ","oo u ou","63","ㄨ",0,"ʊ 短而放鬆，嘴唇不用噘。唸成ㄨ會變成 u（full 變 fool）。"],
+ [7,"h[o]p[e]","o","o o_e oa ow","64","ㄛ",0,"o 是滑音：嘴唇從圓收得更小、往ㄨ滑；ㄛ沒有滑動。"],
+ [8,"G[o]d","ɑ","o a aw","46","ㄚ",0,"ɑ 嘴巴張得比ㄚ更大、舌頭更往後，聲音比較深。"],
+ [9,"l[o]ve","ʌ","u o","44","ㄚ",0,"ʌ 短促放鬆，嘴巴張得比ㄚ小，介於ㄚ和ㄜ之間。"],
+ [10,"b[e]lieve","ə","a e i o u","44","ㄜ",1,"ə 是輕聲的弱母音，ㄜ可以當近似，但要唸得很輕很短。"],
+ [11,"t[ea]","i","ea ee e_e","66","ㄧ",0,"i 長而緊，嘴角往兩旁拉；注音不分長短鬆緊，用ㄧ會和 ɪ 混在一起。"],
+ [12,"l[igh]t","aɪ","i_e i ie","51","ㄞ",1,"ㄞ和 aɪ 很接近，可以當起點。"],
+ [13,"n[ew]","ju","u_e ue ew ou","67","ㄧㄨ",1,"ㄧㄨ連起來唸就是 ju。"],
+ [14,"t[oo]l","u","oo ue","60","ㄨ",1,"ㄨ和 u 很接近，嘴唇要噘圓、拉長。"],
+ [15,"j[oy]","ɔɪ","oi oy","68","ㄛㄧ",1,"ㄛ滑到ㄧ，就是 ɔɪ。"],
+ [16,"ch[ur]ch","ɝ","er ur ir or","47","ㄦ",1,"ㄦ和 ɝ 很接近，舌頭捲起但舌尖不碰上顎。"],
+ [17,"d[ear]","ɪr","ear eer ere","69","ㄧㄦ",1,"ㄧ接ㄦ可以當近似。"],
+ [18,"sh[are]","ɛr","are air ear","70","ㄝㄦ",1,"ㄝ接ㄦ可以當近似。"],
+ [19,"L[or]d","ɔr","or ore our","71","ㄛㄦ",1,"ㄛ接ㄦ可以當近似。"],
+ [20,"st[ar]","ɑr","ar","72","ㄚㄦ",0,"ɑ 要比ㄚ張得更大、更後面，再接捲舌的 r；照ㄚㄦ唸會太扁、太前面。"],
+ [21,"[b]ul[b]","b","b","1","ㄅ",1,"ㄅ可以當近似；英文 b 聲帶會震動。"],
+ [22,"[P]o[p]e","p","p","2","ㄆ",1,"ㄆ和 p 一樣送氣。"],
+ [23,"[D]a[d]","d","d","14","ㄉ",0,"d 是有聲的，聲帶要震動；ㄉ沒有震動。字尾的 d 也要輕輕發出，不能加ㄜ。"],
+ [24,"[t]oas[t]","t","t","15","ㄊ",0,"ㄊ一唸就帶出「ㄊㄜ」的母音；字尾的 t 只有輕輕擋住氣，不能加母音。"],
+ [25,"[g]a[g]","g","g","21","ㄍ",1,"ㄍ可以當近似；英文 g 聲帶會震動。"],
+ [26,"[k]i[ck]","k","c ck k","22","ㄎ",1,"ㄎ和 k 一樣送氣。"],
+ [27,"[f]lu[ff]","f","f ph","4","ㄈ",1,"ㄈ和 f 一樣，上齒輕碰下唇吹氣。"],
+ [28,"[v]al[v]e","v","v f","9","",-1,"注音沒有這個音：上齒輕咬下唇，吹氣同時聲帶震動。"],
+ [29,"fai[th]","θ","th","40","ㄙ",0,"ㄙ的舌頭在牙齒後面；θ 舌尖要放在上下齒之間吹氣。"],
+ [30,"toge[th]er","ð","th","41","ㄌ",0,"ð 舌尖放在上下齒之間、聲帶震動；ㄌ是舌尖頂上齒齦，完全不同。"],
+ [31,"[s]ock[s]","s","s ss","38","ㄙ",1,"ㄙ和 s 很接近，可以拉長 ssss。"],
+ [32,"O[z]","z","z s","39","",-1,"注音沒有這個音：像 s 一樣送氣，但聲帶要震動，像蜜蜂 zzzz。"],
+ [33,"[j]u[dge]","dʒ","j ge","29","ㄐㄩ",0,"ㄐ要接ㄧ、ㄩ才唸得出來，會多出母音；dʒ 本身有聲、嘴唇微微噘起。"],
+ [34,"[ch]ur[ch]","tʃ","ch","30","ㄑㄩ",0,"ㄑ要接ㄧ、ㄩ才唸得出來，會多出母音；tʃ 嘴唇微噘，舌頭位置比ㄑ後面。"],
+ [35,"[sh]u[sh]","ʃ","sh ti","31","ㄒㄩ",0,"ㄒ要接ㄧ、ㄩ才唸得出來；ʃ 嘴唇噘圓，像叫人安靜的「噓——」。"],
+ [36,"vi[s]ion","ʒ","s ge","67","ㄐㄩ",0,"ʒ 是 ʃ 的有聲版，可以一直拉長；ㄐ一碰就放、也沒有震動。"],
+ [37,"[h]ope","h","h wh","23","ㄏ",1,"ㄏ可以當近似；英文 h 只是輕輕呼氣，喉嚨不摩擦。"],
+ [38,"[M]o[m]","m","m","3","ㄇ",1,"ㄇ和 m 一樣，雙唇閉起來從鼻子出聲。"],
+ [39,"[n]u[n]","n","n kn","12","ㄋ",1,"ㄋ和 n 一樣；字尾的 n 舌尖要頂住上齒齦。"],
+ [40,"wi[ng]","ŋ","ng n","58","ㄥ",1,"ㄥ的鼻音收尾就是 ŋ。"],
+ [41,"[l]eve[l]","l","l ll","19","ㄌ",0,"ㄌ只能在字首；字尾的 l 舌尖頂住上齒齦、舌根抬高，聽起來像ㄛ，ㄌ唸不出來。"],
+ [42,"[r]a[r]e","r","r wr","81","ㄖㄨ",1,"ㄖㄨ可以當字首 r 的近似；嘴唇微噘、舌尖不碰上顎。"],
+ [43,"[y]east","j","y","59","ㄧ",1,"ㄧ快速滑向下一個母音，就是 j。"],
+ [44,"[w]in","w","w wh","60","ㄨ",1,"ㄨ快速滑向下一個母音，就是 w。"]];
+const S44_PH={};
+S44.forEach(r=>{ if(!S44_PH[r[2]]) S44_PH[r[2]]=r; });
+Object.assign(S44_PH,{"ɚ":S44_PH["ɝ"],"ər":S44_PH["ɝ"],"l̩":S44_PH["l"],"n̩":S44_PH["n"],"or":S44_PH["ɔr"],"jʊ":S44_PH["ju"],"ɔ":S44_PH["ɑ"]});
+function s44Of(p){ return S44_PH[sorPhNorm(p)]||null; }
+function s44Word(x){ return x.replace(/\[|\]/g,""); }
+function s44Mark(x){ return '<span class="wd">'+esc(x).replace(/\[([^\]]+)\]/g,'<b class="hl">$1</b>')+'</span>'; }
+function s44Zy(r){
+  if(r[6]<0) return `<span class="s44-zy none"><i>注音沒有</i></span>`;
+  return `<span class="s44-zy ${r[6]?"ok":"bad"}"><b>${esc(r[5])}</b><i>${r[6]?"✓ 可近似":"✗ 會唸錯"}</i></span>`;
+}
+let dc44=false, dc44f="all";
+function render44(area){
+  const rows=S44.filter(r=>dc44f==="all"||(dc44f==="bad"&&r[6]!==1)||(dc44f==="v"&&r[0]<=20)||(dc44f==="c"&&r[0]>20));
+  const card=r=>`<article class="s44c ${r[6]===1?"":"warn"}" id="s44-${r[0]}">
+      <span class="s44n">${r[0]}</span>
+      <button class="s44w en" data-s="${esc(s44Word(r[1]))}" aria-label="播放 ${esc(s44Word(r[1]))}">${s44Mark(r[1])}<span class="pl">🔊</span></button>
+      <div class="s44row"><span class="s44k en">[${esc(r[2])}]</span>${sorImgs([r[4]],"s44b")}</div>
+      <div class="s44nat">${r[3].split(" ").map(x=>`<span class="en">${esc(x)}</span>`).join("")}</div>
+      ${s44Zy(r)}
+      ${r[6]===1?"":`<p class="s44why">${esc(r[7])}</p>`}
+    </article>`;
+  const v=rows.filter(r=>r[0]<=20), c=rows.filter(r=>r[0]>20);
+  area.innerHTML=`
+    <div class="dc-top"><button class="dc-back" id="s44Back">‹ 回解碼</button><div class="dc-prog">美語 44 音</div></div>
+    <div class="s44-intro">
+      <h3>美語 44 音對照</h3>
+      <p>每一個音都有：<b>例字</b>（橘色是發這個音的字母，點一下聽）、<b>KK 音標</b>、<b>專利音標積木</b>、<b>自然發音</b>的常見拼法，以及<b>國語注音</b>能不能代替。
+      標 <b class="bad">✗</b> 的音，用注音去唸一定會偏掉，要照積木和錄音練。</p>
+    </div>
+    <div class="s44-filter" role="group" aria-label="篩選">
+      ${[["all","全部 44 音"],["v","母音 1–20"],["c","子音 21–44"],["bad","注音會錯的"]].map(([k,t])=>`<button data-f="${k}" aria-pressed="${dc44f===k}">${t}</button>`).join("")}
+    </div>
+    ${v.length?`<div class="ph-sec">母音</div><div class="s44-grid">${v.map(card).join("")}</div>`:""}
+    ${c.length?`<div class="ph-sec">子音</div><div class="s44-grid">${c.map(card).join("")}</div>`:""}`;
+  document.getElementById("s44Back").onclick=()=>{ dc44=false; renderDecode(); };
+  area.querySelectorAll(".s44-filter button").forEach(b=>b.onclick=()=>{ dc44f=b.dataset.f; render44(area); });
+  area.querySelectorAll(".s44w").forEach(b=>b.onclick=()=>speak(b.dataset.s,"en-US",R_SLOW));
+}
+function open44(n){
+  dc44=true; dc44f="all"; dcState=null; stopSeq&&stopSeq();
+  const t=document.querySelector('.tab[data-tab="decode"]'); if(t&&!t.classList.contains("active")) t.click();
+  renderDecode();
+  if(n){ const el=document.getElementById("s44-"+n); if(el){ el.scrollIntoView({block:"center"}); el.classList.add("flash"); setTimeout(()=>el.classList.remove("flash"),1600);} }
+}
 function renderDecode(){
   const area=document.getElementById("decodeArea");
+  if(dc44){ render44(area); return; }
   if(!dcState){ renderDcPicker(area); return; }
   const {word,al,stage}=dcState;
   const plan=dcState.plan&&dcState.plan.length?dcState.plan:[0,1,2,3,4];
@@ -6953,6 +7145,7 @@ function renderDcPicker(area){
       <div class="sr-rule"><span>3</span><b>逐步揭露拼字</b><i>三層鷹架，從全給到全不給</i></div>
       <div class="sr-rule"><span>4</span><b>間隔提取</b><i>在快忘記時把字送回你面前</i></div>
     </div>
+    <button class="s44-open" id="dcTo44"><span>44</span><b>美語 44 音對照表</b><i>例字・KK・積木・自然發音・注音對錯</i></button>
     <button class="ds-link" id="dcToDesign">這些設計背後的理由、代價與反對意見 → 設計分頁</button>
     <div class="dash-grid" style="margin:12px 0">
       <div class="stat-card"><div class="v">${stats.due}</div><div class="k">今日待提取</div></div>
@@ -6969,6 +7162,7 @@ function renderDcPicker(area){
   area.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>{
     const w=list.find(x=>x.id===b.dataset.w); if(w)go(w);
   });
+  document.getElementById("dcTo44").onclick=()=>open44();
   const dl=document.getElementById("dcToDesign");
   if(dl)dl.onclick=()=>{ const b=document.querySelector('.tab[data-tab="design"]'); if(b)b.click(); };
   const dueList=list.filter(w=>{const r=s[w.id];return !r||r.due<=t;});
@@ -7035,6 +7229,13 @@ function renderPhPanel(w,live,seq,i){
   const pairs=minimalPairs(w.w,seq,i,3);
   const same=sameSoundWords(w.w,p,4);
   const vt=inf&&inf.t==="v";
+  const s4=s44Of(p);
+  const s44h=s4?`<div class="ph-44 ${s4[6]===1?"":"warn"}">
+      <div class="p44-top"><button class="p44-n" data-n="${s4[0]}" title="在 44 音對照表打開">44 音 #${s4[0]}</button>
+        <button class="s44w en" data-s="${esc(s44Word(s4[1]))}">${s44Mark(s4[1])}<span class="pl">🔊</span></button>
+        <span class="s44nat">${s4[3].split(" ").map(x=>`<span class="en">${esc(x)}</span>`).join("")}</span></div>
+      <div class="p44-zy">${s44Zy(s4)}<span class="p44-why">${esc(s4[7])}</span></div>
+    </div>`:"";
   const holdTip=inf?(inf.hold
       ? `<span class="pt hold">可以拉長 ——ssss 那樣持續送氣</span>`
       : `<span class="pt stop">不能拉長 —— 爆破／塞擦音一碰就放，硬拉會多出「ㄜ」</span>`):"";
@@ -7071,6 +7272,7 @@ function renderPhPanel(w,live,seq,i){
       </div>
       <div class="ph-tags">${voice}${holdTip}</div>
       <div class="ph-air">💨 ${inf?esc(inf.air):"這一格由兩個音組成，聽整字比較準"}</div>
+      ${s44h}
       <div class="ph-sec">最小對比：換掉這一格就變成別的字</div>
       ${pairHtml}
       <div class="ph-sec">這個音也出現在</div>
@@ -7086,7 +7288,8 @@ function renderPhPanel(w,live,seq,i){
       {t:b.dataset.b,lang:"en-US",rate:R_NORM,gap:300}
     ],null,()=>b.classList.remove("on"));
   });
-  document.querySelectorAll("#phPanel .ss").forEach(b=>b.onclick=()=>speak(b.dataset.s,"en-US",R_SLOW));
+  document.querySelectorAll("#phPanel .ss, #phPanel .s44w").forEach(b=>b.onclick=()=>speak(b.dataset.s,"en-US",R_SLOW));
+  document.querySelectorAll("#phPanel .p44-n").forEach(b=>b.onclick=()=>open44(+b.dataset.n));
 }
 
 /* ② 切音 */
@@ -7264,26 +7467,27 @@ function dcDecode(w,al){
 }
 /* 逐形素比對：標出哪一格的音寫錯 */
 function phonemeFeedback(input,al){
+  sorUnits(al);
   const gs=al.graphemes;
   let pos=0, cells=[];
   for(let i=0;i<gs.length;i++){
     const g=gs[i].g.replace("_","");
     const seg=input.slice(pos,pos+g.length);
     const hit=seg===g;
-    cells.push({i:i,g:gs[i].g,p:gs[i].p,silent:gs[i].silent,typed:seg,hit:hit});
+    cells.push({i:i,go:gs[i],g:gs[i].g,p:gs[i].p,silent:gs[i].silent,typed:seg,hit:hit});
     pos+=g.length;
   }
   const tail=input.slice(pos);
   const rows=cells.map(c=>`
     <button class="pf-cell ${c.hit?"hit":"miss"} ${c.silent?"silent":""}" data-i="${c.i}">
       <span class="pf-g en">${esc(c.g.replace("_","-"))}</span>
-      <span class="pf-p">${c.silent?"不發音":sorG(c)}</span>
+      <span class="pf-p">${c.silent?"不發音":sorG(c.go,c.p)}</span>
       <span class="pf-you en">${c.hit?"✓":(c.typed?esc(c.typed):"—")}</span>
     </button>`).join("");
   const miss=cells.filter(c=>!c.hit);
   const msg=miss.length===0
     ? `<div class="pf-msg ok">每一個音都寫對了 🎯</div>`
-    : `<div class="pf-msg">有 <b>${miss.length}</b> 格要修：${miss.map(c=>`<span class="pf-chip">${esc(c.g.replace("_","-"))}<i>${c.silent?"不發音":sorG(c)}</i></span>`).join("")}${tail?`　多寫了 <b class="en">${esc(tail)}</b>`:""}</div>`;
+    : `<div class="pf-msg">有 <b>${miss.length}</b> 格要修：${miss.map(c=>`<span class="pf-chip">${esc(c.g.replace("_","-"))}<i>${c.silent?"不發音":sorG(c.go,c.p)}</i></span>`).join("")}${tail?`　多寫了 <b class="en">${esc(tail)}</b>`:""}</div>`;
   return `<div class="pf-row">${rows}</div>${msg}`;
 }
 
