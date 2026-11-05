@@ -1433,6 +1433,80 @@ body.noreward .star-hud{display:none}
   @media(min-width:1000px){
     nav{right:max(10px,calc((100vw - 860px)/2 - 58px))}
   }
+
+  /* ===== 句子語音教練 ===== */
+  .vc-go{flex:0 0 auto;align-self:center;margin-left:auto;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);
+    border-radius:999px;padding:4px 9px;font:inherit;font-size:.78rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+  .vc-go i{font-style:normal;font-size:.7rem}
+  .vc-go:hover{border-color:var(--sage);background:var(--aero-soft)}
+  .rs .vc-go{margin-top:2px;align-self:flex-start}
+  .vc-sheet{position:fixed;inset:0;z-index:95;background:rgba(16,34,58,.55);backdrop-filter:blur(3px);display:none;align-items:flex-end;justify-content:center}
+  .vc-sheet.show{display:flex}
+  body.vc-open{overflow:hidden}
+  .vc-box{background:var(--paper);color:var(--text);width:min(680px,100%);max-height:92vh;overflow-y:auto;border-radius:20px 20px 0 0;
+    padding:14px 16px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -10px 30px rgba(0,0,0,.25)}
+  @media(min-width:700px){ .vc-sheet{align-items:center} .vc-box{border-radius:20px} }
+  .vc-hd{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .vc-hd b{color:var(--ink);font-size:1rem}
+  .vc-hd span{color:var(--muted);font-size:.78rem;font-weight:700}
+  .vc-x{margin-left:auto;border:none;background:var(--mist);color:var(--ink);width:36px;height:36px;border-radius:50%;font-size:1rem;cursor:pointer}
+  .vc-en{font-size:1.2rem;font-weight:700;color:var(--ink);line-height:1.5}
+  .vc-zh{font-size:.88rem;color:var(--muted);margin-top:2px}
+  .vc-flow{font-size:.66rem;letter-spacing:.6px;color:var(--sage);font-weight:800;margin:8px 0 2px}
+  .vc-bar{display:flex;flex-direction:column;gap:9px;margin-top:8px}
+  .vc-acc{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .vc-acc button{border:1.5px solid var(--line);background:var(--paper);color:var(--text);border-radius:12px;padding:9px 8px;font:inherit;font-size:.84rem;font-weight:800;cursor:pointer;min-height:44px}
+  .vc-acc button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  .vc-acc button.na{opacity:.6}
+  .vc-acc button i{display:block;font-style:normal;font-size:.66rem;font-weight:700}
+  .vc-speeds{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  @media(max-width:520px){ .vc-speeds{grid-template-columns:1fr 1fr} }
+  .vc-sp{border:1.5px solid var(--line);background:var(--aero-soft);color:var(--ink);border-radius:12px;padding:9px 6px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;min-height:52px}
+  .vc-sp b{font-size:.84rem}
+  .vc-sp i{font-style:normal;font-size:.68rem;color:var(--muted);font-weight:700}
+  .vc-sp.on{background:var(--sage);border-color:var(--sage);color:#fff}
+  .vc-sp.on i{color:#fff}
+  .vc-voice{font-size:.7rem;color:var(--muted);line-height:1.5}
+  .vc-msg{display:none;font-size:.78rem;line-height:1.6;background:var(--coral-soft);color:var(--coral);border-radius:10px;padding:8px 10px}
+  .vc-msg.show{display:block}
+  .vc-tools{display:flex;flex-wrap:wrap;gap:6px}
+  .vc-t{flex:1 1 auto;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:12px;padding:9px 10px;font:inherit;font-size:.82rem;font-weight:800;cursor:pointer;min-height:44px}
+  .vc-t:disabled{opacity:.45;cursor:default}
+  .vc-t.rec.on{background:var(--coral);border-color:var(--coral);color:#fff}
+  .vc-t.nx{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  .vc-exp{border:1.5px solid var(--line);border-radius:12px;background:var(--cream)}
+  .vc-exp summary{cursor:pointer;padding:10px 12px;font-size:.82rem;font-weight:800;color:var(--ink)}
+  .vc-ex{padding:0 12px 12px}
+  .vc-sent{font-size:1.12rem;line-height:2.5;color:var(--text);word-spacing:2px}
+  .vc-tok{position:relative;display:inline-block;line-height:1.3;padding-bottom:12px;border-radius:4px}
+  .vc-tok.now{background:var(--gold);color:#1c2b3a}
+  .vc-tok.st{font-weight:800;color:var(--ink)}
+  .vc-tok.nuc::before{content:"▲";position:absolute;top:-13px;left:50%;transform:translateX(-50%);font-size:.6rem;color:var(--coral)}
+  .vc-tok.wk{color:var(--muted)}
+  .vc-ipa{position:absolute;left:0;right:0;bottom:-2px;text-align:center;font-style:normal;font-size:.62rem;color:var(--sage);white-space:nowrap}
+  .vc-tok.asm{text-decoration:underline wavy #8a5cd6;text-underline-offset:4px}
+  .vc-tok.flap{text-decoration:underline dotted var(--coral);text-underline-offset:4px}
+  .vc-tok s{color:var(--muted);text-decoration-thickness:2px;opacity:.6}
+  .vc-lk{color:var(--sage);font-weight:900;margin:0 -3px;position:relative;top:4px}
+  .vc-lk sup{font-size:.6rem;top:-.9em}
+  .vc-into{margin-left:6px;color:var(--coral);font-weight:900}
+  .vc-legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.7rem;color:var(--muted);margin:4px 0 8px}
+  .vc-legend .lg{font-style:normal;font-weight:900;margin-right:3px;color:var(--sage)}
+  .vc-legend .lg.asm{color:#8a5cd6}.vc-legend .lg.flap,.vc-legend .lg.nuc{color:var(--coral)}
+  .vc-list{list-style:none;display:grid;gap:6px;padding:0;margin:0}
+  .vc-list li{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;font-size:.78rem;line-height:1.55;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:7px 9px}
+  .vc-list .zh{flex:1 1 220px;color:var(--text)}
+  .vc-list code{font-family:inherit;color:var(--sage);font-weight:800}
+  .vc-chip{font-size:.66rem;font-weight:900;border-radius:999px;padding:1px 8px;background:var(--mist);color:var(--ink)}
+  .vc-list .k-asm .vc-chip{background:#ece3fb;color:#5f3aa8}
+  .vc-list .k-eli .vc-chip,.vc-list .k-flap .vc-chip{background:var(--coral-soft);color:var(--coral)}
+  .vc-list .k-stress .vc-chip,.vc-list .k-into .vc-chip{background:var(--green-bg);color:var(--green-ok)}
+  .vc-warn{font-size:.72rem;line-height:1.65;color:var(--muted);margin-top:9px}
+  .vc-priv{font-size:.7rem;color:var(--muted);line-height:1.6;margin-top:10px}
+  .sp-vc{margin:10px 0 4px;text-align:left}
+  .vc-exp.locked summary{color:var(--muted)}
+  :root[data-theme="dark"] .vc-list .k-asm .vc-chip{background:#2f2448;color:#c9b2f5}
+  :root[data-theme="dark"] .vc-tok.asm{text-decoration-color:#b896f0}
 </style>
 <style id="darkTheme">
   /* 單字卡滑動 */
@@ -4465,13 +4539,19 @@ document.addEventListener("keydown",e=>{
 function speak(text,lang="en-US",rate){
   try{ _speak(text,lang,rate); }catch(e){}          /* 語音被瀏覽器擋掉時，靜音但不中斷 */
 }
+/* 句子（有空格的）跟著口音設定；單字維持美式，因為 KK 音標和積木都是美式 */
+function vcRoute(text,lang){
+  try{ if(/^en-US$/i.test(lang||"")&&/\s/.test(String(text).trim())&&vcAccent()==="uk"){ const g=vcVoiceGB(); if(g) return {lang:"en-GB",voice:g}; } }catch(e){}
+  return null;
+}
 function _speak(text,lang="en-US",rate){
   /* v25：有真人錄音就優先播真人音（合成語音是退路，不是示範） */
-  try{ if(OPTV("human")&&/^en/i.test(lang||"")&&voxHas(text)){ voxPlay(text,rate); return; } }catch(e){}
+  const _rt=vcRoute(text,lang);
+  try{ if(!_rt&&OPTV("human")&&/^en/i.test(lang||"")&&voxHas(text)){ voxPlay(text,rate); return; } }catch(e){}
   if(!("speechSynthesis" in window))return;
   window.speechSynthesis.cancel(); if(_wd){clearInterval(_wd);_wd=null;}
-  const u=new SpeechSynthesisUtterance(sayAs(text)); u.lang=lang; u.rate=rate||R_NORM;
-  try{ const vv=pickVoiceForRate(lang,u.rate); if(vv)u.voice=vv; }catch(e){}
+  const u=new SpeechSynthesisUtterance(sayAs(text)); u.lang=_rt?_rt.lang:lang; u.rate=rate||R_NORM;
+  try{ const vv=_rt?vcVoice("uk",u.rate):pickVoiceForRate(lang,u.rate); if(vv)u.voice=vv; }catch(e){}
   _utterRef=u;
   u.onend=()=>{_utterRef=null;if(_wd){clearInterval(_wd);_wd=null;}};
   u.onerror=()=>{_utterRef=null;if(_wd){clearInterval(_wd);_wd=null;}};
@@ -4522,7 +4602,7 @@ function tourPlay(steps,onEach,onDone){
     const u=new SpeechSynthesisUtterance(s.t);u.lang=s.lang||"en-US";u.rate=s.rate||.9;_utterRef=u;
     /* 序列播放原本沒指定音色，會落到瀏覽器預設那一支：
        既不是使用者選的，慢速也不一定照做。這裡補上同一套挑選邏輯。 */
-    try{ const vv=pickVoiceForRate(u.lang,u.rate); if(vv)u.voice=vv; }catch(e){}
+    try{ const rt=vcRoute(s.t,u.lang); if(rt){u.lang=rt.lang;u.voice=vcVoice("uk",u.rate);} else { const vv=pickVoiceForRate(u.lang,u.rate); if(vv)u.voice=vv; } }catch(e){}
     u.onend=()=>{if(_wd){clearInterval(_wd);_wd=null;}if(!_seq.stop&&_seq.id===myId)setTimeout(step,s.gap||360);};
     u.onerror=()=>{if(!_seq.stop&&_seq.id===myId)setTimeout(step,s.gap||360);};
     try{ speechSynthesis.speak(u); }catch(e){ if(!_seq.stop&&_seq.id===myId)setTimeout(step,320); return; }
@@ -5274,7 +5354,7 @@ function renderCard(){
   const badge=w.num?`<span class="num-badge">${String(w.num).padStart(2,"0")}</span>`:`<span class="tag-rel">關聯字</span>`;
   const phrases=w.ph.length?`<div class="sec-label">片語 / 變化</div>`+w.ph.map((p,i)=>`<div class="phrase" id="tPh${i}"><span class="pen en">${p[0]}</span> <span class="pzh">${p[1]}</span></div>`).join(""):"";
   const rel=w.rel?`<div class="sec-label">關聯字</div><div class="rel-words" id="tRel">${w.rel}</div>`:"";
-  const exs=w.ex.length?`<div class="sec-label">例句</div>`+w.ex.map((e,i)=>`<div class="ex" id="tEx${i}"><button class="play" data-sp="${esc(e[0])}">▶</button><div class="etx"><div class="een en">${e[0]}</div><div class="ezh">${e[1]}</div></div></div>`).join(""):"";
+  const exs=w.ex.length?`<div class="sec-label">例句</div>`+w.ex.map((e,i)=>`<div class="ex" id="tEx${i}"><button class="play" data-sp="${esc(e[0])}">▶</button><div class="etx"><div class="een en">${e[0]}</div><div class="ezh">${e[1]}</div></div><button class="vc-go" data-ex="${i}" aria-label="句子練習：四段語速、自然語流、錄音">🎧<i>跟讀</i></button></div>`).join(""):"";
   area.innerHTML=`
     <div class="progress-mini">第 <b>${idx+1}</b> / ${deck.length} 張</div>
     <div class="card-stage"><div class="card" id="theCard">
@@ -5302,6 +5382,7 @@ function renderCard(){
   const card=document.getElementById("theCard");
   card.addEventListener("click",e=>{if(e.target.closest("button"))return;if(_swiped){_swiped=false;return;}stopTour();flipped=!flipped;card.classList.toggle("flipped",flipped);if(flipped)creditActivity("cards");});
   area.querySelectorAll("[data-sp]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();stopTour();speak(b.dataset.sp);}));
+  area.querySelectorAll(".vc-go").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();stopTour();openVC(w.ex.map(x=>({en:x[0],zh:x[1]})),+b.dataset.ex);}));
   /* ---- 背面語音導覽 ---- */
   const tBtn=document.getElementById("tourBtn"),tSt=document.getElementById("tourStatus");
   const clearTour=()=>{
@@ -5404,12 +5485,14 @@ function listRowHtml(w){
   const st=PROG()[w.id],cls=st==="known"?"is-known":st==="review"?"is-review":"";
   const phrases=w.ph.length?`<div class="sec-label">片語 / 變化</div>`+w.ph.map(p=>`<div class="phrase"><span class="pen en">${p[0]}</span> <span class="pzh">${p[1]}</span></div>`).join(""):"";
   const rel=w.rel?`<div class="sec-label">關聯字</div><div class="rel-words">${w.rel}</div>`:"";
-  const exs=w.ex.length?`<div class="sec-label">例句</div>`+w.ex.map(e=>`<div class="ex"><button class="play" data-sp="${esc(e[0])}">▶</button><div class="etx"><div class="een en">${e[0]}</div><div class="ezh">${e[1]}</div></div></div>`).join(""):"";
+  const exs=w.ex.length?`<div class="sec-label">例句</div>`+w.ex.map((e,i)=>`<div class="ex"><button class="play" data-sp="${esc(e[0])}">▶</button><div class="etx"><div class="een en">${e[0]}</div><div class="ezh">${e[1]}</div></div><button class="vc-go" data-w="${esc(w.id)}" data-ex="${i}" aria-label="句子練習">🎧<i>跟讀</i></button></div>`).join(""):"";
   return `<div class="row ${cls}"><div class="row-head"><span class="rw en">${w.w}</span><span class="rk en">${w.kk}</span><span class="rz">${w.zh}</span><button class="rsp" data-sp="${esc(w.w)}">🔊</button><span class="arr">▶</span></div><div class="row-body"><div class="pos en">${w.pos}</div>${phrases}${rel}${exs}</div></div>`;
 }
 function bindListRows(area){
   area.querySelectorAll(".row-head").forEach(h=>h.addEventListener("click",e=>{if(e.target.closest(".rsp"))return;h.parentElement.classList.toggle("open");}));
   area.querySelectorAll("[data-sp]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();speak(b.dataset.sp);}));
+  area.querySelectorAll(".vc-go").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();
+    const w=activeUnit().words.find(x=>String(x.id)===b.dataset.w); if(w) openVC(w.ex.map(x=>({en:x[0],zh:x[1]})),+b.dataset.ex);}));
 }
 /* 依詞性（pos 欄）判斷所屬大分類，一字可同時歸多類 */
 function posCats(pos){
@@ -6025,6 +6108,334 @@ function pickRecMime(){
   return "";
 }
 function buildSpList(){const out=[];activeUnit().words.forEach(w=>w.ex.forEach(e=>out.push({en:e[0],zh:e[1],word:w.w})));spList=out;}
+
+/* ===================== 句子語音教練：雙口音 × 四段語速 × 自然語流解析 =====================
+   Listen → Notice → Imitate → Record → Compare → Express
+   聲音來源：裝置的 Web Speech 合成語音（Edge 的 Natural 音色最自然）。
+   這裡沒有預錄音檔，也沒有接雲端 Neural TTS（那需要金鑰，不能放在公開網頁裡）。
+   所以：
+   ・口音只有在裝置真的有 en-GB 音色時才切得過去，不會拿美式音色冒充英式；
+   ・四段語速是同一支音色用不同 rate 合成，不是把音檔加速，音高不會跑掉，
+     但連音、弱讀是否真的出現，由那支合成語音決定，網頁沒辦法保證；
+   ・自然語流解析是依文字規則推測「可能出現」的變化，不是從音檔分析出來的。 */
+const VC_MODES=[
+  {k:"w",n:"①",t:"逐字朗讀",en:"Word by Word",r:0.9},
+  {k:"s",n:"②",t:"慢速清楚",en:"Slow & Clear",r:0.75,pct:"75%"},
+  {k:"n",n:"③",t:"一般語速",en:"Natural",r:1.0,pct:"100%"},
+  {k:"f",n:"④",t:"快速自然",en:"Fast & Fluent",r:1.2,pct:"120%"}];
+const VC_GB_WANT=["sonia","libby","ryan","maisie","thomas","abbi","alfie","bella","elliot","ethan","hollie","noah","oliver","olivia"];
+function vcAccent(){ return OPTV("accent")==="uk"?"uk":"us"; }
+function vcIsGB(v){ return /^en[-_]?gb/i.test((v&&v.lang)||""); }
+function vcIsUS(v){ return /^en[-_]?us/i.test((v&&v.lang)||""); }
+function vcVoiceGB(){
+  const list=enVoices().filter(vcIsGB); if(!list.length) return null;
+  const lc=v=>(v.name||"").toLowerCase();
+  const nat=list.filter(v=>/natural/i.test(v.name||""));
+  for(const k of VC_GB_WANT){ const f=nat.find(v=>lc(v).indexOf("microsoft "+k)===0); if(f) return f; }
+  if(nat.length) return nat[0];
+  return list.find(v=>/google uk english female/i.test(v.name||""))
+      || list.find(v=>/google/i.test(v.name||""))
+      || list.find(v=>/daniel|serena|kate|arthur|martha|stephanie/i.test(v.name||""))
+      || list[0];
+}
+function vcVoiceUS(){
+  const v=pickVoice("en-US");
+  if(v&&vcIsUS(v)) return v;
+  return edgeNaturalUS(enVoices()) || enVoices().find(vcIsUS) || v || null;
+}
+/* 同一句四段語速盡量用同一支音色。
+   Natural 音色會照 rate 變速，就不換；其他網路音色放慢時常不理 rate，
+   沿用全站原本的規則（設定裡可關掉）改用本機音色，並在面板上照實寫出用的是哪一支。 */
+function vcVoice(acc,rate){
+  const v=acc==="uk"?vcVoiceGB():vcVoiceUS();
+  if(!v) return null;
+  if(/natural/i.test(v.name||"")||v.localService||!(rate<0.8)||OPTV("slowlocal")===0) return v;
+  const loc=localEnVoices().filter(acc==="uk"?vcIsGB:vcIsUS);
+  return loc[0]||v;
+}
+function vcLang(acc){ return acc==="uk"?"en-GB":"en-US"; }
+let _vcSeq=0;
+function vcStop(){ _vcSeq++; stopSeq(); try{ if(_voxAudio)_voxAudio.pause(); }catch(e){} document.querySelectorAll(".vc-sp.on").forEach(b=>b.classList.remove("on")); document.querySelectorAll(".vc-tok.now").forEach(t=>t.classList.remove("now")); }
+function vcUtter(text,acc,rate,onEnd){
+  if(!("speechSynthesis" in window)){ onEnd&&onEnd(); return; }
+  const u=new SpeechSynthesisUtterance(sayAs(text)); u.lang=vcLang(acc); u.rate=rate;
+  const v=vcVoice(acc,rate); if(v) u.voice=v;
+  _utterRef=u;
+  u.onend=()=>{ if(_wd){clearInterval(_wd);_wd=null;} onEnd&&onEnd(); };
+  u.onerror=()=>{ if(_wd){clearInterval(_wd);_wd=null;} onEnd&&onEnd(); };
+  try{ speechSynthesis.speak(u); }catch(e){ onEnd&&onEnd(); return; }
+  if(_wd)clearInterval(_wd);
+  _wd=setInterval(()=>{try{if(!speechSynthesis.speaking){clearInterval(_wd);_wd=null;return;}speechSynthesis.pause();speechSynthesis.resume();}catch(e){clearInterval(_wd);_wd=null;}},4000);
+}
+function vcWords(en){ return String(en).replace(/\s+/g," ").trim().split(" ").filter(Boolean); }
+/* 播放：mode = w/s/n/f；root 是面板（用來亮起目前的字） */
+function vcPlay(en,mode,root,btn){
+  const acc=vcAccent();
+  if(acc==="uk"&&!vcVoiceGB()){ vcNotice(root,"這台裝置沒有英式（en-GB）語音，所以沒有播放——不會拿美式音色冒充英式。可改用 Edge 或 Chrome 開啟，或切回美式。"); return; }
+  vcStop(); const my=_vcSeq; try{speechSynthesis.cancel();}catch(e){}
+  if(btn) btn.classList.add("on");
+  const done=()=>{ if(my!==_vcSeq)return; if(btn)btn.classList.remove("on"); if(root)root.querySelectorAll(".vc-tok.now").forEach(t=>t.classList.remove("now")); };
+  if(root) root.dataset.last=mode;
+  const M=VC_MODES.find(m=>m.k===mode)||VC_MODES[2];
+  if(mode!=="w"){
+    /* 美式、一般語速，而且老師錄過這一句：用真人錄音 */
+    try{ if(acc==="us"&&mode==="n"&&OPTV("human")&&voxHas(en)){ voxPlay(en,1); setTimeout(done,600); return; } }catch(e){}
+    vcUtter(en,acc,M.r,done); return;
+  }
+  const ws=vcWords(en), toks=root?root.querySelectorAll(".vc-ex .vc-tok"):[];
+  let i=0;
+  const step=()=>{
+    if(my!==_vcSeq)return;
+    if(i>=ws.length){ done(); return; }
+    toks.forEach((t,k)=>t.classList.toggle("now",k===i));
+    const w=ws[i].replace(/^[^A-Za-z0-9']+|[^A-Za-z0-9']+$/g,""); i++;
+    if(!w){ step(); return; }
+    try{speechSynthesis.cancel();}catch(e){}
+    vcUtter(w,acc,M.r,()=>{ if(my===_vcSeq) setTimeout(step,650); });
+  };
+  step();
+}
+function vcNotice(root,msg){ const n=root&&root.querySelector(".vc-msg"); if(n){ n.innerHTML=msg; n.classList.add("show"); } }
+
+/* ---------- 自然語流解析（依文字規則推測，標成「可能出現」） ---------- */
+let _vcDict=null;
+function vcDict(){
+  if(_vcDict) return _vcDict; _vcDict={};
+  BUILTIN_UNITS.forEach(u=>u.words.forEach(w=>{ const k=(w.w||"").toLowerCase();
+    if(/^[a-z']+$/.test(k)&&!_vcDict[k]&&w.kk){ const s=_vFirstKK(w.kk).replace(/[ˈˋˌ͵]/g,""); if(s) _vcDict[k]=s; } }));
+  return _vcDict;
+}
+const VC_V="iɪeɛæɑɔoʊuʌəɚɝa";
+const VC_HSILENT=new Set(["hour","hours","honest","honestly","honor","honour","heir"]);
+const VC_JU=/^(use|used|useful|user|usual|usually|uni|euro|eu|ewe)/;
+function vcStart(w){ /* "v" 母音開頭／"c" 子音開頭 */
+  const d=vcDict()[w];
+  if(d){ return VC_V.indexOf(d[0])>=0?"v":"c"; }
+  if(VC_HSILENT.has(w)) return "v";
+  if(/^one|^once/.test(w)||VC_JU.test(w)) return "c";
+  return /^[aeiou]/.test(w)?"v":"c";
+}
+/* 字尾的音：回傳 {t:"c"|"v"|"r", ph:代表音} */
+function vcEnd(w){
+  const d=vcDict()[w];
+  if(d){ const L=d[d.length-1];
+    if(L==="ɚ"||L==="ɝ"||L==="r") return {t:"r",ph:"r"};
+    if(VC_V.indexOf(L)>=0){ const two=d.slice(-2); return {t:"v",ph:/[ɪi]$/.test(d)||two==="aɪ"||two==="ɔɪ"?"j":(/[ʊuo]$/.test(d)||two==="aʊ"?"w":"")}; }
+    return {t:"c",ph:L}; }
+  if(/'t$/.test(w)) return {t:"c",ph:"t"};
+  if(/(r|re)$/.test(w)&&!/ire$/.test(w)) return {t:"r",ph:"r"};
+  if(/(ay|ey|oy|ee|ie|y|i)$/.test(w)) return {t:"v",ph:"j"};
+  if(/(ow|ew|oo|o|u|aw)$/.test(w)) return {t:"v",ph:/aw$/.test(w)?"":"w"};
+  if(/a$/.test(w)) return {t:"v",ph:""};
+  if(/[^aeiou]e$/.test(w)&&w.length>2){ const c=w[w.length-2]; return {t:"c",ph:({c:"s",g:"dʒ",s:"z",v:"v",z:"z"})[c]||c}; }
+  if(/e$/.test(w)) return {t:"v",ph:"j"};
+  const m=w.match(/(ck|sh|ch|th|ng|ss|ll|[bcdfgjklmnpqstvxz])$/);
+  return {t:"c",ph:m?({ck:"k",sh:"ʃ",ch:"tʃ",th:"θ",ng:"ŋ",ss:"s",ll:"l",x:"ks",c:"k",q:"k",j:"dʒ"})[m[1]]||m[1]:""};
+}
+/* 功能詞的弱讀：[美式, 英式, 中文說明] */
+const VC_WEAK={
+  a:["ə","ə","冠詞 a 輕輕帶過"], an:["ən","ən","冠詞 an 輕讀"],
+  the:["ðə","ðə","the 輕讀；後面接母音時常唸 [ði]"],
+  to:["tə","tə","to 不強調時母音變輕；後面接母音時接近 [tʊ]"],
+  for:["fɚ","fə","for 不強調時母音變輕"], of:["əv","əv","of 輕讀，快的時候只剩 [ə]"],
+  and:["ən","ən","and 輕讀，常只剩 [ən] 甚至 [n]"], or:["ɚ","ə","or 輕讀"], but:["bət","bət","but 輕讀"],
+  at:["ət","ət","at 輕讀"], from:["frəm","frəm","from 輕讀"], as:["əz","əz","as 輕讀"], than:["ðən","ðən","than 輕讀"],
+  can:["kən","kən","can 不強調時輕讀（can't 永遠不弱讀）"], was:["wəz","wəz","was 輕讀"], were:["wɚ","wə","were 輕讀"],
+  are:["ɚ","ə","are 輕讀"], them:["ðəm","ðəm","them 輕讀"], him:["ɪm","ɪm","him 不強調時 h 常不發音"],
+  her:["ɚ","ə","her 不強調時 h 常不發音、母音變輕"], your:["jɚ","jə","your 輕讀"],
+  do:["də","də","疑問句開頭的 do 輕讀"], does:["dəz","dəz","does 輕讀"],
+  have:["həv","əv","助動詞 have 輕讀"], has:["həz","əz","助動詞 has 輕讀"], had:["həd","əd","助動詞 had 輕讀"]};
+const VC_AUXNEXT=new Set(["i","you","we","they","he","she","it","there"]);
+function vcWeakOk(w,next,last,punct){
+  if(last||punct) return false;              /* 句尾、逗號前：用強讀 */
+  if(w==="do"||w==="does") return VC_AUXNEXT.has(next);
+  if(w==="have"||w==="has"||w==="had") return next==="been"||next==="got"||/(ed|en)$/.test(next||"");
+  if(w==="can") return !!next&&!VC_WEAK[next];
+  return true;
+}
+const VC_WH=new Set(["what","where","when","why","who","whom","whose","which","how"]);
+const VC_AUX=/^(is|are|am|was|were|do|does|did|can|could|will|would|shall|should|may|might|must|have|has|had|isn't|aren't|don't|doesn't|didn't|can't|won't|haven't|hasn't|wasn't|weren't)$/;
+function vcAnalyze(en,acc){
+  const raw=vcWords(en);
+  const T=raw.map(r=>{ const m=r.match(/^([^A-Za-z0-9']*)([A-Za-z0-9'’]+)?([^A-Za-z0-9']*)$/)||["",r,"",""];
+    const core=(m[2]||"").replace(/’/g,"'"); return {raw:r,pre:m[1]||"",core,post:m[3]||"",w:core.toLowerCase()}; });
+  const F=[], n=T.length;
+  const isFunc=w=>ARTICLES.has(w)||WEAK.has(w);
+  T.forEach((t,i)=>{ t.weak=null; t.stress=!!t.w&&!isFunc(t.w)&&!/^\d+$/.test(t.w); t.link=null; t.asm=null; t.eli=null; t.flap=null; });
+  /* 主要重音：預設在最後一個實詞 */
+  /* 片語動詞的副詞（turn it ON、pick them UP）要重讀 */
+  const PART=/^(up|on|off|out|in|down|away|back|over)$/, PRON=/^(it|them|him|her|me|us|you)$/;
+  if(n>=2&&PART.test(T[n-1].w)&&PRON.test(T[n-2].w)) T[n-1].stress=true;
+  /* 附加問句：主要重音看逗號前的主句 */
+  let endAt=n-1;
+  if(/,\s*\S+\s+\S+\?["”']?$/.test(en.trim())){ for(let i=n-1;i>=0;i--){ if(/,/.test(T[i].post)){ endAt=i; break; } } }
+  let nuc=-1; for(let i=endAt;i>=0;i--){ if(T[i].stress){ nuc=i; break; } }
+  if(nuc>=0) T[nuc].nuc=true;
+  for(let i=0;i<n;i++){
+    const t=T[i], nx=T[i+1], last=i===n-1, punct=/[,;:!?.—–)"”]/.test(t.post);
+    if(!t.w) continue;
+    /* 弱讀 */
+    const wk=VC_WEAK[t.w];
+    if(wk&&vcWeakOk(t.w,nx&&nx.w,last,punct)&&!(i===0&&t.w!=="do"&&t.w!=="does"&&t.w!=="can"&&t.w!=="a"&&t.w!=="the"&&t.w!=="an")){
+      const ph=(t.w==="the"&&nx&&vcStart(nx.w)==="v")?"ði":wk[acc==="uk"?1:0];
+      t.weak=ph; F.push({k:"weak",i,txt:t.core,ph,zh:wk[2]});
+    }
+    if(!nx||!nx.w||punct) continue;
+    const e=vcEnd(t.w), s=vcStart(nx.w);
+    /* 同化：t/d/s/z ＋ you/your/yet */
+    if(/^(you|your|yet|you're|you've|you'll)$/.test(nx.w)&&/^(t|d|s|z)$/.test(e.ph)){
+      const to={t:"tʃ",d:"dʒ",s:"ʃ",z:"ʒ"}[e.ph];
+      t.asm=nx.asm=true; F.push({k:"asm",i,txt:t.core+" "+nx.core,ph:to,zh:`[${e.ph}] 碰到 [j]，可能融合成 [${to}]（例如 ${({t:"don't you",d:"did you",s:"miss you",z:"as you"})[e.ph]}）`}); continue;
+    }
+    /* 省音：子音＋t/d 結尾，後面接子音 */
+    if(s==="c"&&/(st|xt|ct|pt|ft|nd|ld|ked|ped|ced|shed|ched)$/.test(t.w)&&t.w!=="and"&&/^[^aeiouh]/.test(nx.w)){
+      t.eli=t.core.length-1; F.push({k:"eli",i,txt:t.core+" "+nx.core,ph:"",zh:`字尾的 ${t.core.slice(-1)} 夾在子音中間，口語裡常輕到聽不見（例如 next day、last night）`}); continue;
+    }
+    /* 同化：n ＋ p/b/m */
+    if(e.ph==="n"&&/^[pbm]/.test(nx.w)&&!t.weak){
+      t.asm=nx.asm=true; F.push({k:"asm",i,txt:t.core+" "+nx.core,ph:"m",zh:"n 後面接雙唇音 p／b／m，可能被帶成 [m]"}); continue;
+    }
+    if(s!=="v") continue;
+    /* 美式閃音 T：t 結尾、前面是母音或 r，後面接母音 */
+    if(acc==="us"&&e.ph==="t"&&/([aeiouy]|r)t$|([aeiou])te$/.test(t.w)&&!/'t$/.test(t.w)){
+      t.flap=true; t.link="c"; F.push({k:"flap",i,txt:t.core+" "+nx.core,ph:"ɾ",zh:"美式：t 夾在兩個母音中間，常變成很輕、像 d 的閃音（get it 聽起來像 ge-dit）"}); continue;
+    }
+    if(e.t==="r"){
+      t.link="r"; F.push({k:"link",i,txt:t.core+" "+nx.core,ph:"r",zh:acc==="uk"?"英式 linking R：字尾的 r 平常不唸，後面接母音時才把 r 唸出來接過去":"美式 r 本來就唸，直接連到下一個母音"}); continue;
+    }
+    if(e.t==="c"){ t.link="c"; F.push({k:"link",i,txt:t.core+" "+nx.core,ph:"",zh:`子音 ${e.ph?"["+e.ph+"] ":""}接到下一個字的母音，兩個字黏成一串（像 pick it → pi-kit）`}); continue; }
+    if(e.t==="v"&&e.ph){ t.link=e.ph; F.push({k:"link",i,txt:t.core+" "+nx.core,ph:e.ph,zh:`母音接母音，中間自然滑出一個輕輕的 [${e.ph}]（像 ${e.ph==="w"?"go out → go-wout":"see it → see-yit"}）`}); continue; }
+  }
+  /* 語調 */
+  const s=en.trim(), first=(T[0]&&T[0].w)||"";
+  let into;
+  if(/\?["”']?$/.test(s)){
+    if(/,\s*(isn't|aren't|don't|doesn't|didn't|won't|can't|haven't|hasn't|wasn't|weren't|is|are|do|does|did|will|can)\s+(it|he|she|they|you|we|i|there)\?["”']?$/i.test(s)) into={a:"↘ / ↗",zh:"附加問句：只是想確認時尾音下降，真的不確定時上揚"};
+    else if(/\bor\b/i.test(s)&&!VC_WH.has(first)) into={a:"↗ … ↘",zh:"選擇疑問句：前面選項上揚，最後一個選項下降"};
+    else if(VC_WH.has(first)) into={a:"↘",zh:"Wh 疑問句（what、where…）通常尾音下降，不是一律上揚"};
+    else if(VC_AUX.test(first)) into={a:"↗",zh:"Yes／No 疑問句：尾音通常上揚"};
+    else into={a:"↗",zh:"用直述句語序發問：靠尾音上揚表示疑問"};
+  } else if(/!["”']?$/.test(s)) into={a:"↘",zh:"驚嘆、強調：音高起伏較大，重音字拉高，句尾下降"};
+  else into={a:"↘",zh:"直述句：句尾下降，表示話說完了"};
+  const commas=(s.match(/,/g)||[]).length;
+  if(commas) into.zh+=`；逗號處常小幅上揚 ↗，表示話還沒說完`;
+  if(nuc>=0) F.push({k:"stress",i:nuc,txt:T[nuc].core,ph:"",zh:`主要重音預設落在最後一個實詞「${T[nuc].core}」；想強調別的字時，重音會跟著移動`});
+  F.push({k:"into",txt:"",ph:into.a,zh:into.zh});
+  return {T,F,into};
+}
+const VC_KIND={link:["連音","‿"],weak:["弱讀","ə"],asm:["同化","≈"],eli:["省音","—"],flap:["閃音 T","ɾ"],stress:["主要重音","▲"],into:["語調","↘"]};
+function vcExHtml(en,acc){
+  const A=vcAnalyze(en,acc);
+  const toks=A.T.map((t,i)=>{
+    let core=esc(t.core);
+    if(t.eli!==null&&t.eli!==undefined) core=esc(t.core.slice(0,t.eli))+`<s>${esc(t.core.slice(t.eli))}</s>`;
+    const cls=["vc-tok",t.stress?"st":"",t.nuc?"nuc":"",t.weak?"wk":"",t.asm?"asm":"",t.flap?"flap":""].join(" ");
+    const lk=t.link?`<span class="vc-lk ${t.link==="r"?"r":""}" title="連音">‿${t.link==="j"||t.link==="w"?`<sup>${t.link}</sup>`:(t.link==="r"&&acc==="uk"?"<sup>r</sup>":"")}</span>`:"";
+    return `<span class="${cls}">${esc(t.pre)}${core}${esc(t.post)}${t.weak?`<i class="vc-ipa">${esc(t.weak)}</i>`:""}</span>${lk}`;
+  }).join(" ");
+  const rows=A.F.map(f=>`<li class="k-${f.k}"><span class="vc-chip">${VC_KIND[f.k][0]}</span>${f.txt?`<b class="en">${esc(f.txt)}</b>`:""}${f.ph?`<code>${esc(f.k==="into"?f.ph:"["+f.ph+"]")}</code>`:""}<span class="zh">${esc(f.zh)}</span></li>`).join("");
+  return `<div class="vc-sent en">${toks}<span class="vc-into">${esc(A.into.a)}</span></div>
+    <div class="vc-legend"><span><i class="lg lk">‿</i>連音</span><span><i class="lg wk">ə</i>弱讀（淡字）</span><span><i class="lg asm">≈</i>同化</span><span><i class="lg eli">—</i>省音</span>${acc==="us"?`<span><i class="lg flap">ɾ</i>閃音 T</span>`:""}<span><b>粗體</b>重音字</span><span><i class="lg nuc">▲</i>主要重音</span><span><i class="lg">↗↘</i>語調</span></div>
+    <ul class="vc-list">${rows}</ul>
+    <p class="vc-warn">⚠️ 以上是依拼字與${acc==="uk"?"英式":"美式"}口語規則推測<b>可能出現</b>的語流變化，不是從播放的聲音分析出來的。合成語音不一定每一處都照做，語速越快越常出現；請以耳朵聽到的為準。</p>`;
+}
+
+/* ---------- 共用控制列 ---------- */
+function vcBarHtml(opt){
+  opt=opt||{};
+  const acc=vcAccent(), gb=!!vcVoiceGB();
+  const v=vcVoice(acc,1);
+  return `<div class="vc-bar">
+    <div class="vc-acc" role="group" aria-label="口音">
+      <button data-acc="us" aria-pressed="${acc==="us"}">🇺🇸 美式 English (US)</button>
+      <button data-acc="uk" aria-pressed="${acc==="uk"}" ${gb?"":`class="na" title="這台裝置沒有英式語音"`}>🇬🇧 英式 English (UK)${gb?"":"<i>本機沒有</i>"}</button>
+    </div>
+    <div class="vc-speeds" role="group" aria-label="語速">
+      ${VC_MODES.map(m=>`<button class="vc-sp" data-m="${m.k}"><b>${m.n} ${m.t}</b><i>${m.pct||m.en}</i></button>`).join("")}
+    </div>
+    <div class="vc-voice">🔈 ${v?`${esc(v.name)}（${esc(v.lang)}）`:"這台裝置沒有可用的"+(acc==="uk"?"英式":"美式")+"英語語音"}</div>
+    <div class="vc-msg"></div>
+    ${opt.tools===false?"":`<div class="vc-tools">
+      <button class="vc-t" data-t="replay">🔁 重播</button>
+      <button class="vc-t rec" data-t="rec">🎙️ 錄音</button>
+      <button class="vc-t" data-t="mine" disabled>▶ 回放</button>
+      <button class="vc-t" data-t="ab" disabled>🎧 示範 → 我的</button>
+      ${opt.next?`<button class="vc-t nx" data-t="next">下一題 ›</button>`:""}
+    </div>`}
+    <details class="vc-exp" ${OPTV("vcExp")?"open":""}><summary>🔍 Connected Speech Explorer｜自然語流解析</summary><div class="vc-ex"></div></details>
+  </div>`;
+}
+const _vcRec={url:new Map(),rec:null,stream:null,key:null};
+function vcBind(root,en,opt){
+  opt=opt||{};
+  const ex=root.querySelector(".vc-ex");
+  const paint=()=>{ if(ex) ex.innerHTML=vcExHtml(en,vcAccent()); };
+  paint();
+  root.querySelectorAll(".vc-acc button").forEach(b=>b.onclick=()=>{
+    if(b.dataset.acc==="uk"&&!vcVoiceGB()){ vcNotice(root,"這台裝置沒有英式（en-GB）語音，所以不能切換——不會拿美式音色冒充英式。Edge（Sonia、Ryan 等 Natural 音色）或 Chrome（Google UK English）都有。"); return; }
+    vcStop(); OPTSET("accent",b.dataset.acc);
+    if(opt.rerender) opt.rerender(); else { const h=document.createElement("div"); h.innerHTML=vcBarHtml(opt); root.querySelector(".vc-bar").replaceWith(h.firstElementChild); vcBind(root,en,opt); }
+  });
+  root.querySelectorAll(".vc-sp").forEach(b=>b.onclick=()=>{
+    if(b.classList.contains("on")){ vcStop(); return; }
+    vcPlay(en,b.dataset.m,root,b);
+  });
+  const det=root.querySelector(".vc-exp"); if(det) det.addEventListener("toggle",()=>OPTSET("vcExp",det.open?1:0));
+  const T=k=>root.querySelector(`.vc-t[data-t="${k}"]`);
+  const mineURL=()=>_vcRec.url.get(en);
+  const refresh=()=>{ const has=!!mineURL(); if(T("mine"))T("mine").disabled=!has; if(T("ab"))T("ab").disabled=!has; };
+  refresh();
+  const playMine=cb=>{ const u=mineURL(); if(!u)return; vcStop(); const a=new Audio(u); _voxAudio=a; a.onended=()=>cb&&cb(); a.play().catch(()=>{}); };
+  if(T("replay")) T("replay").onclick=()=>vcPlay(en,root.dataset.last||"n",root,root.querySelector(`.vc-sp[data-m="${root.dataset.last||"n"}"]`));
+  if(T("mine")) T("mine").onclick=()=>playMine();
+  if(T("ab")) T("ab").onclick=()=>{
+    const acc=vcAccent(); if(acc==="uk"&&!vcVoiceGB())return;
+    vcStop(); const my=_vcSeq; const M=VC_MODES.find(m=>m.k===(root.dataset.last&&root.dataset.last!=="w"?root.dataset.last:"n"));
+    vcUtter(en,acc,M.r,()=>{ if(my===_vcSeq) setTimeout(()=>{ if(my===_vcSeq) playMine(); },500); });
+  };
+  if(T("next")&&opt.next) T("next").onclick=()=>{ vcStop(); opt.next(); };
+  if(T("rec")) T("rec").onclick=async()=>{
+    const b=T("rec");
+    if(_vcRec.rec&&_vcRec.rec.state==="recording"){ _vcRec.rec.stop(); return; }
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.MediaRecorder){ vcNotice(root,"這個瀏覽器不支援錄音。"); return; }
+    vcStop();
+    let st; try{ st=await navigator.mediaDevices.getUserMedia({audio:true}); }catch(e){ vcNotice(root,"沒有取得麥克風權限，所以沒辦法錄音。請在瀏覽器網址列旁允許使用麥克風。"); return; }
+    const mime=pickRecMime(); const r=mime?new MediaRecorder(st,{mimeType:mime}):new MediaRecorder(st); const ch=[];
+    _vcRec.rec=r; _vcRec.stream=st;
+    r.ondataavailable=e=>{ if(e.data&&e.data.size) ch.push(e.data); };
+    r.onstop=()=>{ try{ st.getTracks().forEach(t=>t.stop()); }catch(e){}
+      const old=_vcRec.url.get(en); if(old){ try{URL.revokeObjectURL(old);}catch(e){} }
+      _vcRec.url.set(en,URL.createObjectURL(new Blob(ch,{type:r.mimeType||mime||"audio/mp4"})));
+      b.classList.remove("on"); b.textContent="🎙️ 再錄一次"; refresh(); clearTimeout(_vcRec.t); };
+    r.start(250); b.classList.add("on"); b.textContent="⏹️ 停止錄音";
+    _vcRec.t=setTimeout(()=>{ if(r.state==="recording") r.stop(); },30000);
+  };
+  if(mineURL()&&T("rec")) T("rec").textContent="🎙️ 再錄一次";
+}
+/* ---------- 句子練習面板（單字卡例句、清單例句、閱讀短文共用） ---------- */
+let _vcList=null,_vcIdx=0;
+function openVC(list,i){
+  _vcList=list; _vcIdx=i||0;
+  let m=document.getElementById("vcSheet");
+  if(!m){ m=document.createElement("div"); m.id="vcSheet"; m.className="vc-sheet"; m.setAttribute("role","dialog"); m.setAttribute("aria-modal","true"); m.setAttribute("aria-label","句子練習");
+    document.body.appendChild(m);
+    m.addEventListener("click",e=>{ if(e.target===m) closeVC(); });
+    document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&m.classList.contains("show")) closeVC(); }); }
+  const s=_vcList[_vcIdx];
+  m.innerHTML=`<div class="vc-box">
+    <div class="vc-hd"><b>🎧 句子練習</b><span>${_vcList.length>1?`${_vcIdx+1} / ${_vcList.length}`:""}</span><button class="vc-x" aria-label="關閉">✕</button></div>
+    <div class="vc-en en">${esc(s.en)}</div>${s.zh?`<div class="vc-zh">${esc(s.zh)}</div>`:""}
+    <div class="vc-flow">Listen → Notice → Imitate → Record → Compare → Express</div>
+    ${vcBarHtml({next:_vcList.length>1})}
+    <p class="vc-priv">錄音只存在這個分頁裡，不會上傳；關掉頁面就消失。這裡不打發音分數——沒有可靠的評分技術，就不假裝有。</p>
+  </div>`;
+  m.classList.add("show"); document.body.classList.add("vc-open");
+  m.querySelector(".vc-x").onclick=closeVC;
+  vcBind(m,s.en,{next:_vcList.length>1?()=>openVC(_vcList,(_vcIdx+1)%_vcList.length):null,rerender:()=>openVC(_vcList,_vcIdx)});
+}
+function closeVC(){ vcStop(); const m=document.getElementById("vcSheet"); if(m) m.classList.remove("show"); document.body.classList.remove("vc-open");
+  if(_vcRec.rec&&_vcRec.rec.state==="recording"){ try{_vcRec.rec.stop();}catch(e){} } }
+
 function renderSpeak(){
   if(!spList)buildSpList();
   if(spPos>=spList.length)spPos=0;
@@ -6039,9 +6450,8 @@ function renderSpeak(){
         <div class="sp-zh">${esc(s.zh)}</div>
         <div class="sp-target ${spRevealed?"":"hidden"}" id="spTarget">${target}</div>
         <div class="sp-legend"><span class="lg-dot">•</span> <b>粗體＝重音字</b>（要念清楚、計滿分）　／　淡字＝弱讀　／　<i>斜體 a · the</i> 等冠詞不計分</div>
+        <div class="sp-vc" id="spVC">${vcBarHtml({tools:false})}</div>
         <div class="sp-actions">
-          <button class="b-listen" id="spListen">🔊 整句</button>
-          <button class="b-slow" id="spSlow">🐢 慢速（約一半速度）</button>
           <button class="b-chunk" id="spChunkBtn">🧩 逐塊播放</button>
         </div>
         <div class="sp-chunks" id="spChunks"></div>
@@ -6066,8 +6476,9 @@ function renderSpeak(){
       </div>
       <div class="sp-note">${srSupported?"按「開始錄音」朗讀英文句子，系統會用語音辨識比對你念到的字並評分。":"📱 此裝置以錄音回聽為主：按「開始錄音」朗讀，按「停止錄音」後即可用「▶ 我的錄音」與「🔊 範例」交互聆聽比對發音（語音辨識評分僅桌機 Chrome／Edge 支援）。"}</div>
     </div>`;
-  document.getElementById("spListen").onclick=()=>{stopChunks();speak(s.en);};
-  document.getElementById("spSlow").onclick=()=>{stopChunks();speak(s.en,"en-US",R_SLOW);};
+  { const vr=document.getElementById("spVC"); vcBind(vr,s.en,{tools:false,rerender:renderSpeak});
+    vr.querySelectorAll(".vc-sp").forEach(b=>b.addEventListener("click",stopChunks,true));
+    if(!spRevealed){ const d=vr.querySelector(".vc-exp"); if(d){ d.open=false; d.classList.add("locked"); d.querySelector(".vc-ex").innerHTML='<p class="vc-warn">先按「👁️ 顯示英文」再看解析——先用耳朵聽，再看規則。</p>'; } } }
   document.getElementById("spChunkBtn").onclick=()=>playChunks(s);
   document.getElementById("spReveal").onclick=()=>{spRevealed=!spRevealed;renderSpeak();};
   document.getElementById("spPrev").onclick=()=>{if(spPos>0){spPos--;resetSp();renderSpeak();}};
@@ -6081,7 +6492,7 @@ function showPlayback(){
   wrap.classList.add("show");
   const au=document.getElementById("spAudio");if(au){au.src=spLastURL;try{au.load();}catch(e){}}
   const mine=document.getElementById("pbMine");if(mine)mine.onclick=()=>{const a=document.getElementById("spAudio");if(a){a.currentTime=0;const p=a.play();if(p&&p.catch)p.catch(()=>{});}};
-  const model=document.getElementById("pbModel");if(model)model.onclick=()=>{stopChunks();speak(spList[spPos].en);};
+  const model=document.getElementById("pbModel");if(model)model.onclick=()=>{stopChunks();const vr=document.getElementById("spVC");vcPlay(spList[spPos].en,(vr&&vr.dataset.last)||"n",vr,null);};
 }
 function resetSp(){stopChunks();spRevealed=false;if(spLastURL){URL.revokeObjectURL(spLastURL);spLastURL=null;}lastTranscript="";}
 /* ---------- 逐塊播放（自動語塊切分） ---------- */
@@ -6330,7 +6741,7 @@ function renderRead(){
   if(!readState||readState.rid!==rid){ readState={rid:rid,ans:{},score:0,done:false}; }
   const R=READINGS[rid], st=readState, rec=RD()[rid]||{};
   const chunks=R.c.map((c,i)=>`<div class="rd-ck" data-ck="${i}"><span class="cico">🔊</span><span class="ce en">${esc(c[0])}</span><span class="cz">${esc(c[1])}</span></div>`).join("");
-  const sents=R.p.map((p,i)=>`<div class="rs" data-s="${i}"><div class="rn">${i+1}</div><div class="rc"><div class="ren en">${rdSent(p[0])}</div><div class="rzh">${esc(p[1])}</div></div></div>`).join("");
+  const sents=R.p.map((p,i)=>`<div class="rs" data-s="${i}"><div class="rn">${i+1}</div><div class="rc"><div class="ren en">${rdSent(p[0])}</div><div class="rzh">${esc(p[1])}</div></div><button class="vc-go" data-rs="${i}" aria-label="第 ${i+1} 句跟讀練習">🎧<i>跟讀</i></button></div>`).join("");
   const qs=R.q.map((q,i)=>{
     const a=st.ans[i];
     const opts=q[1].map((o,j)=>{
@@ -6427,6 +6838,8 @@ function bindRead(rid){
   document.querySelectorAll("#rdText .rn").forEach(el=>{
     el.onclick=()=>{ stopSeq(); readPlaying=false; rdSetPlayBtn(); const i=+el.parentElement.dataset.s; rdHighlight(i); speak(rdPlain(R.p[i][0]),"en-US",rdRate()); creditActivity("speak"); };
   });
+  document.querySelectorAll("#rdText .vc-go").forEach(b=>b.onclick=e=>{ e.stopPropagation(); stopSeq(); readPlaying=false; rdSetPlayBtn();
+    openVC(R.p.map(p=>({en:rdPlain(p[0]),zh:p[1]})),+b.dataset.rs); });
   // 單字
   document.querySelectorAll("#rdText .tw").forEach(el=>{
     el.onclick=()=>{
@@ -8313,7 +8726,7 @@ const DS_NOT=[
    不可退讓的部分寫在程式裡，不提供關閉選項。 */
 
 /* ---------- 設定存取 ---------- */
-const OPT_DEF={coda:1,human:1,voice:"",depth:"full",reward:1,plain:0,conf:1,srDays:null,slowlocal:1};
+const OPT_DEF={coda:1,human:1,voice:"",depth:"full",reward:1,plain:0,conf:1,srDays:null,slowlocal:1,accent:"us",vcExp:0};
 function OPTS(){ if(!DB.opt)DB.opt={}; return DB.opt; }
 function OPTV(k){ const o=OPTS(); return (o[k]===undefined||o[k]===null&&k!=="srDays"&&k!=="voice")?OPT_DEF[k]:o[k]; }
 function OPTSET(k,v){ OPTS()[k]=v; save(); }
