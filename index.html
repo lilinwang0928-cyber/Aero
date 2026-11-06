@@ -129,6 +129,12 @@
   .tour-btn{border:1.5px solid var(--sage);background:var(--paper);color:var(--ink);font-family:inherit;
     font-size:.86rem;font-weight:800;padding:9px 20px;border-radius:99px;cursor:pointer;transition:.15s;box-shadow:var(--shadow-sm)}
   .tour-btn:hover{background:var(--mist)}
+  .lt-bar{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;margin-bottom:4px}
+  .lt-bar .pos{margin:0}
+  .lt-btn{margin-left:auto;min-width:0!important;padding:6px 14px;font-size:.82rem}
+  .lt-st{flex-basis:100%;text-align:right;font-size:.72rem;color:var(--muted);min-height:0}
+  .lt-st:empty{display:none}
+  .row-head.tour-on{background:var(--green-bg)}
   .tour-btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
   a.sor-link{text-decoration:none;display:inline-block}
   .tour-status{font-size:.74rem;font-weight:700;color:var(--sage);min-width:70px}
@@ -5483,16 +5489,35 @@ let listMode="normal";
 /* 共用：單字列 HTML 與事件綁定（一般清單、詞性分類共用） */
 function listRowHtml(w){
   const st=PROG()[w.id],cls=st==="known"?"is-known":st==="review"?"is-review":"";
-  const phrases=w.ph.length?`<div class="sec-label">片語 / 變化</div>`+w.ph.map(p=>`<div class="phrase"><span class="pen en">${p[0]}</span> <span class="pzh">${p[1]}</span></div>`).join(""):"";
-  const rel=w.rel?`<div class="sec-label">關聯字</div><div class="rel-words">${w.rel}</div>`:"";
-  const exs=w.ex.length?`<div class="sec-label">例句</div>`+w.ex.map((e,i)=>`<div class="ex"><button class="play" data-sp="${esc(e[0])}">▶</button><div class="etx"><div class="een en">${e[0]}</div><div class="ezh">${e[1]}</div></div><button class="vc-go" data-w="${esc(w.id)}" data-ex="${i}" aria-label="句子練習">🎧<i>跟讀</i></button></div>`).join(""):"";
-  return `<div class="row ${cls}"><div class="row-head"><span class="rw en">${w.w}</span><span class="rk en">${w.kk}</span><span class="rz">${w.zh}</span><button class="rsp" data-sp="${esc(w.w)}">🔊</button><span class="arr">▶</span></div><div class="row-body"><div class="pos en">${w.pos}</div>${phrases}${rel}${exs}</div></div>`;
+  const phrases=w.ph.length?`<div class="sec-label">片語 / 變化</div>`+w.ph.map((p,i)=>`<div class="phrase" data-ts="tPh${i}"><span class="pen en">${p[0]}</span> <span class="pzh">${p[1]}</span></div>`).join(""):"";
+  const rel=w.rel?`<div class="sec-label">關聯字</div><div class="rel-words" data-ts="tRel">${w.rel}</div>`:"";
+  const exs=w.ex.length?`<div class="sec-label">例句</div>`+w.ex.map((e,i)=>`<div class="ex" data-ts="tEx${i}"><button class="play" data-sp="${esc(e[0])}">▶</button><div class="etx"><div class="een en">${e[0]}</div><div class="ezh">${e[1]}</div></div><button class="vc-go" data-w="${esc(w.id)}" data-ex="${i}" aria-label="句子練習">🎧<i>跟讀</i></button></div>`).join(""):"";
+  return `<div class="row ${cls}"><div class="row-head" data-ts="tWord"><span class="rw en">${w.w}</span><span class="rk en">${w.kk}</span><span class="rz">${w.zh}</span><button class="rsp" data-sp="${esc(w.w)}">🔊</button><span class="arr">▶</span></div><div class="row-body"><div class="lt-bar"><div class="pos en" data-ts="tDef">${w.pos}</div><button class="tour-btn lt-btn" data-tour="${esc(w.id)}">🎧 語音導覽</button><span class="lt-st"></span></div>${phrases}${rel}${exs}</div></div>`;
 }
 function bindListRows(area){
   area.querySelectorAll(".row-head").forEach(h=>h.addEventListener("click",e=>{if(e.target.closest(".rsp"))return;h.parentElement.classList.toggle("open");}));
-  area.querySelectorAll("[data-sp]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();speak(b.dataset.sp);}));
-  area.querySelectorAll(".vc-go").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();
+  area.querySelectorAll("[data-sp]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();stopTour();speak(b.dataset.sp);}));
+  area.querySelectorAll(".vc-go").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();stopTour();
     const w=activeUnit().words.find(x=>String(x.id)===b.dataset.w); if(w) openVC(w.ex.map(x=>({en:x[0],zh:x[1]})),+b.dataset.ex);}));
+  /* 單字說明的語音導覽：和單字卡背面同一套（單字→詞性中文→片語→關聯字→例句） */
+  area.querySelectorAll(".lt-btn").forEach(b=>b.addEventListener("click",e=>{
+    e.stopPropagation();
+    const row=b.closest(".row"), st=row.querySelector(".lt-st");
+    if(b.classList.contains("on")){ stopTour(); return; }
+    stopTour();
+    const w=activeUnit().words.find(x=>String(x.id)===b.dataset.tour); if(!w) return;
+    const steps=buildTour(w);
+    const clear=()=>{ row.querySelectorAll(".tour-on").forEach(x=>x.classList.remove("tour-on")); b.classList.remove("on"); b.textContent="🎧 語音導覽"; if(st) st.textContent=""; };
+    tourClear=clear; tourOn=true;
+    b.classList.add("on"); b.textContent="⏸ 停止導覽";
+    tourPlay(steps,(i,s)=>{
+      row.querySelectorAll(".tour-on").forEach(x=>x.classList.remove("tour-on"));
+      const el=row.querySelector(`[data-ts="${s.sel}"]`);
+      if(el){ el.classList.add("tour-on"); el.scrollIntoView({block:"nearest",behavior:"smooth"}); }
+      if(s.sel==="tDef"){ const z=row.querySelector(".rz"); if(z) z.classList.add("tour-on"); }
+      if(st) st.textContent=s.label+"　"+(i+1)+"/"+steps.length;
+    },()=>{ tourOn=false; clear(); });
+  }));
 }
 /* 依詞性（pos 欄）判斷所屬大分類，一字可同時歸多類 */
 function posCats(pos){
