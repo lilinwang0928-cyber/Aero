@@ -1037,41 +1037,80 @@
   .s44-open span{flex:0 0 auto;width:38px;height:38px;border-radius:11px;background:var(--coral);color:#fff;font-weight:900;display:grid;place-items:center;font-size:1rem}
   .s44-open b{color:var(--ink);font-size:.95rem}
   .s44-open i{font-style:normal;color:var(--muted);font-size:.74rem;margin-left:auto}
-  .s44-intro{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:8px 0}
-  .s44-intro h3{font-size:1.02rem;color:var(--ink);margin-bottom:4px}
-  .s44-intro p{font-size:.8rem;line-height:1.7;color:var(--muted)}
-  .s44-intro b{color:var(--ink)} .s44-intro b.bad{color:var(--coral)}
-  .s44-filter{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
-  .s44-filter button{border:1.5px solid var(--line);background:var(--paper);color:var(--text);border-radius:999px;padding:6px 12px;font:inherit;font-size:.8rem;cursor:pointer}
+  .s44-hero{background:linear-gradient(135deg,var(--aero-soft),var(--paper) 70%);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin:10px 0 8px}
+  .s44-hero-t{display:flex;align-items:center;gap:12px}
+  .s44-badge{flex:0 0 auto;width:46px;height:46px;border-radius:14px;background:var(--ink);color:var(--paper);font-weight:900;font-size:1.15rem;display:grid;place-items:center}
+  .s44-hero h3{font-size:1.08rem;color:var(--ink);line-height:1.3}
+  .s44-hero p{font-size:.74rem;color:var(--muted);letter-spacing:.5px}
+  .s44-how{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:4px;font-size:.78rem;line-height:1.6;color:var(--text)}
+  .s44-how li::before{content:"•";color:var(--sage);font-weight:900;margin-right:6px}
+  .s44-how .hl{color:var(--coral);text-decoration:underline;text-underline-offset:3px}
+  .s44-filter{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 6px;position:sticky;top:calc(var(--hdr,96px) + 4px);z-index:5;padding:6px 0;background:var(--paper)}
+  .s44-filter button{border:1.5px solid var(--line);background:var(--paper);color:var(--text);border-radius:999px;padding:7px 14px;font:inherit;font-size:.82rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 1px 2px rgba(16,34,58,.06)}
+  .s44-filter button span{font-size:.68rem;font-weight:800;background:var(--mist);color:var(--ink);border-radius:999px;padding:0 6px}
   .s44-filter button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
-  .s44-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:9px}
-  .s44c{position:relative;border:1.5px solid var(--line);background:var(--paper);border-radius:14px;padding:10px 11px 11px;display:flex;flex-direction:column;gap:6px;transition:box-shadow .3s}
-  .s44c.warn{border-color:color-mix(in srgb,var(--coral) 45%,var(--line))}
-  .s44c.flash{box-shadow:0 0 0 3px var(--gold)}
-  .s44n{position:absolute;top:8px;right:10px;font-size:.72rem;font-weight:800;color:var(--muted)}
-  .s44w{align-self:flex-start;border:none;background:none;padding:0;cursor:pointer;font:inherit;font-size:1.22rem;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:6px}
-  .s44w .hl{color:var(--coral);font-weight:900;text-decoration:underline;text-underline-offset:3px}
-  .s44w .pl{font-size:.75rem;opacity:.7}
-  .s44row{display:flex;align-items:center;gap:8px}
-  .s44k{font-size:.9rem;color:var(--sage);font-weight:700}
-  .s44b{--sbh:30px}
-  .s44row{flex-wrap:wrap}
-  .s44ht{display:inline-flex;align-items:center;gap:3px}
-  .s44ht i{font-style:normal;font-size:.64rem;font-weight:800;color:var(--muted)}
-  .s44tw{font-size:.86rem!important;font-weight:700!important;gap:4px!important}
-  .s44tw i{font-style:normal;font-size:.64rem;color:var(--muted);font-weight:800}
-  .s44-tnote{font-size:.74rem;color:var(--muted);margin:-2px 0 8px}
-  .s44-rules{margin-top:12px;border:1.5px solid var(--gold);background:var(--cream);border-radius:14px;padding:12px 14px;font-size:.82rem;line-height:1.8;color:var(--text)}
-  .s44-rules b{color:var(--ink)}
-  .s44nat{display:flex;flex-wrap:wrap;gap:4px}
-  .s44nat span{font-size:.74rem;background:var(--mist);color:var(--ink);border-radius:6px;padding:1px 6px}
+  .s44-filter button[aria-pressed="true"] span{background:rgba(255,255,255,.22);color:inherit}
+  .s44sec{margin-top:14px}
+  .s44sh{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+  .s44sh h4{font-size:.98rem;color:var(--ink);display:flex;align-items:center;gap:8px}
+  .s44sh h4::before{content:"";width:6px;height:18px;border-radius:3px;background:var(--coral)}
+  .s44sec.cs .s44sh h4::before{background:var(--sage)}
+  .s44sh h4 span{font-size:.7rem;color:var(--muted);font-weight:700}
+  .s44all{margin-left:auto;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px;font:inherit;font-size:.76rem;font-weight:800;cursor:pointer}
+  .s44all.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  .s44-tnote{font-size:.74rem;color:var(--muted);margin:0 0 8px}
+  .s44-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:10px}
+  .s44c{position:relative;border:1px solid var(--line);background:var(--paper);border-radius:16px;padding:10px 12px 0;display:flex;flex-direction:column;gap:8px;overflow:hidden;
+    box-shadow:0 1px 3px rgba(16,34,58,.06);transition:box-shadow .25s,transform .25s}
+  .s44c:hover{box-shadow:0 6px 16px rgba(16,34,58,.10)}
+  .s44c.now,.s44c.flash{box-shadow:0 0 0 3px var(--gold);transform:translateY(-1px)}
+  .s44h{display:flex;align-items:center;gap:7px}
+  .s44n{min-width:26px;height:22px;padding:0 6px;border-radius:7px;display:grid;place-items:center;font-size:.72rem;font-weight:900;background:var(--coral-soft);color:var(--coral)}
+  .s44c.cs .s44n{background:var(--mist);color:var(--sage)}
+  .s44k{font-size:.92rem;color:var(--ink);font-weight:800}
+  .s44v{margin-left:auto;font-size:.66rem;font-weight:800;border-radius:999px;padding:2px 8px;white-space:nowrap}
+  .s44-how .s44v{margin:0 2px 0 0}
+  .s44v.ok{background:var(--green-bg);color:var(--green-ok)}
+  .s44v.bad{background:var(--coral-soft);color:var(--coral)}
+  .s44v.none{background:var(--cream);color:#9a6a12;border:1px solid var(--gold)}
+  .s44w{align-self:flex-start;border:none;background:none;padding:0;cursor:pointer;font:inherit;color:var(--ink);display:inline-flex;align-items:center;gap:6px}
+  .s44main{font-size:1.4rem;font-weight:700;letter-spacing:.3px}
+  .s44w .hl{color:var(--coral);font-weight:900;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+  .s44w .pl{font-size:.72rem;opacity:.65}
+  .s44w:hover .pl{opacity:1}
+  .s44plate{display:flex;align-items:center;flex-wrap:wrap;gap:6px 8px;background:var(--cream);border-radius:12px;padding:8px 10px}
+  .s44cell{display:flex;flex-direction:column;align-items:center;gap:2px}
+  .s44cell i{font-style:normal;font-size:.62rem;font-weight:800;color:var(--muted)}
+  .s44cell.tail i{color:var(--sage)}
+  .s44arr{color:var(--muted);font-weight:900;font-size:.8rem;margin-bottom:14px}
+  .s44b{--sbh:34px}
+  .s44plate .s44tw{flex-basis:100%;justify-content:flex-end;background:none;border:none!important;padding:0!important}
+  .s44plate .s44tw::before{content:"字尾例";font-size:.62rem;font-weight:800;color:var(--sage);margin-right:2px}
+  .s44tw{margin-left:auto;align-self:center;font-size:.84rem;font-weight:700;background:var(--paper);border:1px solid var(--line)!important;border-radius:999px;padding:3px 9px!important}
+  .s44nat{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+  .s44nat i{font-style:normal;font-size:.62rem;font-weight:800;color:var(--muted);margin-right:2px}
+  .s44nat span{font-size:.76rem;background:var(--mist);color:var(--ink);border-radius:6px;padding:1px 7px;font-weight:600}
+  .s44foot{margin:2px -12px 0;padding:8px 12px 10px;display:flex;gap:9px;align-items:flex-start;border-top:1px dashed var(--line);margin-top:auto}
+  .s44c.k-ok .s44foot{background:color-mix(in srgb,var(--green-bg) 55%,transparent)}
+  .s44c.k-bad .s44foot{background:color-mix(in srgb,var(--coral-soft) 70%,transparent)}
+  .s44c.k-none .s44foot{background:color-mix(in srgb,var(--cream) 80%,transparent)}
+  .s44zy{flex:0 0 auto;min-width:30px;font-size:1rem;font-weight:800;color:var(--text);line-height:1.4}
+  .s44c.k-bad .s44zy{text-decoration:line-through;text-decoration-color:var(--coral);text-decoration-thickness:2px}
+  .s44foot p{font-size:.74rem;line-height:1.6;color:var(--text);opacity:.85}
+  .s44-rules{margin-top:14px;border:1.5px solid var(--gold);background:var(--cream);border-radius:16px;padding:12px 16px;font-size:.82rem;line-height:1.85;color:var(--text)}
+  .s44-rules b{color:var(--ink);display:block;margin-bottom:2px}
   .s44-zy{display:inline-flex;align-items:center;gap:6px;font-size:.8rem}
   .s44-zy b{font-size:.95rem;color:var(--text)}
   .s44-zy i{font-style:normal;font-weight:800;font-size:.72rem;border-radius:999px;padding:2px 8px}
   .s44-zy.ok i{background:var(--green-bg);color:var(--green-ok)}
   .s44-zy.bad i,.s44-zy.none i{background:var(--coral-soft);color:var(--coral)}
   .s44-zy.bad b{text-decoration:line-through;text-decoration-color:var(--coral)}
-  .s44why{font-size:.74rem;line-height:1.6;color:var(--muted)}
+  @media(max-width:520px){ .s44-grid{grid-template-columns:1fr} .s44main{font-size:1.3rem}
+    .s44-filter{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-left:-2px;padding-left:2px}
+    .s44-filter::-webkit-scrollbar{display:none}
+    .s44-filter button{flex:0 0 auto;padding:6px 11px} }
+  :root[data-theme="dark"] .s44v.none{color:#f0c867}
+  :root[data-theme="dark"] .s44c{box-shadow:none}
   .ph-44{margin-top:10px;border:1.5px solid var(--line);border-radius:12px;padding:9px 11px;background:var(--paper)}
   .ph-44.warn{border-color:color-mix(in srgb,var(--coral) 45%,var(--line))}
   .p44-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
@@ -7523,31 +7562,58 @@ function s44Zy(r){
 }
 let dc44=false, dc44f="all";
 function render44(area){
-  const rows=S44.filter(r=>dc44f==="all"||(dc44f==="bad"&&r[6]!==1)||(dc44f==="v"&&r[0]<=20)||(dc44f==="c"&&r[0]>20));
-  const card=r=>`<article class="s44c ${r[6]===1?"":"warn"}" id="s44-${r[0]}">
-      <span class="s44n">${r[0]}</span>
-      <button class="s44w en" data-s="${esc(s44Word(r[1]))}" aria-label="播放 ${esc(s44Word(r[1]))}">${s44Mark(r[1])}<span class="pl">🔊</span></button>
-      ${s44Blocks(r)}
-      <div class="s44nat">${r[3].split(" ").map(x=>`<span class="en">${esc(x)}</span>`).join("")}</div>
-      ${s44Zy(r)}
-      ${r[6]===1?"":`<p class="s44why">${esc(r[7])}</p>`}
+  stopSeq();
+  const pick=r=>dc44f==="all"||(dc44f==="bad"&&r[6]!==1)||(dc44f==="v"&&r[0]<=20)||(dc44f==="c"&&r[0]>20);
+  const rows=S44.filter(pick);
+  const cnt={all:44,v:20,c:24,bad:S44.filter(r=>r[6]!==1).length};
+  const verd=r=>r[6]===1?`<span class="s44v ok">✓ 注音可近似</span>`:r[6]<0?`<span class="s44v none">注音沒有</span>`:`<span class="s44v bad">✗ 注音會唸錯</span>`;
+  const plate=r=>{
+    const T=S44_TAIL[r[0]];
+    if(!T) return `<div class="s44plate one"><div class="s44cell">${sorImgs([r[4]],"s44b")}<i>積木 ${esc(r[4])}</i></div></div>`;
+    return `<div class="s44plate"><div class="s44cell">${sorImgs(T.h,"s44b")}<i>字首</i></div><span class="s44arr">→</span><div class="s44cell tail">${sorImgs(T.t,"s44b")}<i>字尾</i></div>
+      <button class="s44w s44tw en" data-s="${esc(T.ex)}" aria-label="播放字尾例字 ${esc(T.ex)}">${esc(T.ex)}<span class="pl">🔊</span></button></div>`;
+  };
+  const card=r=>{
+    const k=r[6]===1?"ok":r[6]<0?"none":"bad";
+    return `<article class="s44c ${r[0]<=20?"vw":"cs"} k-${k}" id="s44-${r[0]}">
+      <div class="s44h"><span class="s44n">${r[0]}</span><span class="s44k en">[${esc(r[2])}]</span>${verd(r)}</div>
+      <button class="s44w s44main en" data-s="${esc(s44Word(r[1]))}" aria-label="播放 ${esc(s44Word(r[1]))}">${s44Mark(r[1])}<span class="pl">🔊</span></button>
+      ${plate(r)}
+      <div class="s44nat"><i>拼法</i>${r[3].split(" ").map(x=>`<span class="en">${esc(x)}</span>`).join("")}</div>
+      <div class="s44foot"><span class="s44zy">${r[6]<0?"—":esc(r[5])}</span><p>${esc(r[7])}</p></div>
     </article>`;
+  };
   const v=rows.filter(r=>r[0]<=20), c=rows.filter(r=>r[0]>20);
+  const sec=(id,title,sub,list,extra)=>list.length?`<section class="s44sec ${id}">
+      <div class="s44sh"><h4>${title}<span>${list.length} 音</span></h4><button class="s44all" data-sec="${id}">▶ 依序聽例字</button></div>
+      ${sub?`<p class="s44-tnote">${sub}</p>`:""}
+      <div class="s44-grid">${list.map(card).join("")}</div>${extra||""}</section>`:"";
   area.innerHTML=`
     <div class="dc-top"><button class="dc-back" id="s44Back">‹ 回解碼</button><div class="dc-prog">美語 44 音</div></div>
-    <div class="s44-intro">
-      <h3>美語 44 音對照</h3>
-      <p>每一個音都有：<b>例字</b>（橘色是發這個音的字母，點一下聽）、<b>KK 音標</b>、<b>專利音標積木</b>、<b>自然發音</b>的常見拼法，以及<b>國語注音</b>能不能代替。
-      標 <b class="bad">✗</b> 的音，用注音去唸一定會偏掉，要照積木和錄音練。</p>
+    <div class="s44-hero">
+      <div class="s44-hero-t"><span class="s44-badge">44</span><div><h3>美語 44 音對照表</h3><p>例字 · KK · 專利音標積木 · 自然發音 · 國語注音</p></div></div>
+      <ul class="s44-how">
+        <li><b class="hl">橘色字母</b>就是發這個音的地方，點例字聽發音</li>
+        <li>子音在音節<b>結尾</b>時，要換成<b>字尾</b>積木</li>
+        <li><span class="s44v ok">✓</span>注音可以當起點　<span class="s44v bad">✗</span>照注音唸會偏掉　<span class="s44v none">無</span>注音沒有這個音</li>
+      </ul>
     </div>
     <div class="s44-filter" role="group" aria-label="篩選">
-      ${[["all","全部 44 音"],["v","母音 1–20"],["c","子音 21–44"],["bad","注音會錯的"]].map(([k,t])=>`<button data-f="${k}" aria-pressed="${dc44f===k}">${t}</button>`).join("")}
+      ${[["all","全部"],["v","母音"],["c","子音"],["bad","注音會錯的"]].map(([k,t])=>`<button data-f="${k}" aria-pressed="${dc44f===k}">${t}<span>${cnt[k]}</span></button>`).join("")}
     </div>
-    ${v.length?`<div class="ph-sec">母音</div><div class="s44-grid">${v.map(card).join("")}</div>`:""}
-    ${c.length?`<div class="ph-sec">子音</div><p class="s44-tnote">有「字首／字尾」兩塊的子音：在音節結尾時要換成尾子音積木（依 SoundSense 尾子音版）。</p><div class="s44-grid">${c.map(card).join("")}</div>${S44_RULES}`:""}`;
-  document.getElementById("s44Back").onclick=()=>{ dc44=false; renderDecode(); };
+    ${sec("vw","母音","1–20 號",v)}
+    ${sec("cs","子音","21–44 號；有「字首 → 字尾」兩塊的，依 SoundSense 尾子音版",c,S44_RULES)}`;
+  document.getElementById("s44Back").onclick=()=>{ stopSeq(); dc44=false; renderDecode(); };
   area.querySelectorAll(".s44-filter button").forEach(b=>b.onclick=()=>{ dc44f=b.dataset.f; render44(area); });
-  area.querySelectorAll(".s44w").forEach(b=>b.onclick=()=>speak(b.dataset.s,"en-US",R_SLOW));
+  area.querySelectorAll(".s44w").forEach(b=>b.onclick=()=>{ stopSeq(); area.querySelectorAll(".s44c.now").forEach(x=>x.classList.remove("now")); speak(b.dataset.s,"en-US",R_SLOW); });
+  area.querySelectorAll(".s44all").forEach(b=>b.onclick=()=>{
+    if(b.classList.contains("on")){ stopSeq(); return; }
+    const list=(b.dataset.sec==="vw"?v:c);
+    const clear=()=>{ area.querySelectorAll(".s44c.now").forEach(x=>x.classList.remove("now")); area.querySelectorAll(".s44all").forEach(x=>{x.classList.remove("on");x.textContent="▶ 依序聽例字";}); };
+    clear(); b.classList.add("on"); b.textContent="⏸ 停止";
+    playSeq(list.map(r=>({w:s44Word(r[1]),id:r[0]})),(i,it)=>{ area.querySelectorAll(".s44c.now").forEach(x=>x.classList.remove("now"));
+      const el=document.getElementById("s44-"+it.id); if(el){ el.classList.add("now"); el.scrollIntoView({block:"nearest",behavior:"smooth"}); } },clear);
+  });
 }
 function open44(n){
   dc44=true; dc44f="all"; dcState=null; stopSeq&&stopSeq();
