@@ -1055,6 +1055,14 @@
   .s44row{display:flex;align-items:center;gap:8px}
   .s44k{font-size:.9rem;color:var(--sage);font-weight:700}
   .s44b{--sbh:30px}
+  .s44row{flex-wrap:wrap}
+  .s44ht{display:inline-flex;align-items:center;gap:3px}
+  .s44ht i{font-style:normal;font-size:.64rem;font-weight:800;color:var(--muted)}
+  .s44tw{font-size:.86rem!important;font-weight:700!important;gap:4px!important}
+  .s44tw i{font-style:normal;font-size:.64rem;color:var(--muted);font-weight:800}
+  .s44-tnote{font-size:.74rem;color:var(--muted);margin:-2px 0 8px}
+  .s44-rules{margin-top:12px;border:1.5px solid var(--gold);background:var(--cream);border-radius:14px;padding:12px 14px;font-size:.82rem;line-height:1.8;color:var(--text)}
+  .s44-rules b{color:var(--ink)}
   .s44nat{display:flex;flex-wrap:wrap;gap:4px}
   .s44nat span{font-size:.74rem;background:var(--mist);color:var(--ink);border-radius:6px;padding:1px 6px}
   .s44-zy{display:inline-flex;align-items:center;gap:6px;font-size:.8rem}
@@ -7486,6 +7494,23 @@ const S44=[
  [42,"[r]a[r]e","r","r wr","81","ㄖㄨ",1,"ㄖㄨ可以當字首 r 的近似；嘴唇微噘、舌尖不碰上顎。"],
  [43,"[y]east","j","y","59","ㄧ",1,"ㄧ快速滑向下一個母音，就是 j。"],
  [44,"[w]in","w","w wh","60","ㄨ",1,"ㄨ快速滑向下一個母音，就是 w。"]];
+/* 尾子音（依 SoundSense 學習單「尾子音版」）：音節結尾的子音換成尾子音積木 */
+const S44_TAIL={21:{h:["1"],t:["5"],ex:"job"},22:{h:["2"],t:["6"],ex:"cup"},23:{h:["14"],t:["16"],ex:"bed"},24:{h:["15"],t:["17"],ex:"cat"},
+  25:{h:["21"],t:["24"],ex:"dog"},26:{h:["22"],t:["25"],ex:"book"},38:{h:["3"],t:["7"],ex:"Mom"},39:{h:["12"],t:["18"],ex:"nun"},
+  27:{h:["4"],t:["8"],ex:"leaf"},34:{h:["30"],t:["27","61"],ex:"teach"},35:{h:["31"],t:["28","61"],ex:"fish"},33:{h:["29"],t:["26","61"],ex:"page"},
+  42:{h:["35","60"],t:["47"],ex:"car"},41:{h:["19"],t:["43"],ex:"girl"}};
+const S44_RULES=`<div class="s44-rules"><b>📌 幾個要記的規則</b>
+  <p>・<span class="en">tr / dr / str</span>：t 寫 ㄔ、d 寫 ㄓ，後面的 r 只寫 ㄨ（<span class="en">tree、dream、street</span>）</p>
+  <p>・<span class="en">sp / st / sk</span>：s 後面的 p t k 不送氣，寫成 ㄅ ㄉ ㄍ（<span class="en">speak、stop、sky</span>）</p>
+  <p>・<span class="en">Dark L</span>：音節尾的 l 寫 ㄛ（<span class="en">girl、cold</span>）；字首的 l 寫 ㄌ（<span class="en">lady</span>）</p>
+  <p>・<span class="en">r</span>：字首寫 ㄖ＋ㄨ（<span class="en">rare</span>），母音後的 r 寫 ㄦ（<span class="en">car、air</span>）</p></div>`;
+function s44Blocks(r){
+  const T=S44_TAIL[r[0]];
+  if(!T) return `<div class="s44row"><span class="s44k en">[${esc(r[2])}]</span>${sorImgs([r[4]],"s44b")}</div>`;
+  return `<div class="s44row"><span class="s44k en">[${esc(r[2])}]</span>
+      <span class="s44ht"><i>字首</i>${sorImgs(T.h,"s44b")}</span><span class="s44ht"><i>字尾</i>${sorImgs(T.t,"s44b")}</span></div>
+    <button class="s44w s44tw en" data-s="${esc(T.ex)}" aria-label="播放 ${esc(T.ex)}"><i>字尾例</i>${esc(T.ex)}<span class="pl">🔊</span></button>`;
+}
 const S44_PH={};
 S44.forEach(r=>{ if(!S44_PH[r[2]]) S44_PH[r[2]]=r; });
 Object.assign(S44_PH,{"ɚ":S44_PH["ɝ"],"ər":S44_PH["ɝ"],"l̩":S44_PH["l"],"n̩":S44_PH["n"],"or":S44_PH["ɔr"],"jʊ":S44_PH["ju"],"ɔ":S44_PH["ɑ"]});
@@ -7502,7 +7527,7 @@ function render44(area){
   const card=r=>`<article class="s44c ${r[6]===1?"":"warn"}" id="s44-${r[0]}">
       <span class="s44n">${r[0]}</span>
       <button class="s44w en" data-s="${esc(s44Word(r[1]))}" aria-label="播放 ${esc(s44Word(r[1]))}">${s44Mark(r[1])}<span class="pl">🔊</span></button>
-      <div class="s44row"><span class="s44k en">[${esc(r[2])}]</span>${sorImgs([r[4]],"s44b")}</div>
+      ${s44Blocks(r)}
       <div class="s44nat">${r[3].split(" ").map(x=>`<span class="en">${esc(x)}</span>`).join("")}</div>
       ${s44Zy(r)}
       ${r[6]===1?"":`<p class="s44why">${esc(r[7])}</p>`}
@@ -7519,7 +7544,7 @@ function render44(area){
       ${[["all","全部 44 音"],["v","母音 1–20"],["c","子音 21–44"],["bad","注音會錯的"]].map(([k,t])=>`<button data-f="${k}" aria-pressed="${dc44f===k}">${t}</button>`).join("")}
     </div>
     ${v.length?`<div class="ph-sec">母音</div><div class="s44-grid">${v.map(card).join("")}</div>`:""}
-    ${c.length?`<div class="ph-sec">子音</div><div class="s44-grid">${c.map(card).join("")}</div>`:""}`;
+    ${c.length?`<div class="ph-sec">子音</div><p class="s44-tnote">有「字首／字尾」兩塊的子音：在音節結尾時要換成尾子音積木（依 SoundSense 尾子音版）。</p><div class="s44-grid">${c.map(card).join("")}</div>${S44_RULES}`:""}`;
   document.getElementById("s44Back").onclick=()=>{ dc44=false; renderDecode(); };
   area.querySelectorAll(".s44-filter button").forEach(b=>b.onclick=()=>{ dc44f=b.dataset.f; render44(area); });
   area.querySelectorAll(".s44w").forEach(b=>b.onclick=()=>speak(b.dataset.s,"en-US",R_SLOW));
