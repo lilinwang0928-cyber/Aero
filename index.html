@@ -4492,6 +4492,8 @@ const R_NORM=0.95, R_SLOW=0.45, R_VSLOW=0.30;
 function sayAs(t){
   t=String(t==null?"":t);
   if(/^\s*(am|pm|a\.m\.|p\.m\.)\s*$/i.test(t)) return t.trim()[0].toUpperCase()+".M.";
+  /* 冠詞 a 單獨唸時，合成語音會唸成字母名「ㄟ」；改唸成弱讀的 [ə] */
+  if(/^\s*a[.,!?;:]?\s*$/i.test(t)) return "uh";
   return t.replace(/(\d)\s*(a|p)\.?m\.?(?=[\s,.;:!?)]|$)/gi,(m,d,ap)=>d+" "+ap.toUpperCase()+".M.");
 }
 /* ===== 單字卡左右滑動換卡 =====
@@ -4588,7 +4590,7 @@ function playSeq(words,onEach,onDone){
     if(_seq.stop||_seq.id!==myId||i>=words.length){if(onDone)onDone();return;}
     const w=words[i];if(onEach)onEach(i,w);i++;
     try{speechSynthesis.cancel();}catch(e){}
-    const u=new SpeechSynthesisUtterance(w.w);u.lang="en-US";u.rate=.9;_utterRef=u;
+    const u=new SpeechSynthesisUtterance(sayAs(w.w));u.lang="en-US";u.rate=.9;_utterRef=u;
     u.onend=()=>{if(_wd){clearInterval(_wd);_wd=null;}if(!_seq.stop&&_seq.id===myId)setTimeout(step,320);};
     u.onerror=()=>{if(!_seq.stop&&_seq.id===myId)setTimeout(step,320);};
     try{ speechSynthesis.speak(u); }catch(e){ if(!_seq.stop&&_seq.id===myId)setTimeout(step,320); return; }
@@ -4605,7 +4607,7 @@ function tourPlay(steps,onEach,onDone){
     if(_seq.stop||_seq.id!==myId||i>=steps.length){if(onDone)onDone(_seq.stop||_seq.id!==myId);return;}
     const s=steps[i];if(onEach)onEach(i,s);i++;
     try{speechSynthesis.cancel();}catch(e){}
-    const u=new SpeechSynthesisUtterance(s.t);u.lang=s.lang||"en-US";u.rate=s.rate||.9;_utterRef=u;
+    const u=new SpeechSynthesisUtterance(/^zh/i.test(s.lang||"")?s.t:sayAs(s.t));u.lang=s.lang||"en-US";u.rate=s.rate||.9;_utterRef=u;
     /* 序列播放原本沒指定音色，會落到瀏覽器預設那一支：
        既不是使用者選的，慢速也不一定照做。這裡補上同一套挑選邏輯。 */
     try{ const rt=vcRoute(s.t,u.lang); if(rt){u.lang=rt.lang;u.voice=vcVoice("uk",u.rate);} else { const vv=pickVoiceForRate(u.lang,u.rate); if(vv)u.voice=vv; } }catch(e){}
@@ -6549,7 +6551,7 @@ function stopChunks(){
 function speakChunk(text,done){
   if(!("speechSynthesis" in window)){if(done)done();return;}
   try{ window.speechSynthesis.cancel(); }catch(e){ if(done)done(); return; }if(_wd){clearInterval(_wd);_wd=null;}
-  const u=new SpeechSynthesisUtterance(text);u.lang="en-US";u.rate=.8;
+  const u=new SpeechSynthesisUtterance(sayAs(text));u.lang="en-US";u.rate=.8;
   try{ const vv=pickVoiceForRate("en-US",u.rate); if(vv)u.voice=vv; }catch(e){}
   u.onend=()=>{if(done)done();};u.onerror=()=>{if(done)done();};
   window.speechSynthesis.speak(u);
