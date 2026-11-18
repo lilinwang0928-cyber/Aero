@@ -7498,12 +7498,12 @@ const S44=[
 const S44_TAIL={21:{h:["1"],t:["5"],ex:"job"},22:{h:["2"],t:["6"],ex:"cup"},23:{h:["14"],t:["16"],ex:"bed"},24:{h:["15"],t:["17"],ex:"cat"},
   25:{h:["21"],t:["24"],ex:"dog"},26:{h:["22"],t:["25"],ex:"book"},38:{h:["3"],t:["7"],ex:"Mom"},39:{h:["12"],t:["18"],ex:"nun"},
   27:{h:["4"],t:["8"],ex:"leaf"},34:{h:["30"],t:["27","61"],ex:"teach"},35:{h:["31"],t:["28","61"],ex:"fish"},33:{h:["29"],t:["26","61"],ex:"page"},
-  42:{h:["35","60"],t:["47"],ex:"car"},41:{h:["19"],t:["43"],ex:"girl"}};
+  42:{h:["81"],t:["47"],ex:"car"},41:{h:["19"],t:["43"],ex:"girl"}};
 const S44_RULES=`<div class="s44-rules"><b>📌 幾個要記的規則</b>
   <p>・<span class="en">tr / dr / str</span>：t 寫 ㄔ、d 寫 ㄓ，後面的 r 只寫 ㄨ（<span class="en">tree、dream、street</span>）</p>
   <p>・<span class="en">sp / st / sk</span>：s 後面的 p t k 不送氣，寫成 ㄅ ㄉ ㄍ（<span class="en">speak、stop、sky</span>）</p>
   <p>・<span class="en">Dark L</span>：音節尾的 l 寫 ㄛ（<span class="en">girl、cold</span>）；字首的 l 寫 ㄌ（<span class="en">lady</span>）</p>
-  <p>・<span class="en">r</span>：字首寫 ㄖ＋ㄨ（<span class="en">rare</span>），母音後的 r 寫 ㄦ（<span class="en">car、air</span>）</p></div>`;
+  <p>・<span class="en">r</span>：字首寫 ㄖㄨ 合併積木 81（<span class="en">rare</span>），母音後的 r 寫 ㄦ（<span class="en">car、air</span>）</p></div>`;
 function s44Blocks(r){
   const T=S44_TAIL[r[0]];
   if(!T) return `<div class="s44row"><span class="s44k en">[${esc(r[2])}]</span>${sorImgs([r[4]],"s44b")}</div>`;
