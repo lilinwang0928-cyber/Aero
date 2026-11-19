@@ -4618,6 +4618,8 @@ function sayAs(t){
   if(/^\s*(am|pm|a\.m\.|p\.m\.)\s*$/i.test(t)) return t.trim()[0].toUpperCase()+".M.";
   /* 冠詞 a 單獨唸時，合成語音會唸成字母名「ㄟ」；改唸成弱讀的 [ə] */
   if(/^\s*a[.,!?;:]?\s*$/i.test(t)) return "uh";
+  /* 單獨一個 I（逐字朗讀、點字卡）有些語音會當成羅馬數字（one／the first）；改給 "eye"，讀音同 [aɪ] */
+  if(/^\s*I[.,!?;:]?\s*$/.test(t)) return "eye";
   return t.replace(/(\d)\s*(a|p)\.?m\.?(?=[\s,.;:!?)]|$)/gi,(m,d,ap)=>d+" "+ap.toUpperCase()+".M.");
 }
 /* ===== 單字卡左右滑動換卡 =====
