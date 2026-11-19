@@ -1560,6 +1560,80 @@ body.noreward .star-hud{display:none}
   .vc-exp.locked summary{color:var(--muted)}
   :root[data-theme="dark"] .vc-list .k-asm .vc-chip{background:#2f2448;color:#c9b2f5}
   :root[data-theme="dark"] .vc-tok.asm{text-decoration-color:#b896f0}
+  /* ===== 很有將 ===== */
+  .hyj{--k-be:#e07a5f;--k-have:#3d7ea6;--k-will:#c9962b}
+  .hyj-hero{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+  .hyj-badge{flex:0 0 auto;background:var(--ink);color:var(--paper);border-radius:14px;padding:8px 10px;font-weight:900;font-size:1rem;line-height:1.15;text-align:center}
+  .hyj-badge.sm{font-size:.78rem;padding:8px 9px;line-height:1.2}
+  .hyj-hero h3{font-size:1.12rem;color:var(--ink)}
+  .hyj-hero p{font-size:.8rem;color:var(--muted);margin-top:2px}
+  .hyj-tbl{display:grid;gap:8px}
+  .hyj-row{display:grid;grid-template-columns:56px 70px 54px 1fr auto;align-items:center;gap:10px;border:1px solid var(--line);border-left:6px solid var(--kc);border-radius:14px;padding:10px 12px;background:var(--paper)}
+  .k-be{--kc:var(--k-be)} .k-have{--kc:var(--k-have)} .k-will{--kc:var(--k-will)}
+  .hyj-big{font-size:2rem;font-weight:900;color:var(--kc);text-align:center;line-height:1}
+  .hyj-en{font-size:1.2rem;font-weight:800;color:var(--ink)}
+  .hyj-what{font-size:.82rem;color:var(--muted);font-weight:700}
+  .hyj-form b{display:block;font-size:.92rem;color:var(--text)}
+  .hyj-form span{font-size:.82rem;color:var(--muted)}
+  .hyj-tag{display:flex;flex-direction:column;gap:3px;align-items:flex-end}
+  .hyj-tag span{font-size:.72rem;font-weight:800;border-radius:999px;padding:2px 9px;background:color-mix(in srgb,var(--kc) 14%,transparent);color:var(--kc)}
+  @media(max-width:560px){ .hyj-row{grid-template-columns:44px 1fr auto;grid-template-areas:"big en tag" "big form tag"} .hyj-big{grid-area:big;font-size:1.7rem} .hyj-en{grid-area:en;font-size:1rem} .hyj-what{display:none} .hyj-form{grid-area:form} .hyj-tag{grid-area:tag} }
+  .hyj-conj{display:grid;grid-template-columns:auto repeat(3,1fr);gap:5px;align-items:stretch}
+  .hc-h{font-size:.82rem;font-weight:900;color:var(--kc,var(--muted));text-align:center;padding:4px 0}
+  .hc-s{display:flex;align-items:baseline;gap:6px;padding:6px 8px;background:var(--mist);border-radius:10px}
+  .hc-s b{font-size:.95rem;color:var(--ink)} .hc-s i{font-style:normal;font-size:.72rem;color:var(--muted)}
+  .hc-c{border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:6px 6px;font:inherit;font-size:.9rem;color:var(--text);cursor:pointer}
+  .hc-c b{color:var(--kc)}
+  .hc-c:hover{border-color:var(--kc)}
+  .hyj-note{font-size:.76rem;color:var(--muted);line-height:1.7;margin-top:10px}
+  .hyj-note b{color:var(--coral)}
+  .hyj-h3{font-size:1.02rem;color:var(--ink);margin-bottom:10px}
+  .hyj-hw{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  @media(max-width:720px){ .hyj-hw{grid-template-columns:1fr} }
+  .hw-col{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--paper)}
+  .hw-h{background:color-mix(in srgb,var(--kc) 16%,var(--paper));color:var(--kc);font-weight:900;font-size:1.05rem;text-align:center;padding:8px;display:flex;justify-content:center;gap:8px;align-items:baseline}
+  .hw-h span{font-size:.9rem;color:var(--ink)}
+  .hw-s{display:flex;align-items:center;border-top:1px solid var(--line)}
+  .hw-p{flex:1;border:none;background:none;text-align:left;padding:7px 10px;font:inherit;cursor:pointer;color:var(--text);display:flex;flex-direction:column}
+  .hw-p span{font-size:.92rem;font-weight:600}
+  .hw-p i{font-style:normal;font-size:.72rem;color:var(--muted)}
+  .hw-p:hover{background:var(--mist)}
+  .hw-s .vc-go{margin:0 8px 0 0;padding:4px 7px}
+  .hyj-cfg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .hyj-seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
+  .hyj-seg button{border:none;background:var(--paper);color:var(--text);font:inherit;font-size:.78rem;font-weight:700;padding:6px 11px;cursor:pointer;white-space:nowrap}
+  @media(max-width:520px){ .hyj-seg button{padding:6px 8px;font-size:.74rem} .hyj-slot{min-width:72px} }
+  .hyj-seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+  .hyj-q{border:1px solid var(--line);border-radius:16px;padding:14px;background:var(--cream)}
+  .hyj-prog{display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted);font-weight:700}
+  .hyj-zh{font-size:1.5rem;font-weight:900;color:var(--ink);text-align:center;margin:8px 0 2px}
+  .hyj-hint{text-align:center;font-size:.78rem;color:var(--muted)}
+  .hyj-slots{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:6px;margin:14px 0}
+  .hyj-slot{min-width:88px;min-height:58px;border:2px dashed var(--line);border-radius:12px;background:var(--paper);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 10px}
+  .hyj-slot span{font-size:1.2rem;font-weight:800;color:var(--ink)}
+  .hyj-slot i{font-style:normal;font-size:.64rem;color:var(--muted);font-weight:800}
+  .hyj-slot.fill{border-style:solid;border-color:var(--sage)}
+  .hyj-slot.ok{border-color:var(--green-ok);background:var(--green-bg)}
+  .hyj-slot.bad{border-color:var(--coral);background:var(--coral-soft)}
+  .hyj-plus{color:var(--muted);font-weight:900}
+  .hyj-dot{font-size:1.6rem;font-weight:900;color:var(--ink)}
+  .hyj-tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+  .hyj-tile{border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:12px;padding:10px 16px;font:inherit;font-size:1.05rem;font-weight:700;cursor:pointer;min-height:46px;box-shadow:0 2px 0 var(--line)}
+  .hyj-tile:hover:not(:disabled){border-color:var(--sage);transform:translateY(-1px)}
+  .hyj-tile:disabled{opacity:.3;cursor:default;box-shadow:none}
+  .hyj-fb{margin-top:12px;border-radius:12px;padding:10px 12px;font-size:.86rem;line-height:1.7}
+  .hyj-fb.ok{background:var(--green-bg);color:var(--green-ok)} .hyj-fb.bad{background:var(--coral-soft);color:var(--coral)}
+  .hyj-fb p{color:var(--text);font-size:.8rem}
+  .hyj-ans{border:none;background:var(--paper);border-radius:999px;padding:3px 12px;margin-left:6px;font:inherit;font-weight:800;color:var(--ink);cursor:pointer}
+  .hyj-ans span{font-size:.75rem;margin-left:4px}
+  .hyj-act{display:flex;justify-content:center;gap:8px;margin-top:12px}
+  .hyj-go{border:none;background:var(--ink);color:var(--paper);border-radius:12px;padding:10px 22px;font:inherit;font-weight:800;cursor:pointer;min-height:44px}
+  .hyj-go:disabled{opacity:.4;cursor:default}
+  .hyj-clr{border:1.5px solid var(--line);background:var(--paper);color:var(--text);border-radius:12px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer}
+  .hyj-end{display:flex;align-items:center;gap:16px;justify-content:center;padding:10px}
+  .hyj-end b{font-size:1.6rem;color:var(--ink)} .hyj-end p{font-size:.86rem;color:var(--muted);margin:4px 0 10px}
+  .hyj-banner{display:flex;align-items:center;gap:12px;width:100%;margin:0 0 12px;padding:10px 14px;border:1.5px solid var(--gold);background:var(--cream);border-radius:14px;font:inherit;text-align:left;cursor:pointer;color:var(--text)}
+  .hyj-banner b{display:block;color:var(--ink);font-size:.9rem} .hyj-banner i{font-style:normal;font-size:.76rem;color:var(--muted)}
 </style>
 <style id="darkTheme">
   /* 單字卡滑動 */
@@ -4515,8 +4589,8 @@ function reviewUnit(){
   }
   return _reviewUnit;
 }
-function allUnits(){ return mergedPools().concat([reviewUnit(), verbsUnit()], BUILTIN_UNITS, DB.imported); }
-let activeIdx = mergedPools().length + 2;
+function allUnits(){ return mergedPools().concat([reviewUnit(), verbsUnit(), hyjUnit()], BUILTIN_UNITS, DB.imported); }
+let activeIdx = mergedPools().length + 3;
 function activeUnit(){ return allUnits()[activeIdx]; }
 function uid(){ return activeUnit().id; }
 function uState(){ if(!DB.units[uid()]) DB.units[uid()]={progress:{},mistakes:[]}; return DB.units[uid()]; }
@@ -4693,7 +4767,7 @@ function buildUnitSelect(){
   const sel=document.getElementById("unitSel");
   const us=allUnits(), groups={}, order=[];
   us.forEach((u,i)=>{
-    const key = u._isReview ? "🏆 總複習" : u._isVerbs ? "⚡ 特別練習" : DB.imported.includes(u) ? "匯入" : ("Level "+levelOf(u));
+    const key = u._isReview ? "🏆 總複習" : (u._isVerbs||u._isHYJ) ? "⚡ 特別練習" : DB.imported.includes(u) ? "匯入" : ("Level "+levelOf(u));
     if(!(key in groups)){ groups[key]=[]; order.push(key); }
     groups[key].push(`<option value="${i}">${esc(u.title)}</option>`);
   });
@@ -6513,6 +6587,177 @@ function openVC(list,i){
 function closeVC(){ vcStop(); const m=document.getElementById("vcSheet"); if(m) m.classList.remove("show"); document.body.classList.remove("vc-open");
   if(_vcRec.rec&&_vcRec.rec.state==="recording"){ try{_vcRec.rec.stop();}catch(e){} } }
 
+
+/* ===================== 很有將（表達的三種方式：Be／Have／Will × 八大主格） ===================== */
+/* [單字, 公式 be|have|will, 詞性, 中文意思, 句中用的中文, KK（原有單字會自動帶入）, 補充例句] */
+const HYJ_SPEC=[
+ ["bright","be","a.","明亮的；開朗的","開朗"],
+ ["true","be","a.","真實的；真誠的","真誠"],
+ ["kind","be","a.","親切的，和藹的","親切"],
+ ["free","be","a.","自由的","自由"],
+ ["bold","be","a.","大膽的，勇敢的","大膽","[bold]",["It was a bold idea.","那是個大膽的想法。"]],
+ ["brave","be","a.","勇敢的","勇敢"],
+ ["strong","be","a.","強壯的；堅強的","堅強"],
+ ["safe","be","a.","安全的","安全"],
+ ["wise","be","a.","有智慧的，明智的","明智"],
+ ["pure","be","a.","純淨的；純真的","純真","[pjʊr]",["The water here is pure.","這裡的水很純淨。"]],
+ ["light","have","n.","光，光線","光"],
+ ["you","have","pron.","你；你們","你","[ju]",["I miss you.","我想念你。"]],
+ ["time","have","n.","時間","時間"],
+ ["glee","have","n.","喜悅，歡欣","喜悅","[gli]",["The kids shouted with glee.","孩子們高興得大叫。"]],
+ ["gold","have","n.","黃金","黃金"],
+ ["grace","have","n.","優雅；恩典","恩典","[gres]",["She dances with grace.","她跳舞的樣子很優雅。"]],
+ ["song","have","n.","歌曲","歌"],
+ ["trust","have","n.","信任","信任"],
+ ["prize","have","n.","獎品，獎賞","獎品"],
+ ["cheer","have","n.","歡呼；歡樂","歡樂"],
+ ["fight","will","v.","奮戰；打仗","奮戰"],
+ ["do","will","v.","做","去做","[du]",["What do you do on weekends?","你週末都做些什麼？"]],
+ ["climb","will","v.","攀登，爬","攀登"],
+ ["see","will","v.","看見；明白","看見"],
+ ["hold","will","v.","握住；堅守","堅守"],
+ ["face","will","v.","面對","面對"],
+ ["sing","will","v.","唱歌","歌唱"],
+ ["grow","will","v.","成長","成長"],
+ ["rise","will","v.","升起；崛起","崛起"],
+ ["steer","will","v.","掌舵，駕駛","掌舵","[stɪr]",["He steered the boat to the shore.","他把船駛向岸邊。"]]];
+const HYJ_SUBJ=[["I","我"],["You","你"],["She","她"],["He","他"],["It","它"],["We","我們"],["You","你們"],["They","他們"]];
+const HYJ_VERB={be:["am","are","is","is","is","are","are","are"],have:["have","have","has","has","has","have","have","have"],will:Array(8).fill("will")};
+const HYJ_COL={be:{zh:"很",what:"狀態",form:"我很＋形容詞",en:"I am adj.",role:"結論",feel:"感性的"},
+  have:{zh:"有",what:"東西",form:"我有＋名詞",en:"I have n.",role:"論證",feel:"理性的"},
+  will:{zh:"將",what:"行為",form:"我將＋動詞",en:"I will v.",role:"行動",feel:"血性的"}};
+let _hyjUnit=null;
+function hyjUnit(){
+  if(_hyjUnit) return _hyjUnit;
+  const base={}; BUILTIN_UNITS.forEach(u=>u.words.forEach(w=>{ if(!base[w.w]) base[w.w]=w; }));
+  const words=HYJ_SPEC.map((r,i)=>{
+    const b=base[r[0]], verb=HYJ_VERB[r[1]][0];
+    const ex=[["I "+verb+" "+r[0]+".","我"+HYJ_COL[r[1]].zh+r[4]+"。"]];
+    if(r[6]) ex.push(r[6]); else if(b&&b.ex) b.ex.slice(0,2).forEach(e=>ex.push(e));
+    return {id:"hyj_"+r[0],w:r[0],kk:(b&&b.kk)||r[5]||"",num:i+1,pos:r[2],zh:r[3],
+      ph:(b&&b.ph)?b.ph.slice(0,3):[], rel:`很有將：${HYJ_COL[r[1]].zh}（${r[1]==="be"?"Be":r[1]==="have"?"Have":"Will"}）＋${r[2]==="a."?"形容詞":r[2]==="v."?"動詞":r[2]==="pron."?"代名詞":"名詞"}`,
+      ex, hyj:r[1], hyjZh:r[4]};
+  });
+  _hyjUnit={id:"__HYJ__",title:"🧭 很有將（30 字）",words,_isHYJ:true};
+  return _hyjUnit;
+}
+function hyjSay(t){ stopSeq(); speak(t,"en-US",R_NORM); }
+let hyjCfg={col:"all",subj:"all"}, hyjQ=null;
+function hyjNewRound(){
+  const pool=hyjUnit().words.filter(w=>hyjCfg.col==="all"||w.hyj===hyjCfg.col);
+  const qs=[];
+  for(let k=0;k<10;k++){
+    const w=pool[Math.floor(Math.random()*pool.length)];
+    let si; do{ si=hyjCfg.subj==="I"?0:Math.floor(Math.random()*8); }while(w.w==="you"&&(si===1||si===6));
+    qs.push({w,si});
+  }
+  hyjQ={qs,i:0,score:0,pick:[],done:false,checked:null};
+  hyjDeal();
+}
+function hyjDeal(){
+  const q=hyjQ.qs[hyjQ.i], v=HYJ_VERB[q.w.hyj][q.si], subj=HYJ_SUBJ[q.si][0];
+  const allV=["am","are","is","have","has","will"].filter(x=>x!==v);
+  const dv=shuffle(allV).slice(0,2);
+  const other=shuffle(hyjUnit().words.filter(x=>x.hyj!==q.w.hyj))[0].w;
+  q.ans=[subj,v,q.w.w];
+  q.tiles=shuffle([subj,v,q.w.w,...dv,other].map((t,i)=>({t,id:i})));
+  hyjQ.pick=[]; hyjQ.checked=null;
+}
+function hyjZhQ(q){ return HYJ_SUBJ[q.si][1]+HYJ_COL[q.w.hyj].zh+q.w.hyjZh+"。"; }
+function renderHYJ(box){
+  const U=hyjUnit();
+  const cols=["be","have","will"];
+  const lesson=`<div class="block hyj">
+    <div class="hyj-hero"><span class="hyj-badge">很<br>有<br>將</span><div><h3>表達的三種方式</h3><p>八大主格 × Be／Have／Will——用單字的詞性，把句子排出來。</p></div></div>
+    <div class="hyj-tbl" role="table">
+      ${cols.map(c=>{const C=HYJ_COL[c];return `<div class="hyj-row k-${c}" role="row">
+        <div class="hyj-big">${C.zh}</div>
+        <div class="hyj-en en">${c==="be"?"Be":c==="have"?"Have":"Will"}</div>
+        <div class="hyj-what">${C.what}</div>
+        <div class="hyj-form"><b>${C.form}</b><span class="en">${C.en}</span></div>
+        <div class="hyj-tag"><span>${C.role}</span><span>${C.feel}</span></div></div>`;}).join("")}
+    </div>
+    <div class="ph-sec">八大主格怎麼配</div>
+    <div class="hyj-conj">
+      <div class="hc-h"></div>${cols.map(c=>`<div class="hc-h k-${c}">${HYJ_COL[c].zh} <span class="en">${c==="be"?"Be":c==="have"?"Have":"Will"}</span></div>`).join("")}
+      ${HYJ_SUBJ.map((s,i)=>`<div class="hc-s"><b class="en">${s[0]}</b><i>${s[1]}</i></div>`+cols.map(c=>`<button class="hc-c k-${c} en" data-say="${s[0]} ${HYJ_VERB[c][i]}">${s[0]} <b>${HYJ_VERB[c][i]}</b></button>`).join("")).join("")}
+    </div>
+    <p class="hyj-note">She、He、It（第三人稱單數）：Be 用 <b class="en">is</b>，Have 用 <b class="en">has</b>；Will 八個主格都一樣。</p>
+  </div>`;
+  const hw=`<div class="block hyj"><h3 class="hyj-h3">EP1 作業：30 句</h3>
+    <div class="hyj-hw">${cols.map(c=>`<div class="hw-col k-${c}"><div class="hw-h">${HYJ_COL[c].zh}<span class="en">${c==="be"?"Be":c==="have"?"Have":"Will"}</span></div>
+      ${U.words.filter(w=>w.hyj===c).map(w=>`<div class="hw-s"><button class="hw-p en" data-say="${esc(w.ex[0][0])}"><span>${esc(w.ex[0][0])}</span><i>${esc(w.ex[0][1])}</i></button><button class="vc-go" data-hw="${esc(w.id)}" aria-label="跟讀">🎧</button></div>`).join("")}</div>`).join("")}</div>
+    <p class="hyj-note">作業原稿的「I am save.」應為 <b class="en">I am safe.</b>（save 是動詞「拯救」，safe 才是形容詞「安全的」），這裡已改正。</p>
+  </div>`;
+  box.innerHTML=lesson+hw+`<div class="block hyj" id="hyjPractice"></div>`;
+  box.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>hyjSay(b.dataset.say));
+  box.querySelectorAll("[data-hw]").forEach(b=>b.onclick=e=>{ e.stopPropagation();
+    const list=U.words.map(w=>({en:w.ex[0][0],zh:w.ex[0][1]})); openVC(list,U.words.findIndex(w=>w.id===b.dataset.hw)); });
+  renderHYJPractice();
+}
+function renderHYJPractice(){
+  const el=document.getElementById("hyjPractice"); if(!el) return;
+  if(!hyjQ) hyjNewRound();
+  const Q=hyjQ;
+  const seg=(k,opts)=>`<div class="hyj-seg" data-k="${k}">${opts.map(([v,t])=>`<button data-v="${v}" aria-pressed="${hyjCfg[k]===v}">${t}</button>`).join("")}</div>`;
+  const head=`<h3 class="hyj-h3">🧩 排列練習</h3>
+    <div class="hyj-cfg">${seg("col",[["all","很・有・將"],["be","只練 很"],["have","只練 有"],["will","只練 將"]])}${seg("subj",[["all","八大主格"],["I","只用 I"]])}</div>`;
+  if(Q.done){
+    el.innerHTML=head+`<div class="hyj-end">${AERO(Q.score>=8?"happy":"think",80,"")}<div><b>${Q.score} / 10</b><p>${Q.score===10?"全對！公式已經上手了。":Q.score>=8?"很棒，再一輪就更穩了。":"再練一輪，注意 She／He／It 要配 is、has。"}</p>
+      <button class="hyj-go" id="hyjAgain">再來一輪</button></div></div>`;
+    bindHyjCfg(el); document.getElementById("hyjAgain").onclick=()=>{ hyjNewRound(); renderHYJPractice(); }; return;
+  }
+  const q=Q.qs[Q.i], C=HYJ_COL[q.w.hyj];
+  const slots=[0,1,2].map(i=>{ const p=Q.pick[i]; const t=p!=null?q.tiles.find(x=>x.id===p).t:"";
+    const st=Q.checked?(t===q.ans[i]?"ok":"bad"):""; const lab=["主格",q.w.hyj==="be"?"Be":q.w.hyj==="have"?"Have":"Will",q.w.pos==="a."?"形容詞":q.w.pos==="v."?"動詞":"名詞"][i];
+    return `<button class="hyj-slot ${t?"fill":""} ${st}" data-slot="${i}"><span class="en">${esc(t)||"　"}</span><i>${lab}</i></button>`; }).join(`<span class="hyj-plus">＋</span>`);
+  const tiles=q.tiles.map(x=>`<button class="hyj-tile en" data-t="${x.id}" ${Q.pick.includes(x.id)||Q.checked?"disabled":""}>${esc(x.t)}</button>`).join("");
+  let fb="";
+  if(Q.checked){
+    const got=Q.pick.map(p=>q.tiles.find(x=>x.id===p).t), ok=Q.checked==="ok";
+    const why=[];
+    if(got[0]!==q.ans[0]) why.push(`「${HYJ_SUBJ[q.si][1]}」是 <b class="en">${q.ans[0]}</b>`);
+    if(got[1]!==q.ans[1]) why.push(`<b class="en">${q.ans[0]}</b> ${C.zh}：要用 <b class="en">${q.ans[1]}</b>`+(q.w.hyj!=="will"&&(q.si>=2&&q.si<=4)?"（第三人稱單數）":""));
+    if(got[2]!==q.ans[2]) why.push(`「${C.zh}」後面接${q.w.pos==="a."?"形容詞":q.w.pos==="v."?"動詞":"名詞"}：${q.w.hyjZh} = <b class="en">${q.w.w}</b>`);
+    fb=`<div class="hyj-fb ${ok?"ok":"bad"}">${ok?"✅ 答對了！":"再看一次："}<button class="hyj-ans en" data-say="${esc(q.ans.join(" ")+".")}">${esc(q.ans.join(" "))}.<span>🔊</span></button>${why.length?`<p>${why.join("；")}</p>`:""}</div>`;
+  }
+  el.innerHTML=head+`<div class="hyj-q">
+      <div class="hyj-prog"><span>第 ${Q.i+1} / 10 題</span><span>答對 ${Q.score}</span></div>
+      <div class="hyj-zh">${esc(hyjZhQ(q))}</div>
+      <div class="hyj-hint">${C.form}　<span class="en">${HYJ_SUBJ[q.si][0]} ${q.w.hyj==="be"?"am / are / is":q.w.hyj==="have"?"have / has":"will"} ＋ ${q.w.pos}</span></div>
+      <div class="hyj-slots">${slots}<span class="hyj-dot">.</span></div>
+      <div class="hyj-tiles">${tiles}</div>
+      ${fb}
+      <div class="hyj-act">${Q.checked?`<button class="hyj-go" id="hyjNext">${Q.i===9?"看結果":"下一題 ›"}</button>`:`<button class="hyj-clr" id="hyjClr">清除</button><button class="hyj-go" id="hyjChk" ${Q.pick.length<3?"disabled":""}>檢查</button>`}</div>
+    </div>`;
+  bindHyjCfg(el);
+  el.querySelectorAll(".hyj-tile").forEach(b=>b.onclick=()=>{ if(Q.pick.length>=3) return; Q.pick.push(+b.dataset.t); renderHYJPractice(); });
+  el.querySelectorAll(".hyj-slot").forEach(b=>b.onclick=()=>{ if(Q.checked) return; const i=+b.dataset.slot; if(Q.pick[i]!=null){ Q.pick.splice(i,1); renderHYJPractice(); } });
+  const clr=document.getElementById("hyjClr"); if(clr) clr.onclick=()=>{ Q.pick=[]; renderHYJPractice(); };
+  const chk=document.getElementById("hyjChk"); if(chk) chk.onclick=()=>{
+    const got=Q.pick.map(p=>q.tiles.find(x=>x.id===p).t);
+    const ok=got.every((t,i)=>t===q.ans[i]);
+    Q.checked=ok?"ok":"bad"; if(ok){ Q.score++; try{ addStars&&addStars(1); }catch(e){} }
+    renderHYJPractice(); hyjSay(q.ans.join(" ")+".");
+  };
+  const nx=document.getElementById("hyjNext"); if(nx) nx.onclick=()=>{ stopSeq(); if(Q.i===9){ Q.done=true; } else { Q.i++; hyjDeal(); } renderHYJPractice(); };
+  el.querySelectorAll(".hyj-ans").forEach(b=>b.onclick=()=>hyjSay(b.dataset.say));
+}
+function bindHyjCfg(el){
+  el.querySelectorAll(".hyj-seg").forEach(g=>g.querySelectorAll("button").forEach(b=>b.onclick=()=>{ hyjCfg[g.dataset.k]=b.dataset.v; hyjNewRound(); renderHYJPractice(); }));
+}
+/* 很有將單元：單字卡上方提示公式表與排列練習的位置 */
+const _hyjRenderCard=renderCard;
+renderCard=function(){
+  _hyjRenderCard.apply(this,arguments);
+  if(!activeUnit()._isHYJ) return;
+  const area=document.getElementById("cardArea"); if(!area||area.querySelector(".hyj-banner")) return;
+  const d=document.createElement("button"); d.className="hyj-banner";
+  d.innerHTML=`<span class="hyj-badge sm">很有將</span><span><b>公式表・八大主格・30 句作業・排列練習</b><i>都在「閱讀」分頁，點這裡前往 ›</i></span>`;
+  d.onclick=()=>{ const t=document.querySelector('.tab[data-tab="read"]'); if(t) t.click(); };
+  area.prepend(d);
+};
+
 function renderSpeak(){
   if(!spList)buildSpList();
   if(spPos>=spList.length)spPos=0;
@@ -6814,6 +7059,7 @@ function renderRead(){
   readPlaying=false;
   const rid=readingId();
   const box=document.getElementById("readArea");
+  if(activeUnit()._isHYJ){ renderHYJ(box); return; }
   if(!rid){ renderReadPicker(box,"這個單元是彙整用的複習池，請先選一篇短文開始閱讀："); return; }
   if(!readState||readState.rid!==rid){ readState={rid:rid,ans:{},score:0,done:false}; }
   const R=READINGS[rid], st=readState, rec=RD()[rid]||{};
