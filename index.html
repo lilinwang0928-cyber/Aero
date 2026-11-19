@@ -6262,8 +6262,11 @@ function vcPlay(en,mode,root,btn){
     if(my!==_vcSeq)return;
     if(i>=ws.length){ done(); return; }
     toks.forEach((t,k)=>t.classList.toggle("now",k===i));
-    const w=ws[i].replace(/^[^A-Za-z0-9']+|[^A-Za-z0-9']+$/g,""); i++;
+    const cl=x=>(x||"").replace(/^[^A-Za-z0-9']+|[^A-Za-z0-9']+$/g,"");
+    let w=cl(ws[i]); const nx=cl(ws[i+1]).toLowerCase(); i++;
     if(!w){ step(); return; }
+    /* the 單獨唸時合成語音一律唸 [ði]；依後面的字決定：子音前 [ðə]、母音前 [ði] */
+    if(/^the$/i.test(w)) w=(nx&&vcStart(nx)==="v")?"thee":"thuh";
     try{speechSynthesis.cancel();}catch(e){}
     vcUtter(w,acc,M.r,()=>{ if(my===_vcSeq) setTimeout(step,650); });
   };
