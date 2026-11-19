@@ -1599,7 +1599,10 @@ body.noreward .star-hud{display:none}
   .hw-p i{font-style:normal;font-size:.72rem;color:var(--muted)}
   .hw-p:hover{background:var(--mist)}
   .hw-s .vc-go{margin:0 8px 0 0;padding:4px 7px}
-  .hyj-cfg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .hyj-cfg{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:6px}
+  .hyj-src{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:800;color:var(--muted)}
+  .hyj-src select{font:inherit;font-size:.8rem;font-weight:700;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:999px;padding:5px 10px;max-width:200px}
+  .hyj-pool{font-size:.74rem;color:var(--muted);margin:0 0 10px;line-height:1.6}
   .hyj-seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
   .hyj-seg button{border:none;background:var(--paper);color:var(--text);font:inherit;font-size:.78rem;font-weight:700;padding:6px 11px;cursor:pointer;white-space:nowrap}
   @media(max-width:520px){ .hyj-seg button{padding:6px 8px;font-size:.74rem} .hyj-slot{min-width:72px} }
@@ -5708,6 +5711,7 @@ function renderQuizIntro(){
           <button data-v="listen">聽力拼字</button>
           <button data-v="cloze">例句填空</button>
           <button data-v="forms">動詞三態</button>
+          <button data-v="hyj">很有將排列</button>
         </div>
         <div class="lbl">出題範圍</div>
         <div class="seg" id="segScope">
@@ -5749,14 +5753,22 @@ function renderQuizIntro(){
       mode==="spell"?"拼字題：聽發音＋看中文，拼出英文單字（僅使用本單元單字）":
       mode==="listen"?"聽力拼字：只播放發音、單字隱藏，純聽辨音後拼寫（可開慢速）":
       mode==="cloze"?"例句填空：例句挖空，選出正確的單字（僅使用本單元單字）":
-      mode==="forms"?`動詞三態：給原形填過去式與過去分詞（本單元 ${formsCount} 個三態動詞）`:"";
+      mode==="forms"?`動詞三態：給原形填過去式與過去分詞（本單元 ${formsCount} 個三態動詞）`:
+      mode==="hyj"?"很有將排列：依單字詞性套公式——形容詞「很」(Be)、名詞「有」(Have)、動詞「將」(Will)，配八大主格排出句子（每輪 10 題）":"";
   };
   bindSeg("segMode",v=>{mode=v;refresh();});
   bindSeg("segScope",v=>scope=v);
   bindSeg("segDir",v=>dir=v);
   bindSeg("segCount",v=>count=v);
   refresh();
-  document.getElementById("startQuiz").addEventListener("click",()=>startQuiz(scope,dir,false,mode,count));
+  document.getElementById("startQuiz").addEventListener("click",()=>{
+    if(mode==="hyj"){ const U=activeUnit(), src=U._isHYJ?"all":U.id;
+      document.getElementById("quizArea").innerHTML=`<div class="dc-top"><button class="dc-back" id="hyjQBack">‹ 回測驗設定</button><div class="dc-prog">很有將排列</div></div><div class="block hyj" id="quizHyj"></div>`;
+      document.getElementById("hyjQBack").onclick=()=>{ stopSeq(); renderQuizIntro(); };
+      if(HYJ_ST.quizHyj) HYJ_ST.quizHyj.q=null;
+      hyjMount("quizHyj",src); return; }
+    startQuiz(scope,dir,false,mode,count);
+  });
 }
 function firstExOf(en){const w=activeUnit().words.find(x=>x.w===en);return (w&&w.ex&&w.ex.length)?w.ex[0]:null;}
 function makeItems(scope){
@@ -6641,29 +6653,143 @@ function hyjUnit(){
   _hyjUnit={id:"__HYJ__",title:"🧭 很有將（30 字）",words,_isHYJ:true};
   return _hyjUnit;
 }
+/* ---------- 很有將排列練習：用 Aero 單字的詞性出題 ----------
+   形容詞 a. → 很 Be；名詞 n. → 有 Have；動詞 vt./vi./v. → 將 Will。
+   一個字有好幾種詞性（例如 light n. & a. & vt.）時，三個公式都可以出。 */
+function hyjTypesOf(w){
+  const t=new Set(), p=String(w.pos||"");
+  p.split(/[&,，、\/]/).map(x=>x.trim()).forEach(x=>{
+    if(/^(a|adj)\.?$/.test(x)) t.add("be");
+    else if(/^n\.?$/.test(x)) t.add("have");
+    else if(/^(vt|vi|v)\.?$/.test(x)) t.add("will");
+  });
+  return [...t];
+}
+/* 中文意思的順序和詞性欄的順序一致，所以只用「第一個」詞性（a./n./v. 之中最先出現的），取對應的第一段中文；
+   形容詞取第一段「…的」。中文裡有「……」（把……藏起來）的不出題，避免句子不通。 */
+function hyjPrimary(w){
+  if(w.hyj) return {t:w.hyj,zh:w.hyjZh};
+  const toks=String(w.pos||"").split(/[&,，、\/]/).map(x=>x.trim());
+  const map=x=>/^(a|adj)\.?$/.test(x)?"be":/^n\.?$/.test(x)?"have":/^(vt|vi|v)\.?$/.test(x)?"will":"";
+  const first=toks.map(map).find(Boolean); if(!first) return null;
+  const firstTok=toks[0];
+  const segs=String(w.zh||"").split(/[；;]/).map(x=>x.trim()).filter(Boolean);
+  const pieces=seg=>seg.replace(/[（(][^）)]*[）)]/g,"").split(/[，,／\/]/).map(x=>x.trim()).filter(Boolean);
+  let cand;
+  if(first==="be"){ const sg=segs.find(x=>/的$/.test(pieces(x)[0]||"")); if(!sg) return null; cand=pieces(sg).filter(x=>/的$/.test(x)).map(x=>x.replace(/的$/,"")); }
+  else { if(map(firstTok)!==first) return null;   /* 第一個詞性是 adv./prep. 等：中文段落對不上，不出題 */
+    cand=pieces(segs[0]||""); }
+  const zh=cand.find(x=>x.length>=(first==="be"?2:1)&&x.length<=8&&!/[…~～]/.test(x)&&!/^(使|把)$/.test(x));
+  return zh?{t:first,zh}:null;
+}
+function hyjPool(src){
+  let words;
+  if(src==="hw") words=hyjUnit().words;
+  else if(src==="all"){ words=[]; BUILTIN_UNITS.forEach(u=>u.words.forEach(w=>words.push(w))); }
+  else { const u=allUnits().find(x=>x.id===src)||activeUnit(); words=u.words; }
+  const seen=new Set(), out=[];
+  words.forEach(w=>{
+    if(!w||!w.w||/[\s.'’-]/.test(w.w)||/^[A-Z]/.test(w.w)||seen.has(w.w)) return;
+    const pr=hyjPrimary(w); if(!pr) return;
+    seen.add(w.w);
+    out.push({w:w.w,t:pr.t,zh:pr.zh,pos:pr.t==="be"?"形容詞":pr.t==="have"?"名詞":"動詞",types:hyjTypesOf(w).concat(w.hyj?[w.hyj]:[])});
+  });
+  return out;
+}
 function hyjSay(t){ stopSeq(); speak(t,"en-US",R_NORM); }
-let hyjCfg={col:"all",subj:"all"}, hyjQ=null;
-function hyjNewRound(){
-  const pool=hyjUnit().words.filter(w=>hyjCfg.col==="all"||w.hyj===hyjCfg.col);
-  const qs=[];
-  for(let k=0;k<10;k++){
-    const w=pool[Math.floor(Math.random()*pool.length)];
-    let si; do{ si=hyjCfg.subj==="I"?0:Math.floor(Math.random()*8); }while(w.w==="you"&&(si===1||si===6));
+const HYJ_ST={};   /* 每個練習區自己的設定與題目 */
+function hyjMount(elId,defSrc){
+  if(!HYJ_ST[elId]) HYJ_ST[elId]={cfg:{col:"all",subj:"all",src:defSrc},q:null};
+  const S=HYJ_ST[elId]; if(defSrc&&S.cfg.srcDef!==defSrc){ S.cfg.src=defSrc; S.cfg.srcDef=defSrc; S.q=null; }
+  hyjRender(elId);
+}
+function hyjNewRound(S){
+  const pool=hyjPool(S.cfg.src).filter(x=>S.cfg.col==="all"||x.t===S.cfg.col);
+  if(!pool.length){ S.q={empty:true}; return; }
+  const qs=[]; let guard=0;
+  while(qs.length<10&&guard++<200){
+    /* 三個公式平均出題（名詞通常最多，不平均的話幾乎都是「有」） */
+    const ts=["be","have","will"].filter(t=>pool.some(x=>x.t===t)), tt=ts[qs.length%ts.length];
+    const sub=pool.filter(x=>x.t===tt), w=sub[Math.floor(Math.random()*sub.length)];
+    if(qs.some(q=>q.w.w===w.w)&&sub.length>4) continue;
+    let si; do{ si=S.cfg.subj==="I"?0:Math.floor(Math.random()*8); }while(w.w==="you"&&(si===1||si===6));
     qs.push({w,si});
   }
-  hyjQ={qs,i:0,score:0,pick:[],done:false,checked:null};
-  hyjDeal();
+  S.q={qs:shuffle(qs),i:0,score:0,pick:[],done:false,checked:null,pool};
+  hyjDeal(S);
 }
-function hyjDeal(){
-  const q=hyjQ.qs[hyjQ.i], v=HYJ_VERB[q.w.hyj][q.si], subj=HYJ_SUBJ[q.si][0];
-  const allV=["am","are","is","have","has","will"].filter(x=>x!==v);
-  const dv=shuffle(allV).slice(0,2);
-  const other=shuffle(hyjUnit().words.filter(x=>x.hyj!==q.w.hyj))[0].w;
+function hyjDeal(S){
+  const Q=S.q, q=Q.qs[Q.i], v=HYJ_VERB[q.w.t][q.si], subj=HYJ_SUBJ[q.si][0];
+  const dv=shuffle(["am","are","is","have","has","will"].filter(x=>x!==v)).slice(0,2);
+  /* 干擾字：詞性完全用不到這個公式的字 */
+  let oth=Q.pool.filter(x=>!x.types.includes(q.w.t)&&x.w!==q.w.w);
+  if(!oth.length) oth=hyjPool("all").filter(x=>!x.types.includes(q.w.t));
+  const other=oth[Math.floor(Math.random()*oth.length)].w;
   q.ans=[subj,v,q.w.w];
   q.tiles=shuffle([subj,v,q.w.w,...dv,other].map((t,i)=>({t,id:i})));
-  hyjQ.pick=[]; hyjQ.checked=null;
+  Q.pick=[]; Q.checked=null;
 }
-function hyjZhQ(q){ return HYJ_SUBJ[q.si][1]+HYJ_COL[q.w.hyj].zh+q.w.hyjZh+"。"; }
+function hyjZhQ(q){ return HYJ_SUBJ[q.si][1]+HYJ_COL[q.w.t].zh+q.w.zh+"。"; }
+function hyjSrcOpts(cur){
+  const opt=(v,t)=>`<option value="${esc(v)}" ${cur===v?"selected":""}>${esc(t)}</option>`;
+  const extra=(cur&&!["all","hw"].includes(cur)&&!BUILTIN_UNITS.some(u=>u.id===cur))?opt(cur,(allUnits().find(u=>u.id===cur)||{}).title||cur):"";
+  return extra+opt("all","全部 Aero 單字")+opt("hw","EP1 作業 30 字")+BUILTIN_UNITS.map(u=>opt(u.id,u.title)).join("");
+}
+function hyjRender(elId){
+  const el=document.getElementById(elId); if(!el) return;
+  const S=HYJ_ST[elId]; if(!S.q) hyjNewRound(S);
+  const Q=S.q, R=()=>hyjRender(elId);
+  const seg=(k,opts)=>`<div class="hyj-seg" data-k="${k}">${opts.map(([v,t])=>`<button data-v="${v}" aria-pressed="${S.cfg[k]===v}">${t}</button>`).join("")}</div>`;
+  const pool=Q.pool||[];
+  const n={be:pool.filter(x=>x.t==="be").length,have:pool.filter(x=>x.t==="have").length,will:pool.filter(x=>x.t==="will").length};
+  const head=`<h3 class="hyj-h3">🧩 很有將排列練習</h3>
+    <div class="hyj-cfg"><label class="hyj-src">詞庫<select data-src>${hyjSrcOpts(S.cfg.src)}</select></label>
+      ${seg("col",[["all","很・有・將"],["be","只練 很"],["have","只練 有"],["will","只練 將"]])}${seg("subj",[["all","八大主格"],["I","只用 I"]])}</div>
+    <p class="hyj-pool">依單字的詞性出題：形容詞 → 很（Be）、名詞 → 有（Have）、動詞 → 將（Will）。${S.cfg.col==="all"&&!Q.empty?`這個詞庫可出：形容詞 ${n.be}、名詞 ${n.have}、動詞 ${n.will}。`:""}</p>`;
+  const bindCfg=()=>{
+    el.querySelectorAll(".hyj-seg").forEach(g=>g.querySelectorAll("button").forEach(b=>b.onclick=()=>{ S.cfg[g.dataset.k]=b.dataset.v; S.q=null; R(); }));
+    const sel=el.querySelector("[data-src]"); if(sel) sel.onchange=()=>{ S.cfg.src=sel.value; S.q=null; R(); };
+  };
+  if(Q.empty){ el.innerHTML=head+`<p class="hyj-note">這個詞庫沒有${S.cfg.col==="be"?"形容詞":S.cfg.col==="have"?"名詞":S.cfg.col==="will"?"動詞":"形容詞、名詞或動詞"}可以練，請換一個詞庫。</p>`; bindCfg(); return; }
+  if(Q.done){
+    el.innerHTML=head+`<div class="hyj-end">${AERO(Q.score>=8?"happy":"think",80,"")}<div><b>${Q.score} / 10</b><p>${Q.score===10?"全對！公式已經上手了。":Q.score>=8?"很棒，再一輪就更穩了。":"再練一輪，注意 She／He／It 要配 is、has。"}</p>
+      <button class="hyj-go" data-again>再來一輪</button></div></div>`;
+    bindCfg(); el.querySelector("[data-again]").onclick=()=>{ S.q=null; R(); }; return;
+  }
+  const q=Q.qs[Q.i], C=HYJ_COL[q.w.t], vb=q.w.t==="be"?"Be":q.w.t==="have"?"Have":"Will";
+  const slots=[0,1,2].map(i=>{ const p=Q.pick[i]; const t=p!=null?q.tiles.find(x=>x.id===p).t:"";
+    const st=Q.checked?(t===q.ans[i]?"ok":"bad"):""; const lab=["主格",vb,q.w.pos][i];
+    return `<button class="hyj-slot ${t?"fill":""} ${st}" data-slot="${i}"><span class="en">${esc(t)||"　"}</span><i>${lab}</i></button>`; }).join(`<span class="hyj-plus">＋</span>`);
+  const tiles=q.tiles.map(x=>`<button class="hyj-tile en" data-t="${x.id}" ${Q.pick.includes(x.id)||Q.checked?"disabled":""}>${esc(x.t)}</button>`).join("");
+  let fb="";
+  if(Q.checked){
+    const got=Q.pick.map(p=>q.tiles.find(x=>x.id===p).t), ok=Q.checked==="ok", why=[];
+    if(got[0]!==q.ans[0]) why.push(`「${HYJ_SUBJ[q.si][1]}」是 <b class="en">${q.ans[0]}</b>`);
+    if(got[1]!==q.ans[1]) why.push(`<b class="en">${q.ans[0]}</b> ${C.zh}：要用 <b class="en">${q.ans[1]}</b>`+(q.w.t!=="will"&&q.si>=2&&q.si<=4?"（第三人稱單數）":""));
+    if(got[2]!==q.ans[2]) why.push(`「${C.zh}」後面接${q.w.pos}：${esc(q.w.zh)} = <b class="en">${esc(q.w.w)}</b>`);
+    fb=`<div class="hyj-fb ${ok?"ok":"bad"}">${ok?"✅ 答對了！":"再看一次："}<button class="hyj-ans en" data-say="${esc(q.ans.join(" ")+".")}">${esc(q.ans.join(" "))}.<span>🔊</span></button>${why.length?`<p>${why.join("；")}</p>`:""}</div>`;
+  }
+  el.innerHTML=head+`<div class="hyj-q">
+      <div class="hyj-prog"><span>第 ${Q.i+1} / 10 題</span><span>答對 ${Q.score}</span></div>
+      <div class="hyj-zh">${esc(hyjZhQ(q))}</div>
+      <div class="hyj-hint">${C.form}　<span class="en">${HYJ_SUBJ[q.si][0]} ${q.w.t==="be"?"am / are / is":q.w.t==="have"?"have / has":"will"} ＋ ${q.w.t==="be"?"adj.":q.w.t==="have"?"n.":"v."}</span></div>
+      <div class="hyj-slots">${slots}<span class="hyj-dot">.</span></div>
+      <div class="hyj-tiles">${tiles}</div>
+      ${fb}
+      <div class="hyj-act">${Q.checked?`<button class="hyj-go" data-next>${Q.i===9?"看結果":"下一題 ›"}</button>`:`<button class="hyj-clr" data-clr>清除</button><button class="hyj-go" data-chk ${Q.pick.length<3?"disabled":""}>檢查</button>`}</div>
+    </div>`;
+  bindCfg();
+  el.querySelectorAll(".hyj-tile").forEach(b=>b.onclick=()=>{ if(Q.pick.length>=3) return; Q.pick.push(+b.dataset.t); R(); });
+  el.querySelectorAll(".hyj-slot").forEach(b=>b.onclick=()=>{ if(Q.checked) return; const i=+b.dataset.slot; if(Q.pick[i]!=null){ Q.pick.splice(i,1); R(); } });
+  const clr=el.querySelector("[data-clr]"); if(clr) clr.onclick=()=>{ Q.pick=[]; R(); };
+  const chk=el.querySelector("[data-chk]"); if(chk) chk.onclick=()=>{
+    const got=Q.pick.map(p=>q.tiles.find(x=>x.id===p).t), ok=got.every((t,i)=>t===q.ans[i]);
+    Q.checked=ok?"ok":"bad"; if(ok){ Q.score++; try{ addStars(1); }catch(e){} }
+    R(); hyjSay(q.ans.join(" ")+".");
+  };
+  const nx=el.querySelector("[data-next]"); if(nx) nx.onclick=()=>{ stopSeq(); if(Q.i===9){ Q.done=true; try{ creditActivity("quiz"); }catch(e){} } else { Q.i++; hyjDeal(S); } R(); };
+  el.querySelectorAll(".hyj-ans").forEach(b=>b.onclick=()=>hyjSay(b.dataset.say));
+}
 function renderHYJ(box){
   const U=hyjUnit();
   const cols=["be","have","will"];
@@ -6693,58 +6819,7 @@ function renderHYJ(box){
   box.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>hyjSay(b.dataset.say));
   box.querySelectorAll("[data-hw]").forEach(b=>b.onclick=e=>{ e.stopPropagation();
     const list=U.words.map(w=>({en:w.ex[0][0],zh:w.ex[0][1]})); openVC(list,U.words.findIndex(w=>w.id===b.dataset.hw)); });
-  renderHYJPractice();
-}
-function renderHYJPractice(){
-  const el=document.getElementById("hyjPractice"); if(!el) return;
-  if(!hyjQ) hyjNewRound();
-  const Q=hyjQ;
-  const seg=(k,opts)=>`<div class="hyj-seg" data-k="${k}">${opts.map(([v,t])=>`<button data-v="${v}" aria-pressed="${hyjCfg[k]===v}">${t}</button>`).join("")}</div>`;
-  const head=`<h3 class="hyj-h3">🧩 排列練習</h3>
-    <div class="hyj-cfg">${seg("col",[["all","很・有・將"],["be","只練 很"],["have","只練 有"],["will","只練 將"]])}${seg("subj",[["all","八大主格"],["I","只用 I"]])}</div>`;
-  if(Q.done){
-    el.innerHTML=head+`<div class="hyj-end">${AERO(Q.score>=8?"happy":"think",80,"")}<div><b>${Q.score} / 10</b><p>${Q.score===10?"全對！公式已經上手了。":Q.score>=8?"很棒，再一輪就更穩了。":"再練一輪，注意 She／He／It 要配 is、has。"}</p>
-      <button class="hyj-go" id="hyjAgain">再來一輪</button></div></div>`;
-    bindHyjCfg(el); document.getElementById("hyjAgain").onclick=()=>{ hyjNewRound(); renderHYJPractice(); }; return;
-  }
-  const q=Q.qs[Q.i], C=HYJ_COL[q.w.hyj];
-  const slots=[0,1,2].map(i=>{ const p=Q.pick[i]; const t=p!=null?q.tiles.find(x=>x.id===p).t:"";
-    const st=Q.checked?(t===q.ans[i]?"ok":"bad"):""; const lab=["主格",q.w.hyj==="be"?"Be":q.w.hyj==="have"?"Have":"Will",q.w.pos==="a."?"形容詞":q.w.pos==="v."?"動詞":"名詞"][i];
-    return `<button class="hyj-slot ${t?"fill":""} ${st}" data-slot="${i}"><span class="en">${esc(t)||"　"}</span><i>${lab}</i></button>`; }).join(`<span class="hyj-plus">＋</span>`);
-  const tiles=q.tiles.map(x=>`<button class="hyj-tile en" data-t="${x.id}" ${Q.pick.includes(x.id)||Q.checked?"disabled":""}>${esc(x.t)}</button>`).join("");
-  let fb="";
-  if(Q.checked){
-    const got=Q.pick.map(p=>q.tiles.find(x=>x.id===p).t), ok=Q.checked==="ok";
-    const why=[];
-    if(got[0]!==q.ans[0]) why.push(`「${HYJ_SUBJ[q.si][1]}」是 <b class="en">${q.ans[0]}</b>`);
-    if(got[1]!==q.ans[1]) why.push(`<b class="en">${q.ans[0]}</b> ${C.zh}：要用 <b class="en">${q.ans[1]}</b>`+(q.w.hyj!=="will"&&(q.si>=2&&q.si<=4)?"（第三人稱單數）":""));
-    if(got[2]!==q.ans[2]) why.push(`「${C.zh}」後面接${q.w.pos==="a."?"形容詞":q.w.pos==="v."?"動詞":"名詞"}：${q.w.hyjZh} = <b class="en">${q.w.w}</b>`);
-    fb=`<div class="hyj-fb ${ok?"ok":"bad"}">${ok?"✅ 答對了！":"再看一次："}<button class="hyj-ans en" data-say="${esc(q.ans.join(" ")+".")}">${esc(q.ans.join(" "))}.<span>🔊</span></button>${why.length?`<p>${why.join("；")}</p>`:""}</div>`;
-  }
-  el.innerHTML=head+`<div class="hyj-q">
-      <div class="hyj-prog"><span>第 ${Q.i+1} / 10 題</span><span>答對 ${Q.score}</span></div>
-      <div class="hyj-zh">${esc(hyjZhQ(q))}</div>
-      <div class="hyj-hint">${C.form}　<span class="en">${HYJ_SUBJ[q.si][0]} ${q.w.hyj==="be"?"am / are / is":q.w.hyj==="have"?"have / has":"will"} ＋ ${q.w.pos}</span></div>
-      <div class="hyj-slots">${slots}<span class="hyj-dot">.</span></div>
-      <div class="hyj-tiles">${tiles}</div>
-      ${fb}
-      <div class="hyj-act">${Q.checked?`<button class="hyj-go" id="hyjNext">${Q.i===9?"看結果":"下一題 ›"}</button>`:`<button class="hyj-clr" id="hyjClr">清除</button><button class="hyj-go" id="hyjChk" ${Q.pick.length<3?"disabled":""}>檢查</button>`}</div>
-    </div>`;
-  bindHyjCfg(el);
-  el.querySelectorAll(".hyj-tile").forEach(b=>b.onclick=()=>{ if(Q.pick.length>=3) return; Q.pick.push(+b.dataset.t); renderHYJPractice(); });
-  el.querySelectorAll(".hyj-slot").forEach(b=>b.onclick=()=>{ if(Q.checked) return; const i=+b.dataset.slot; if(Q.pick[i]!=null){ Q.pick.splice(i,1); renderHYJPractice(); } });
-  const clr=document.getElementById("hyjClr"); if(clr) clr.onclick=()=>{ Q.pick=[]; renderHYJPractice(); };
-  const chk=document.getElementById("hyjChk"); if(chk) chk.onclick=()=>{
-    const got=Q.pick.map(p=>q.tiles.find(x=>x.id===p).t);
-    const ok=got.every((t,i)=>t===q.ans[i]);
-    Q.checked=ok?"ok":"bad"; if(ok){ Q.score++; try{ addStars&&addStars(1); }catch(e){} }
-    renderHYJPractice(); hyjSay(q.ans.join(" ")+".");
-  };
-  const nx=document.getElementById("hyjNext"); if(nx) nx.onclick=()=>{ stopSeq(); if(Q.i===9){ Q.done=true; } else { Q.i++; hyjDeal(); } renderHYJPractice(); };
-  el.querySelectorAll(".hyj-ans").forEach(b=>b.onclick=()=>hyjSay(b.dataset.say));
-}
-function bindHyjCfg(el){
-  el.querySelectorAll(".hyj-seg").forEach(g=>g.querySelectorAll("button").forEach(b=>b.onclick=()=>{ hyjCfg[g.dataset.k]=b.dataset.v; hyjNewRound(); renderHYJPractice(); }));
+  hyjMount("hyjPractice","all");
 }
 /* 很有將單元：單字卡上方提示公式表與排列練習的位置 */
 const _hyjRenderCard=renderCard;
@@ -6753,7 +6828,7 @@ renderCard=function(){
   if(!activeUnit()._isHYJ) return;
   const area=document.getElementById("cardArea"); if(!area||area.querySelector(".hyj-banner")) return;
   const d=document.createElement("button"); d.className="hyj-banner";
-  d.innerHTML=`<span class="hyj-badge sm">很有將</span><span><b>公式表・八大主格・30 句作業・排列練習</b><i>都在「閱讀」分頁，點這裡前往 ›</i></span>`;
+  d.innerHTML=`<span class="hyj-badge sm">很有將</span><span><b>公式表・八大主格・30 句作業・排列練習（全部 Aero 單字依詞性出題）</b><i>都在「閱讀」分頁，點這裡前往 ›；各單元也可在「測驗 → 很有將排列」練</i></span>`;
   d.onclick=()=>{ const t=document.querySelector('.tab[data-tab="read"]'); if(t) t.click(); };
   area.prepend(d);
 };
